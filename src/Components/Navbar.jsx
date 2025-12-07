@@ -1,0 +1,86 @@
+import React, { useContext } from "react";
+import { Link } from "react-router";
+import { AuthContext } from "../Contexts/AuthContext";
+
+const Navbar = () => {
+  const { user, signOutUser } = useContext(AuthContext);
+
+  const links = (
+    <>
+      <Link className="text-black">Home</Link>
+      <Link className="text-black">All Scholarship</Link>
+    </>
+  );
+  return (
+    <div className="navbar bg-base-100 shadow-sm px-10">
+      <div className="navbar-start">
+        <div className="dropdown">
+          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {" "}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h8m-8 6h16"
+              />{" "}
+            </svg>
+          </div>
+          <ul
+            tabIndex="-1"
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+          >
+            {links}
+          </ul>
+        </div>
+        <a className="btn btn-ghost text-xl">Scholar-Stream</a>
+      </div>
+      <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal px-1 flex gap-3">{links}</ul>
+      </div>
+      <div className="navbar-end gap-4 text-zinc-800 lg:flex md:pr-0 pr-5">
+        {user ? (
+          <div className="dropdown dropdown-bottom dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className=" w-10 h-10 rounded-full overflow-hidden"
+            >
+              <img src={user.photoURL} className="w-full h-full object-cover" />
+            </div>
+            <div
+              tabIndex="-1"
+              className="dropdown-content menu bg-base-100 rounded-3xl z-1 w-52 p-4 shadow-xl border border-zinc-200"
+            >
+              <h1 className="opacity-80 mb-2 ">{user.displayName}</h1>
+              <p className="border-b border-zinc-200 pb-2 text-xs">
+                {user.email}
+              </p>
+              <button
+                onClick={handleSignOut}
+                className="bg-black text-white transition-all duration-300-2 rounded-3xl mt-3 py-2"
+              >
+                Sign Out
+              </button>
+            </div>
+          </div>
+        ) : (
+          <Link
+            to={"/register"}
+            className="bg-black rounded-full text-sm text-white hover:bg-black transition-all duration-300 px-4 py-2"
+          >
+            Register
+          </Link>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Navbar;
