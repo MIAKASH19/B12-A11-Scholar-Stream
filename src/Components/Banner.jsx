@@ -7,7 +7,6 @@ const Banner = () => {
     <section className="w-full bg-gradient-to-r from-[#e8f0ff] to-white py-20 md:py-28 px-6 md:px-16">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-10">
 
-        {/* Left Content */}
         <div className="space-y-6">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -28,7 +27,6 @@ const Banner = () => {
             and personalized for every student.
           </motion.p>
 
-          {/* Call To Actions */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -45,7 +43,6 @@ const Banner = () => {
           </motion.div>
         </div>
 
-        {/* Right Image */}
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
