@@ -11,8 +11,15 @@ const Navbar = () => {
       <Link className="text-black">All Scholarship</Link>
     </>
   );
+
+  const handleSignOut = () => {
+    signOutUser()
+      .then(() => {})
+      .catch();
+  };
+
   return (
-    <div className="navbar bg-base-100 shadow-sm px-10">
+    <div className="navbar bg-base-100 fixed top-0 left-0 shadow-sm px-10">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -42,7 +49,7 @@ const Navbar = () => {
         <a className="btn btn-ghost text-xl">Scholar-Stream</a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 flex gap-3">{links}</ul>
+        <ul className="menu menu-horizontal px-1 flex gap-5">{links}</ul>
       </div>
       <div className="navbar-end gap-4 text-zinc-800 lg:flex md:pr-0 pr-5">
         {user ? (
