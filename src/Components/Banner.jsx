@@ -1,63 +1,35 @@
 import React from "react";
-import { motion } from "framer-motion";
-import men from "../../public/men1.jpeg"
+import hero from "../../public/men1.jpeg"
 
 const Banner = () => {
   return (
-    <section className="w-full bg-gradient-to-r from-[#e8f0ff] to-white py-20 md:py-28 px-6 md:px-16">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-10">
+    <div className="w-full min-h-screen flex flex-col gap-5 items-center justify-center">
+      <h1 className="text-5xl w-1/2 text-center ">
+        We Bring The Good Scholarships in Your Door.
+      </h1>
+      <p className="text-sm w-1/2 text-center">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure itaque
+        tempora quia dicta hic veritatis error nobis odio enim quo? Nulla
+        architecto voluptates repellat sed fugit atque molestias incidunt
+        officia?
+      </p>
+      <button className="bg-blue-600 px-5 py-2 rounded-full text-white text-sm font-medium shadow-2xl cursor-pointer">
+        Get Started
+      </button>
 
-        <div className="space-y-6">
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-6xl font-bold leading-tight text-gray-900"
-          >
-            Learn Smarter, <span className="text-blue-600">Achieve Faster</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-gray-600 text-lg md:text-md"
-          >
-            Welcome to Scholar-Stream where learning becomes simple, interactive, 
-            and personalized for every student.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            className="flex flex-col sm:flex-row gap-4"
-          >
-            <button className="px-6 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-all">
-              Get Started
-            </button>
-
-            <button className="px-6 py-3 rounded-lg border border-gray-300 text-gray-700 hover:border-blue-600 hover:text-blue-600 transition-all">
-              Explore Courses
-            </button>
-          </motion.div>
-        </div>
-
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="flex justify-center rounded-full overflow-hidden bg-red-500 w-100 h-100 md:justify-end"
-        >
-          <img
-            src={men}
-            alt="Student Illustration"
-            className=" h-full object-cover"
-          />
-        </motion.div> 
-
+      <div className="w-full flex justify-center gap-5 h-[50vh] mt-10">
+        {[...Array(4)].map((n, i) => (
+          <div className="h-full relative bg-green-400 w-70 rounded-2xl overflow-hidden">
+            <img src={hero} alt="men" className="w-full h-full object-cover" />
+            <div className="flex flex-col absolute w-full h-full top-0  text-white p-4">
+              <h1 className="font-semibold">Justin Fonster</h1>
+              <p>Frontend Developer</p>
+            </div>
+            <p className="px-4 py-1 bg-white absolute bottom-5 rounded-full right-5">Podcast</p>
+          </div>
+        ))}
       </div>
-    </section>
+    </div>
   );
 };
 
