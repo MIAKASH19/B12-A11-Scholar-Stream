@@ -11,7 +11,6 @@ const ScholarCard = ({ scholarship, index }) => {
       whileHover={{ boxShadow: "0px 15px 25px rgba(0,0,0,0.2)" }}
       className="bg-white rounded-2xl overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-shadow duration-300"
     >
-      {/* Image */}
       <div className="h-48 overflow-hidden">
         <img
           src={
@@ -22,7 +21,6 @@ const ScholarCard = ({ scholarship, index }) => {
         />
       </div>
 
-      {/* Content */}
       <div className="p-5">
         <h2 className="text-lg font-semibold mb-2 text-gray-800">
           {scholarship.scholarshipName}
@@ -46,7 +44,7 @@ const ScholarCard = ({ scholarship, index }) => {
           <span className="font-medium">Deadline:</span>{" "}
           {scholarship.applicationDeadline}
         </p>
-        <div className="h-[1px] w-full bg-zinc-200 mb-4"></div>
+        <div className="h-px w-full bg-zinc-200 mb-4"></div>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}

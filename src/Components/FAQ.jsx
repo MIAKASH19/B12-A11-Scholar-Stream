@@ -37,7 +37,7 @@ const FAQ = () => {
   };
 
   return (
-    <section className="w-full py-24 bg-gradient-to-b from-slate-50 to-white">
+    <section className="w-full py-24 bg-linear-to-b from-slate-50 to-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-6xl font-medium">

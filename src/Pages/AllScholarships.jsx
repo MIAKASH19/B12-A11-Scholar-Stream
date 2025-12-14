@@ -16,8 +16,9 @@ const AllScholarships = () => {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-20 pt-30">
-      {/* Header */}
+    <div className="max-w-7xl relative mx-auto px-4 py-20 pt-30">
+      <div className="bg-blue-200 w-100 h-70 absolute top-80 left-0 blur-2xl scale-200 rounded-full -z-1" />
+      <div className="bg-pink-100 w-100 h-70 absolute top-80 right-0 blur-2xl scale-200 rounded-full -z-1" />
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
