@@ -81,13 +81,13 @@ const Navbar = () => {
           <div className="flex gap-4">
             <Link
             to={"/register"}
-            className="bg-[#264EA3] rounded-full text-sm text-white hover:bg-white hover:text-[#264EA3] transition-all border hover:border-[#264EA3] duration-300 px-5 py-2"
+            className="bg-blue-600 rounded-full text-sm text-white hover:bg-white hover:text-blue-600 transition-all border hover:border-blue-600 duration-300 px-5 py-2"
           >
             Register
           </Link>
           <Link
             to={"/login"}
-            className="bg-white border border-[#264EA3] rounded-full text-sm text-[#264EA3] hover:bg-[#264EA3] hover:text-white transition-all duration-300 px-5 py-2"
+            className="bg-white border border-blue-600 rounded-full text-sm text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 px-5 py-2"
           >
             Login
           </Link>

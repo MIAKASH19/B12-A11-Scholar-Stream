@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../Hooks/useAuth";
 import SocialLogin from "./SocialLogin";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const {
@@ -14,101 +15,94 @@ const Login = () => {
   const { signInUser } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+
   const [show, setShow] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
 
   const handleLogin = (data) => {
-    console.log("form data", data);
+    setError("");
     signInUser(data.email, data.password)
-      .then((result) => {
-        console.log(result.user);
+      .then(() => {
         navigate(location?.state || "/");
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        setError("Invalid email or password");
       });
   };
 
   return (
-    <div className="w-full md:min-h-screen flex items-center justify-center h-fit md:px-10 px-4 py-10">
-      <div className="md:w-2/5 w-full h-full flex items-center justify-center border border-zinc-200 shadow-2xl rounded-2xl">
-        <div className="card md:w-4/5  w-full h-full py-6 pb-10">   
-          <h1 className="text-3xl font-semibold text-center">
-            Login Your Account
-          </h1>
+    <div className="min-h-screen relative flex items-center justify-center px-4 overflow-hidden">
+      <div className="bg-blue-200 w-100 h-70 absolute top-40 left-0 blur-2xl scale-200 rounded-full"></div>
+      <div className="bg-pink-100 w-100 h-70 absolute bottom-40 right-0 blur-2xl scale-200 rounded-full"></div>
 
-          <form onSubmit={handleSubmit(handleLogin)}>
-            <fieldset className="fieldset">
-              
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="relative bg-white border border-zinc-200 rounded-3xl shadow-2xl w-full max-w-md p-8"
+      >
+        <h1 className="text-3xl font-semibold text-center">Welcome Back</h1>
+        <p className="text-sm text-center opacity-70 mt-2">
+          Login to continue with Scholar-Stream
+        </p>
 
-              <label className="mt-2 text-sm">Email</label>
-              <input
-                type="email"
-                className="input w-full rounded-sm border-[#e5e5e5]"
-                {...register("email", { required: true })}
-                placeholder="Email"
-              />
-              {errors.email && (
-                <p className="text-red-500">Email is required.</p>
-              )}
+        <form onSubmit={handleSubmit(handleLogin)} className="mt-8 space-y-5">
+          <div>
+            <label className="text-sm">Email</label>
+            <input
+              type="email"
+              className="w-full mt-1 px-4 py-2 border border-zinc-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
+              placeholder="Enter your email"
+              {...register("email", { required: true })}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-xs mt-1">Email is required</p>
+            )}
+          </div>
 
-              <div className="relative gap-2 flex flex-col">
-                <label className="mt-2 text-sm">Password</label>
-                <input
-                  type={show ? "text" : "password"}
-                  className="input w-full rounded-sm border-[#e5e5e5]"
-                  {...register("password", {
-                    required: true,
-                    minLength: true,
-                    pattern: /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/,
-                  })}
-                  placeholder="Password"
-                />
-                {errors.password?.type === "required" && (
-                  <p className="text-red-500">Password is required.</p>
-                )}
+          <div className="relative">
+            <label className="text-sm">Password</label>
+            <input
+              type={show ? "text" : "password"}
+              className="w-full mt-1 px-4 py-2 border border-zinc-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
+              placeholder="Enter your password"
+              {...register("password", { required: true })}
+            />
+            <span
+              onClick={() => setShow(!show)}
+              className="absolute right-4 top-9 cursor-pointer opacity-70"
+            >
+              {show ? <FaEyeSlash /> : <FaEye />}
+            </span>
 
-                {errors.password?.type === "minLength" && (
-                  <p className="text-red-500">
-                    Password must be at least 6 characters.
-                  </p>
-                )}
+            {errors.password && (
+              <p className="text-red-500 text-xs mt-1">Password is required</p>
+            )}
+          </div>
 
-                {errors.password?.type === "pattern" && (
-                  <p className="text-red-500">
-                    Password must contain at least 1 uppercase letter, 1
-                    lowercase letter, and 1 digit.
-                  </p>
-                )}
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
-                <span
-                  onClick={() => setShow(!show)}
-                  className="absolute top-12 right-5 cursor-pointer"
-                >
-                  <FaEye className="text-lg" />
-                </span>
-              </div>
+          <button
+            type="submit"
+            className="w-full bg-black text-white py-2.5 rounded-full hover:scale-105 transition shadow-lg"
+          >
+            Login
+          </button>
 
-              <div className="mt-2">
-                New to Scholar-Stream?{" "}
-                <Link
-                  to="/register"
-                  state={location?.state || null}
-                  className="text-blue-800 hover:underline"
-                >
-                  Register
-                </Link>
-              </div>
+          <SocialLogin />
 
-              <button type="submit" className="btn btn-neutral mt-4">Login</button>
-
-              <SocialLogin />
-
-              {error && <p className="text-red-500 text-xs">{error}</p>}
-            </fieldset>
-          </form>
-        </div>
-      </div>
+          <p className="text-sm text-center opacity-80">
+            New to Scholar-Stream?{" "}
+            <Link
+              to="/register"
+              state={location?.state || null}
+              className="font-medium underline"
+            >
+              Register
+            </Link>
+          </p>
+        </form>
+      </motion.div>
     </div>
   );
 };

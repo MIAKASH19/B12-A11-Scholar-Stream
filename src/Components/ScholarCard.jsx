@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import React from "react";
+import { Link } from "react-router";
 
 const ScholarCard = ({ scholarship, index }) => {
   return (
@@ -45,16 +46,14 @@ const ScholarCard = ({ scholarship, index }) => {
           {scholarship.applicationDeadline}
         </p>
         <div className="h-px w-full bg-zinc-200 mb-4"></div>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+        <Link
+          to={`/scholarship-details/${scholarship._id}`}
           className="bg-[#264EA3] text-white px-4 py-2 rounded-full text-sm w-full font-medium hover:bg-blue-700 transition-colors duration-300"
         >
           View Details
-        </motion.button>
+        </Link>
       </div>
     </motion.div>
   );
 };
-
 export default ScholarCard;
