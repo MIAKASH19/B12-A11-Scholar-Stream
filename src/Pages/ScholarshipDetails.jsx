@@ -10,7 +10,7 @@ const ScholarshipDetails = () => {
   const navigate = useNavigate();
 
   const handleApply = () => {
-    navigate(`/checkout/${scholarship._id.$oid}`);
+    navigate(`/apply/${scholarship._id}`);
   };
 
   useEffect(() => {

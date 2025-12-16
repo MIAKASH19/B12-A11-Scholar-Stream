@@ -1,13 +1,12 @@
 import React from 'react'
 import Banner from '../Components/Banner'
-import RecentScholarships from './../Components/RecentScholarships';
+import TopScholarships from './../Components/TopScholarships';
 import FAQ from './../Components/FAQ';
-
 const Home = () => {
   return (
     <div>
         <Banner></Banner>
-        <RecentScholarships></RecentScholarships>
+        <TopScholarships></TopScholarships>
         <FAQ></FAQ>
     </div>
   )
