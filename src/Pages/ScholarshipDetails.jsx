@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { motion } from "framer-motion";
+import ReviewsSection from "../Components/ReviewSection";
 
 const ScholarshipDetails = () => {
   const { id } = useParams();
   const [scholarship, setScholarship] = useState(null);
+  const [review, setReviews] = useState(null);
 
   useEffect(() => {
     fetch(`http://localhost:3000/scholarship-details/${id}`)
       .then((res) => res.json())
-      .then((data) => setScholarship(data));
+      .then((data) => {
+        setScholarship(data);
+
+        fetch(`http://localhost:3000/reviews?scholarshipId=${id}`)
+          .then((res) => res.json())
+          .then((reviewsData) => {
+            const filteredReviews = reviewsData.filter(
+              (review) => review.universityName === data.universityName
+            );
+            setReviews(filteredReviews);
+          });
+      });
   }, [id]);
 
   if (!scholarship) {
@@ -62,9 +75,18 @@ const ScholarshipDetails = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
             <Info label="University City" value={scholarship.universityCity} />
-            <Info label="World Rank" value={`#${scholarship.universityWorldRank}`} />
-            <Info label="Application Fee" value={`$${scholarship.applicationFees}`} />
-            <Info label="Service Charge" value={`$${scholarship.serviceCharge}`} />
+            <Info
+              label="World Rank"
+              value={`#${scholarship.universityWorldRank}`}
+            />
+            <Info
+              label="Application Fee"
+              value={`$${scholarship.applicationFees}`}
+            />
+            <Info
+              label="Service Charge"
+              value={`$${scholarship.serviceCharge}`}
+            />
             <Info
               label="Tuition Fees"
               value={
@@ -83,10 +105,11 @@ const ScholarshipDetails = () => {
           </div>
         </div>
       </motion.div>
+
+      <ReviewsSection reviews={review}></ReviewsSection>
     </div>
   );
 };
-
 
 const Tag = ({ text }) => (
   <span className="px-4 py-1 rounded-full border border-zinc-300 text-sm">

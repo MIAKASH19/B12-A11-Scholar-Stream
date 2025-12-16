@@ -23,7 +23,7 @@ const RecentScholarships = () => {
         {recentScholarships.map((scholarship, index) => (
           <div className="w-full">
             <ScholarCard
-              key={scholarship._id?.$oid || scholarship._id}
+              key={index  }
               scholarship={scholarship}
               index={index}
             />

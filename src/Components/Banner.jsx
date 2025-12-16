@@ -1,6 +1,7 @@
 import React from "react";
 import Marquee from "react-fast-marquee";
 import hero from "../../public/men1.jpeg";
+import { Link } from "react-router";
 
 const Banner = () => {
   return (
@@ -20,9 +21,9 @@ const Banner = () => {
         Search, compare, and apply with confidence, all from a single platform.
       </p>
 
-      <button className="bg-[#264EA3] relative px-5 py-3 rounded-full text-white text-sm font-medium shadow-2xl cursor-pointer">
+      <Link to="/all-scholarships" className="bg-[#264EA3] relative px-5 py-3 rounded-full text-white text-sm font-medium shadow-2xl cursor-pointer">
         Search Scholarships
-      </button>
+      </Link>
 
       <div className="w-full mt-10">
         <Marquee
