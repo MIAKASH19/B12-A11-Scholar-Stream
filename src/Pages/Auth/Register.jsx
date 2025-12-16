@@ -14,14 +14,12 @@ const Register = () => {
 
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
-  const { createUser, updateUser, setUser, signInWithGoogle } =
-    useAuth();
+  const { createUser, updateUser, setUser, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleRegistration = (data) => {
     const { name, photoUrl, email, password } = data;
-
 
     createUser(email, password)
       .then((result) => {
@@ -29,9 +27,14 @@ const Register = () => {
 
         updateUser({ displayName: name, photoURL: photoUrl })
           .then(() => {
-            const updatedUser = { name, email, image: photoUrl };
+            const updatedUser = {
+              name,
+              email,
+              image: photoUrl,
+              role: "Student",
+            };
 
-            fetch("https://rent-wheel-server-api.onrender.com/users", {
+            fetch("http://localhost:3000/users", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(updatedUser),
@@ -41,34 +44,11 @@ const Register = () => {
                 setUser({ ...user, displayName: name, photoURL: photoUrl });
                 navigate(location?.state || "/");
               });
-              console.log("user is Created")
+            console.log("user is Created");
           })
           .catch((err) => setError(err.message));
       })
       .catch((err) => setError(err.code));
-  };
-
-  const handleGoogleSignIn = () => {
-    signInWithGoogle()
-      .then((result) => {
-        const user = result.user;
-        setUser(user);
-
-        const newUser = {
-          name: user.displayName,
-          email: user.email,
-          image: user.photoURL,
-        };
-
-        fetch("https://rent-wheel-server-api.onrender.com/users", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newUser),
-        })
-          .then((res) => res.json())
-          .then(() => navigate("/"));
-      })
-      .catch((err) => setError(err.message));
   };
 
   return (
@@ -125,7 +105,7 @@ const Register = () => {
                   {...register("password", {
                     required: true,
                     minLength: true,
-                    pattern: /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/,
+                    pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[^A-Za-z0-9]).{6,}$/,
                   })}
                   placeholder="Password"
                 />
@@ -141,8 +121,7 @@ const Register = () => {
 
                 {errors.password?.type === "pattern" && (
                   <p className="text-red-500">
-                    Password must contain at least 1 uppercase letter, 1
-                    lowercase letter, and 1 digit.
+                    Password must contain at least 1 uppercase letter, 1 lowercase letter, and 1 special character.
                   </p>
                 )}
 

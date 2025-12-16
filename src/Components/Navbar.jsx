@@ -7,8 +7,17 @@ const Navbar = () => {
 
   const links = (
     <>
-      <Link to="/" className="text-black">Home</Link>
-      <Link to="/all-scholarships" className="text-black">All Scholarship</Link>
+      <Link to="/" className="text-black">
+        Home
+      </Link>
+      <Link to="/all-scholarships" className="text-black">
+        All Scholarship
+      </Link>
+      {user && (
+        <Link to="/dashboard/my-application" className="text-black">
+          My Applications
+        </Link>
+      )}
     </>
   );
 
@@ -46,7 +55,7 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">Scholar-Stream</a>
+        <a className="font-semibold text-xl">Scholar-Stream</a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 flex gap-5">{links}</ul>
@@ -63,34 +72,31 @@ const Navbar = () => {
             </div>
             <div
               tabIndex="-1"
-              className="dropdown-content menu bg-base-100 rounded-3xl z-1 w-52 p-4 shadow-xl border border-zinc-200"
+              className="dropdown-content menu bg-base-100 rounded-xl z-1 w-32 p-4 shadow-xl border border-zinc-200"
             >
-              <h1 className="opacity-80 mb-2 ">{user.displayName}</h1>
-              <p className="border-b border-zinc-200 pb-2 text-xs">
-                {user.email}
-              </p>
-              <button
-                onClick={handleSignOut}
-                className="bg-black text-white transition-all duration-300-2 rounded-3xl mt-3 py-2"
-              >
-                Sign Out
-              </button>
+                <Link to="/dashboard" className="opacity-80 mb-2 ">Dashboard</Link>
+                <button
+                  onClick={handleSignOut}
+                  className="bg-blue-600 text-white transition-all duration-300-2 rounded-3xl mt-3 py-2 cursor-pointer"
+                >
+                  Log Out
+                </button>
             </div>
           </div>
         ) : (
           <div className="flex gap-4">
             <Link
-            to={"/register"}
-            className="bg-blue-600 rounded-full text-sm text-white hover:bg-white hover:text-blue-600 transition-all border hover:border-blue-600 duration-300 px-5 py-2"
-          >
-            Register
-          </Link>
-          <Link
-            to={"/login"}
-            className="bg-white border border-blue-600 rounded-full text-sm text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 px-5 py-2"
-          >
-            Login
-          </Link>
+              to={"/register"}
+              className="bg-blue-600 rounded-full text-sm text-white hover:bg-white hover:text-blue-600 transition-all border hover:border-blue-600 duration-300 px-5 py-2"
+            >
+              Register
+            </Link>
+            <Link
+              to={"/login"}
+              className="bg-white border border-blue-600 rounded-full text-sm text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 px-5 py-2"
+            >
+              Login
+            </Link>
           </div>
         )}
       </div>

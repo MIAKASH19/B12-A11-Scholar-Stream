@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { motion } from "framer-motion";
 import ReviewsSection from "../Components/ReviewSection";
 
@@ -7,6 +7,11 @@ const ScholarshipDetails = () => {
   const { id } = useParams();
   const [scholarship, setScholarship] = useState(null);
   const [review, setReviews] = useState(null);
+  const navigate = useNavigate();
+
+  const handleApply = () => {
+    navigate(`/checkout/${scholarship._id.$oid}`);
+  };
 
   useEffect(() => {
     fetch(`http://localhost:3000/scholarship-details/${id}`)
@@ -99,7 +104,10 @@ const ScholarshipDetails = () => {
           </div>
 
           <div className="mt-12 flex justify-center">
-            <button className="bg-blue-600 text-white px-8 py-3 rounded-full shadow-lg hover:scale-105 transition">
+            <button
+              onClick={handleApply}
+              className="bg-blue-600 text-white px-8 py-3 rounded-full shadow-lg hover:scale-105 transition"
+            >
               Apply Now
             </button>
           </div>
