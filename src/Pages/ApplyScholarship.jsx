@@ -35,17 +35,20 @@ const ApplyScholarship = () => {
 
     const applicationData = {
       scholarshipId: scholarship._id,
+      scholarshipName: scholarship.scholarshipName,
       userId: user.uid,
       userName: form.name.value,
       userEmail: user.email,
       universityName: form.university.value,
-      scholarshipCategory: form.category.value,
+      universityAddress: scholarship.universityCountry,
+      subjectCategory: form.category.value,
       degree: form.degree.value,
       applicationFees: scholarship.applicationFees,
       serviceCharge: scholarship.serviceCharge,
       applicationStatus: "pending",
       paymentStatus: "unpaid",
       applicationDate: new Date(),
+      feedback: "",
     };
 
     console.log(applicationData);
@@ -145,12 +148,12 @@ const ApplyScholarship = () => {
 
             <div className="flex flex-col gap-2">
               <label className="label text-sm text-zinc-800">
-                Scholarship Category
+                Subject Category
               </label>
               <input
                 type="text"
                 name="category"
-                value={scholarship.scholarshipCategory}
+                value={scholarship.subjectCategory}
                 readOnly
                 className="input w-full rounded-full"
                 placeholder="Category"

@@ -73,9 +73,15 @@ const ScholarshipDetails = () => {
 
         <div className="p-10">
           <div className="flex gap-3 flex-wrap mb-8">
-            <Tag text={scholarship.scholarshipCategory} />
-            <Tag text={scholarship.degree} />
-            <Tag text={scholarship.subjectCategory} />
+            <div className="px-3 py-2 rounded-full border border-zinc-300 text-sm">
+              <h1><span className="text-zinc-500">Category :</span> {scholarship.scholarshipCategory}</h1>
+            </div>
+            <div className="px-3 py-2 rounded-full border border-zinc-300 text-sm">
+              <h1><span className="text-zinc-500">Degree :</span> {scholarship.degree}</h1>
+            </div>
+            <div className="px-3 py-2 rounded-full border border-zinc-300 text-sm">
+              <h1><span className="text-zinc-500">Subject :</span> {scholarship.subjectCategory}</h1>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
