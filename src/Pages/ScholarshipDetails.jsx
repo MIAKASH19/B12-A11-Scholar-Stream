@@ -6,7 +6,7 @@ import ReviewsSection from "../Components/ReviewSection";
 const ScholarshipDetails = () => {
   const { id } = useParams();
   const [scholarship, setScholarship] = useState(null);
-  const [review, setReviews] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const navigate = useNavigate();
 
   const handleApply = () => {
@@ -19,15 +19,14 @@ const ScholarshipDetails = () => {
       .then((data) => {
         setScholarship(data);
 
-        fetch(`http://localhost:3000/reviews?scholarshipId=${id}`)
-          .then((res) => res.json())
-          .then((reviewsData) => {
-            const filteredReviews = reviewsData.filter(
-              (review) => review.universityName === data.universityName
-            );
-            setReviews(filteredReviews);
-          });
-      });
+        return fetch(`http://localhost:3000/reviews?scholarshipId=${id}`);
+      })
+      .then((res) => res.json())
+      .then((reviewsData) => {
+        console.log(reviewsData)
+        setReviews(reviewsData);
+      })
+      .catch((err) => console.error("Fetch error:", err));
   }, [id]);
 
   if (!scholarship) {
@@ -74,37 +73,32 @@ const ScholarshipDetails = () => {
         <div className="p-10">
           <div className="flex gap-3 flex-wrap mb-8">
             <div className="px-3 py-2 rounded-full border border-zinc-300 text-sm">
-              <h1><span className="text-zinc-500">Category :</span> {scholarship.scholarshipCategory}</h1>
+              <h1>
+                <span className="text-zinc-500">Category :</span>{" "}
+                {scholarship.scholarshipCategory}
+              </h1>
             </div>
             <div className="px-3 py-2 rounded-full border border-zinc-300 text-sm">
-              <h1><span className="text-zinc-500">Degree :</span> {scholarship.degree}</h1>
+              <h1>
+                <span className="text-zinc-500">Degree :</span> {scholarship.degree}
+              </h1>
             </div>
             <div className="px-3 py-2 rounded-full border border-zinc-300 text-sm">
-              <h1><span className="text-zinc-500">Subject :</span> {scholarship.subjectCategory}</h1>
+              <h1>
+                <span className="text-zinc-500">Subject :</span>{" "}
+                {scholarship.subjectCategory}
+              </h1>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
             <Info label="University City" value={scholarship.universityCity} />
-            <Info
-              label="World Rank"
-              value={`#${scholarship.universityWorldRank}`}
-            />
-            <Info
-              label="Application Fee"
-              value={`$${scholarship.applicationFees}`}
-            />
-            <Info
-              label="Service Charge"
-              value={`$${scholarship.serviceCharge}`}
-            />
+            <Info label="World Rank" value={`#${scholarship.universityWorldRank}`} />
+            <Info label="Application Fee" value={`$${scholarship.applicationFees}`} />
+            <Info label="Service Charge" value={`$${scholarship.serviceCharge}`} />
             <Info
               label="Tuition Fees"
-              value={
-                scholarship.tuitionFees
-                  ? `$${scholarship.tuitionFees}`
-                  : "Fully Funded"
-              }
+              value={scholarship.tuitionFees ? `$${scholarship.tuitionFees}` : "Fully Funded"}
             />
             <Info label="Deadline" value={scholarship.applicationDeadline} />
           </div>
@@ -120,16 +114,12 @@ const ScholarshipDetails = () => {
         </div>
       </motion.div>
 
-      <ReviewsSection reviews={review}></ReviewsSection>
+      <div className="max-w-7xl  mx-auto mt-16">
+        <ReviewsSection reviews={reviews} />
+      </div>
     </div>
   );
 };
-
-const Tag = ({ text }) => (
-  <span className="px-4 py-1 rounded-full border border-zinc-300 text-sm">
-    {text}
-  </span>
-);
 
 const Info = ({ label, value }) => (
   <div className="border border-zinc-200 rounded-xl p-5">

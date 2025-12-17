@@ -6,10 +6,12 @@ import Home from "../Pages/Home";
 import AllScholarships from "../Pages/AllScholarships";
 import ErrorPage from "../Pages/Errorpage";
 import ScholarshipDetails from "../Pages/ScholarshipDetails";
-import PrivateRoute from "../Routes/PrivateRoute"
-import DashboardLayout from './../Layouts/DashboardLayout';
+import PrivateRoute from "../Routes/PrivateRoute";
+import DashboardLayout from "./../Layouts/DashboardLayout";
 import MyApplications from "../Pages/Dashboard/MyApplications";
-import ApplyScholarship from "../Pages/ApplyScholarship"
+import ApplyScholarship from "../Pages/ApplyScholarship";
+import MyProfile from "../Pages/Dashboard/MyProfile";
+import MyReviews from "../Pages/Dashboard/MyReviews";
 
 export const router = createBrowserRouter([
   {
@@ -35,22 +37,42 @@ export const router = createBrowserRouter([
       },
       {
         path: "/scholarship-details/:id",
-        element: <PrivateRoute><ScholarshipDetails></ScholarshipDetails></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <ScholarshipDetails></ScholarshipDetails>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/apply/:id",
-        element: <PrivateRoute><ApplyScholarship></ApplyScholarship></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <ApplyScholarship></ApplyScholarship>
+          </PrivateRoute>
+        ),
       },
-    ]
+    ],
   },
   {
     path: "dashboard",
-    element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
     children: [
       {
-        path: "my-application",
+        path: "my-applications",
         Component: MyApplications,
-      }
-    ]
-  }
+      },
+      {
+        path: "my-profile",
+        Component: MyProfile,
+      },
+      {
+        path: "my-reviews",
+        Component: MyReviews,
+      },
+    ],
+  },
 ]);

@@ -1,4 +1,7 @@
 import React from "react";
+import { CgProfile } from "react-icons/cg";
+import { MdOutlineReviews } from "react-icons/md";
+import { SiJirasoftware } from "react-icons/si";
 import { Link, Outlet } from "react-router";
 
 const DashboardLayout = () => {
@@ -68,6 +71,39 @@ const DashboardLayout = () => {
                 <span className="is-drawer-close:hidden font-semibold">
                   Scholar-Stream
                 </span>
+              </Link>
+            </li>
+
+            {/* Our Lists Items */}
+
+            <li>
+              <Link
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="My Applications"
+                to="/dashboard/my-applications"
+              >
+                <SiJirasoftware />
+                <span className="is-drawer-close:hidden">My Applications</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="My Reviews"
+                to="/dashboard/my-reviews"
+              >
+                <MdOutlineReviews />
+                <span className="is-drawer-close:hidden">My Reviews</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="My Profile"
+                to="/dashboard/my-profile"
+              >
+                <CgProfile />
+                <span className="is-drawer-close:hidden">My Profile</span>
               </Link>
             </li>
 

@@ -1,14 +1,19 @@
 import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
+import { FaStar } from "react-icons/fa";
 
 const MyApplications = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const [selectedApp, setSelectedApp] = useState(null);
+  const queryClient = useQueryClient();
 
-  const { data: applications = [] } = useQuery({
+  const [selectedApp, setSelectedApp] = useState(null);
+  const [reviewComment, setReviewComment] = useState("");
+  const [reviewRating, setReviewRating] = useState(0);
+
+  const { data: applications = [], isLoading } = useQuery({
     queryKey: ["myApplications", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/applications?email=${user.email}`);
@@ -16,172 +21,203 @@ const MyApplications = () => {
     },
   });
 
+  const handleSubmitReview = async () => {
+    if (reviewRating === 0 || reviewComment.trim() === "") {
+      alert("Please provide rating and comment!");
+      return;
+    }
+
+    try {
+      const response = await axiosSecure.post(`/reviews`, {
+        scholarshipId: selectedApp.scholarshipId,
+        applicationId: selectedApp._id,
+        userImage: user.photoURL,
+        userName: user.displayName,
+        userEmail: user.email,
+        universityName: selectedApp.universityName,
+        ratingPoint: reviewRating,
+        reviewComment: reviewComment,
+      });
+
+      if (response.data.success) {
+        alert("Review submitted!");
+        document.getElementById("my_review_modal").close();
+        setReviewRating(0);
+        setReviewComment("");
+        queryClient.invalidateQueries(["myApplications", user.email]);
+      }
+    } catch (error) {
+      if (error.response?.status === 409) {
+        alert("You already submitted a review for this application.");
+      } else {
+        console.error(error);
+        alert("Failed to submit review. Try again later.");
+      }
+    }
+  };
+
+  if (isLoading) return <div className="p-6">Loading applications...</div>;
+
   return (
-    <div>
-      <h1 className="text-sm p-3">My Applications : {applications.length}</h1>
+    <div className="p-6">
+      <h1 className="text-2xl font-semibold mb-6">My Applications ({applications.length})</h1>
+
       <div className="overflow-x-auto">
-        <table className="table table-zebra">
-          <thead>
+        <table className="table table-zebra w-full">
+          <thead className="bg-gray-100">
             <tr>
-              <th>Sl no.</th>
-              <th>University Name</th>
-              <th>University Address</th>
+              <th>Sl</th>
+              <th>University</th>
+              <th>Address</th>
               <th>Feedback</th>
-              <th>Subject Category</th>
-              <th>Application Status</th>
-              <th>Application Fees</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Fees</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {applications.map((application, index) => (
-              <tr key={application._id}>
-                <th>{index + 1}</th>
-                <td className="text-sm">{application.universityName}</td>
-                <td className="text-sm">{application.universityAddress}</td>
-                <td className="text-sm">{application.feedback}</td>
-                <td className="text-sm">{application.subjectCategory}</td>
-                <td className="text-sm">{application.applicationStatus}</td>
-                <td className="text-sm">{application.applicationFees}$</td>
-                <td className="text-sm flex gap-1">
+            {applications.map((app, idx) => (
+              <tr key={app._id}>
+                <td>{idx + 1}</td>
+                <td className="font-medium">{app.universityName}</td>
+                <td>{app.universityAddress}</td>
+                <td>{app.feedback || "No feedback yet"}</td>
+                <td>{app.subjectCategory}</td>
+                <td>
+                  <span
+                    className={`badge ${
+                      app.applicationStatus === "pending"
+                        ? "badge-warning"
+                        : app.applicationStatus === "completed"
+                        ? "badge-success"
+                        : "badge-info"
+                    }`}
+                  >
+                    {app.applicationStatus}
+                  </span>
+                </td>
+                <td>${app.applicationFees}</td>
+                <td className="flex gap-2 flex-wrap">
                   <button
+                    className="btn btn-sm btn-success"
                     onClick={() => {
-                      setSelectedApp(application);
-                      document.getElementById("my_modal_5").showModal();
+                      setSelectedApp(app);
+                      document.getElementById("detail_modal").showModal();
                     }}
-                    className="bg-green-500 px-2 py-1 text-white rounded-lg text-xs"
                   >
                     Detail
                   </button>
-
-                  {application.applicationStatus === "pending" && (
-                    <button className="bg-yellow-400 px-2 py-1 text-white rounded-lg text-xs">
-                      Edit
-                    </button>
-                  )}
-                  {application.applicationStatus === "pending" &&
-                    application.paymentStatus === "unpaid" && (
-                      <button className="bg-pink-500 px-2 py-1 text-white rounded-lg text-xs">
-                        Pay
+                  {app.applicationStatus === "pending" && (
+                    <>
+                      <button className="btn btn-sm btn-warning">Edit</button>
+                      {app.paymentStatus === "unpaid" && (
+                        <button className="btn btn-sm btn-primary">Pay</button>
+                      )}
+                      <button className="btn btn-sm btn-error">Delete</button>
+                      <button
+                        className="btn btn-sm btn-info"
+                        onClick={() => {
+                          setSelectedApp(app);
+                          setReviewComment("");
+                          setReviewRating(0);
+                          document.getElementById("my_review_modal").showModal();
+                        }}
+                      >
+                        Add Review
                       </button>
-                    )}
-
-                  {application.applicationStatus === "pending" && (
-                    <button className="bg-red-500 px-2 py-1 text-white rounded-lg text-xs">
-                      Delete
-                    </button>
-                  )}
-                  {application.applicationStatus === "completed" && (
-                    <button className="bg-blue-500 px-2 py-1 text-white rounded-lg text-xs">
-                      Add Review
-                    </button>
+                    </>
                   )}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        {/* Open the modal using document.getElementById('ID').showModal() method */}
-        <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-          <div className="modal-box max-w-3xl p-6 sm:p-8">
-            <div className="mb-6 text-center">
-              <h3 className="text-2xl font-semibold tracking-tight">
-                Application Details
-              </h3>
-              <p className="text-sm text-gray-500 mt-1">
-                Complete information about your scholarship application
-              </p>
-            </div>
+      </div>
 
-            {selectedApp && (
-              <div className="space-y-6 text-sm">
-                <div className="bg-base-200 rounded-xl p-5">
-                  <p className="text-lg font-semibold mb-1">
-                    {selectedApp.universityName}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {selectedApp.universityAddress}
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                  <div className="bg-base-100 border border-zinc-300 rounded-xl p-4">
-                    <p className="text-xs text-gray-500 mb-1">
-                      Subject Category
-                    </p>
-                    <p className="font-medium">{selectedApp.subjectCategory}</p>
-                  </div>
-
-                  <div className="bg-base-100 border border-zinc-300 rounded-xl p-4">
-                    <p className="text-xs text-gray-500 mb-1">Degree</p>
-                    <p className="font-medium">{selectedApp.degree}</p>
-                  </div>
-
-                  <div className="bg-base-100 border border-zinc-300 rounded-xl p-4">
-                    <p className="text-xs text-gray-500 mb-1">Applied Date</p>
-                    <p>{selectedApp.applicationDate}</p>
-                  </div>
-
-                  <div className="bg-base-100 border border-zinc-300 rounded-xl p-4">
-                    <p className="text-xs text-gray-500 mb-2">
-                      Application Status
-                    </p>
-                    <span
-                      className={`badge badge-lg ${
-                        selectedApp.applicationStatus === "pending"
-                          ? "badge-warning"
-                          : selectedApp.applicationStatus === "completed"
-                          ? "badge-success"
-                          : "badge-info"
-                      }`}
-                    >
-                      {selectedApp.applicationStatus}
-                    </span>
-                  </div>
-
-                  <div className="bg-base-100 border border-zinc-300 rounded-xl p-4">
-                    <p className="text-xs text-gray-500 mb-2">Payment Status</p>
-                    <span
-                      className={`badge badge-lg ${
-                        selectedApp.paymentStatus === "paid"
-                          ? "badge-success"
-                          : "badge-error"
-                      }`}
-                    >
-                      {selectedApp.paymentStatus}
-                    </span>
-                  </div>
-
-                  <div className="bg-base-100 border border-zinc-300 rounded-xl p-4">
-                    <p className="text-xs text-gray-500 mb-1">
-                      Application Fees
-                    </p>
-                    <p className="text-lg font-semibold">
-                      ${selectedApp.applicationFees}
-                    </p>
-                  </div>
-                </div>
-
-                <div>
-                  <p className="text-sm font-medium mb-2">Moderator Feedback</p>
-                  <div className="bg-base-200 rounded-xl p-5 leading-relaxed">
-                    {selectedApp.feedback || "No feedback provided yet."}
-                  </div>
+      {/* Detail Modal */}
+      <dialog id="detail_modal" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box max-w-3xl p-6 sm:p-8">
+          {selectedApp && (
+            <>
+              <h3 className="text-xl font-semibold mb-3">{selectedApp.universityName}</h3>
+              <p className="text-sm text-gray-500 mb-2">{selectedApp.universityAddress}</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Info label="Subject" value={selectedApp.subjectCategory} />
+                <Info label="Degree" value={selectedApp.degree} />
+                <Info label="Applied Date" value={selectedApp.applicationDate} />
+                <Info label="Status" value={selectedApp.applicationStatus} />
+                <Info label="Payment" value={selectedApp.paymentStatus} />
+                <Info label="Application Fees" value={`$${selectedApp.applicationFees}`} />
+              </div>
+              <div className="mt-4">
+                <p className="font-medium mb-1">Moderator Feedback:</p>
+                <div className="bg-base-200 p-3 rounded">
+                  {selectedApp.feedback || "No feedback yet"}
                 </div>
               </div>
-            )}
-            <div className="modal-action mt-8">
-              <form method="dialog" className="w-full sm:w-auto">
-                <button className="btn btn-outline w-full sm:w-32">
-                  Close
-                </button>
-              </form>
-            </div>
+            </>
+          )}
+          <div className="modal-action">
+            <button className="btn btn-outline" onClick={() => document.getElementById("detail_modal").close()}>
+              Close
+            </button>
           </div>
-        </dialog>
-      </div>
+        </div>
+      </dialog>
+
+      {/* Add Review Modal */}
+      <dialog id="my_review_modal" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box max-w-3xl p-6 sm:p-8">
+          {selectedApp && (
+            <>
+              <h3 className="text-xl font-semibold mb-4 text-center">
+                Add Review for {selectedApp.universityName}
+              </h3>
+
+              <div className="flex justify-center mb-4">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <FaStar
+                    key={star}
+                    size={28}
+                    className="cursor-pointer mx-1 transition-colors"
+                    color={reviewRating >= star ? "#facc15" : "#d1d5db"}
+                    onClick={() => setReviewRating(star)}
+                  />
+                ))}
+              </div>
+              <textarea
+                rows={4}
+                placeholder="Write your comment..."
+                className="w-full border rounded-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none"
+                value={reviewComment}
+                onChange={(e) => setReviewComment(e.target.value)}
+              />
+
+              <div className="flex justify-end gap-3">
+                <button
+                  className="btn btn-outline"
+                  onClick={() => document.getElementById("my_review_modal").close()}
+                >
+                  Cancel
+                </button>
+                <button className="btn btn-primary" onClick={handleSubmitReview}>
+                  Submit
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </dialog>
     </div>
   );
 };
+
+const Info = ({ label, value }) => (
+  <div className="bg-base-100 border border-zinc-300 rounded-xl p-3">
+    <p className="text-sm text-gray-500">{label}</p>
+    <p className="font-medium">{value}</p>
+  </div>
+);
 
 export default MyApplications;

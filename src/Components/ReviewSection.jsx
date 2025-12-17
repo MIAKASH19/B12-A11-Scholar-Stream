@@ -41,7 +41,7 @@ const ReviewCard = ({ review }) => (
   </motion.div>
 );
 
-const ReviewsSection = ({ reviews }) => {
+const ReviewsSection = ({ reviews=[] }) => {
   if (!reviews || reviews.length === 0) return null;
 
   return (
