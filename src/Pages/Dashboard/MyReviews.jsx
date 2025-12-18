@@ -90,7 +90,7 @@ const MyReviews = () => {
                 <td>{new Date(review.reviewDate).toLocaleDateString()}</td>
                 <td className="flex gap-2">
                   <button
-                    className="btn btn-sm btn-info gap-2"
+                    className="btn text-lg hover:btn-info gap-2 tooltip tooltip-top " data-tip="Edit Review"
                     onClick={() => {
                       setSelectedReview(review);
                       setUpdatedComment(review.reviewComment);
@@ -98,13 +98,13 @@ const MyReviews = () => {
                       document.getElementById("edit_review_modal").showModal();
                     }}
                   >
-                    <FaEdit /> Edit
+                    <FaEdit />      
                   </button>
                   <button
-                    className="btn btn-sm btn-error gap-2"
+                    className="btn text-lg tooltip tooltip-top hover:btn-error gap-2" data-tip="Delete Review"
                     onClick={() => handleDelete(review._id)}
                   >
-                    <FaTrash /> Delete
+                    <FaTrash /> 
                   </button>
                 </td>
               </tr>

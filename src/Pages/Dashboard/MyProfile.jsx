@@ -83,16 +83,6 @@ const MyProfile = () => {
               />
             </div>
           </div>
-
-          <div className="flex justify-end">
-            <button
-              onClick={handleUpdateProfile}
-              disabled={loading}
-              className="btn btn-primary"
-            >
-              {loading ? "Updating..." : "Update Profile"}
-            </button>
-          </div>
         </div>
       </div>
     </div>

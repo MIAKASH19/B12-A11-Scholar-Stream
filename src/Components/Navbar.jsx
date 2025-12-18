@@ -15,7 +15,7 @@ const Navbar = () => {
       </Link>
       {user && (
         <Link to="/dashboard/my-applications" className="text-black">
-          My Applications
+          Dashboard
         </Link>
       )}
     </>
@@ -74,7 +74,7 @@ const Navbar = () => {
               tabIndex="-1"
               className="dropdown-content menu bg-base-100 rounded-xl z-1 w-32 p-4 shadow-xl border border-zinc-200"
             >
-                <Link to="/dashboard" className="opacity-80 mb-2 ">Dashboard</Link>
+                <Link to="/dashboard/my-profile" className="opacity-80 mb-2 ">My Profile</Link>
                 <button
                   onClick={handleSignOut}
                   className="bg-blue-600 text-white transition-all duration-300-2 rounded-3xl mt-3 py-2 cursor-pointer"

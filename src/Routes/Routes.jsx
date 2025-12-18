@@ -12,6 +12,9 @@ import MyApplications from "../Pages/Dashboard/MyApplications";
 import ApplyScholarship from "../Pages/ApplyScholarship";
 import MyProfile from "../Pages/Dashboard/MyProfile";
 import MyReviews from "../Pages/Dashboard/MyReviews";
+import Payment from "../Pages/Dashboard/Payment/Payment";
+import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess";
+import PaymentCancel from "../Pages/Dashboard/Payment/PaymentCancel";
 
 export const router = createBrowserRouter([
   {
@@ -72,6 +75,18 @@ export const router = createBrowserRouter([
       {
         path: "my-reviews",
         Component: MyReviews,
+      },
+      {
+        path: "payment/:id",
+        Component: Payment,
+      },
+      {
+        path: "payment-success",
+        Component: PaymentSuccess,
+      },
+      {
+        path: "payment-cancelled",
+        Component: PaymentCancel,
       },
     ],
   },

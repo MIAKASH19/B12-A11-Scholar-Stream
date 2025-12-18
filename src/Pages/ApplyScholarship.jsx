@@ -48,6 +48,7 @@ const ApplyScholarship = () => {
       applicationStatus: "pending",
       paymentStatus: "unpaid",
       applicationDate: new Date(),
+      totalCost: scholarship.applicationFees + scholarship.serviceCharge,
       feedback: "",
     };
 
@@ -70,6 +71,12 @@ const ApplyScholarship = () => {
 
             if (data.success) {
               const applicationId = data.insertedId;
+
+              const updatedApplicationData = {
+                ...applicationData,
+                applicationId: applicationId,
+              };
+              console.log("Application Data with ID:", updatedApplicationData);
               if (applicationId) {
                 // navigate(`/checkout/${applicationId}`);
               }
