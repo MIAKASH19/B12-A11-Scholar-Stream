@@ -30,7 +30,7 @@ const SocialLogin = () => {
           });
       })
       .catch((error) => {
-        console.log("Google sign-in error:", error);
+        console.log("Google signIn error:", error);
       });
   };
 

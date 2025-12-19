@@ -13,6 +13,9 @@ const Navbar = () => {
       <Link to="/all-scholarships" className="text-black">
         All Scholarship
       </Link>
+      <Link to="/moderator-apply" className="text-black">
+        Be a Moderator
+      </Link>
       {user && (
         <Link to="/dashboard/my-applications" className="text-black">
           Dashboard

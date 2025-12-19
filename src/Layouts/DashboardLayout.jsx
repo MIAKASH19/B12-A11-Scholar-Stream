@@ -1,4 +1,5 @@
 import React from "react";
+import { BsPersonWorkspace } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineReviews, MdPayment } from "react-icons/md";
 import { SiJirasoftware } from "react-icons/si";
@@ -115,6 +116,16 @@ const DashboardLayout = () => {
               >
                 <CgProfile className="text-xl"/>
                 <span className="is-drawer-close:hidden">My Profile</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Approve Moderators"
+                to="/dashboard/approve-moderators"
+              >
+                <BsPersonWorkspace  className="text-xl"/>
+                <span className="is-drawer-close:hidden">Approve Moderators</span>
               </Link>
             </li>
 

@@ -13,6 +13,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { BiDetail } from "react-icons/bi";
 import { MdPayment } from "react-icons/md";
 import { Link } from "react-router";
+import Swal from "sweetalert2";
 
 const MyApplications = () => {
   const { user } = useAuth();
@@ -54,25 +55,33 @@ const MyApplications = () => {
     }
   };
 
-  const handleDeleteApplication = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this application?"
-    );
-    if (!confirmDelete) return;
+  const handleDeleteApplication = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (!result.isConfirmed) return;
 
-    try {
-      const res = await axiosSecure.delete(
-        `/applications/${id}?email=${user.email}`
-      );
+      try {
+        await axiosSecure.delete(`/applications/${id}?email=${user.email}`);
 
-      if (res.data.deletedCount > 0) {
-        alert("Application deleted successfully!");
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+
         queryClient.invalidateQueries(["myApplications", user.email]);
+      } catch (error) {
+        console.error(error);
+        alert("Failed to delete application");
       }
-    } catch (error) {
-      console.error(error);
-      alert("Failed to delete application");
-    }
+    });
   };
 
   const handleSubmitReview = async () => {
@@ -85,7 +94,7 @@ const MyApplications = () => {
       const response = await axiosSecure.post(`/reviews`, {
         scholarshipId: selectedApp.scholarshipId,
         scholarshipName: selectedApp.scholarshipName,
-        applicationId: selectedApp.applicationId,
+        applicationId: selectedApp._id,
         userImage: user.photoURL,
         userName: user.displayName,
         userEmail: user.email,
@@ -202,71 +211,6 @@ const MyApplications = () => {
                           <FaEdit />
                         </button>
 
-                        {/* Edit MOdal */}
-                        <dialog
-                          id="edit_modal"
-                          className="modal modal-bottom sm:modal-middle"
-                        >
-                          <div className="modal-box max-w-xl">
-                            {editApp && (
-                              <>
-                                <h3 className="text-xl font-semibold mb-4">
-                                  Edit Application
-                                </h3>
-
-                                <label className="block mb-2">
-                                  University Name
-                                </label>
-                                <input
-                                  type="text"
-                                  className="input input-bordered w-full mb-4"
-                                  value={editApp.universityName}
-                                  onChange={(e) =>
-                                    setEditApp({
-                                      ...editApp,
-                                      universityName: e.target.value,
-                                    })
-                                  }
-                                />
-
-                                <label className="block mb-2">
-                                  Subject Category
-                                </label>
-                                <input
-                                  type="text"
-                                  className="input input-bordered w-full mb-4"
-                                  value={editApp.subjectCategory}
-                                  onChange={(e) =>
-                                    setEditApp({
-                                      ...editApp,
-                                      subjectCategory: e.target.value,
-                                    })
-                                  }
-                                />
-
-                                <div className="modal-action">
-                                  <button
-                                    className="btn btn-outline"
-                                    onClick={() =>
-                                      document
-                                        .getElementById("edit_modal")
-                                        .close()
-                                    }
-                                  >
-                                    Cancel
-                                  </button>
-                                  <button
-                                    className="btn btn-primary"
-                                    onClick={handleUpdateApplication}
-                                  >
-                                    Update
-                                  </button>
-                                </div>
-                              </>
-                            )}
-                          </div>
-                        </dialog>
-
                         {app.paymentStatus === "unpaid" && (
                           <Link to={`/dashboard/payment/${app._id}`}>
                             <button
@@ -287,7 +231,7 @@ const MyApplications = () => {
                           </button>
                         )}
 
-                        {app.applciationStatus === "completed" && (
+                        {app.applicationStatus === "completed" && (
                           <button
                             className="btn text-lg hover:btn-info tooltip tooltip-top "
                             data-tip="Add Review"
@@ -312,6 +256,58 @@ const MyApplications = () => {
           </table>
         </div>
       )}
+
+      {/* Edit MOdal */}
+      <dialog id="edit_modal" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box max-w-xl">
+          {editApp && (
+            <>
+              <h3 className="text-xl font-semibold mb-4">Edit Application</h3>
+
+              <label className="block mb-2">University Name</label>
+              <input
+                type="text"
+                className="input input-bordered w-full mb-4"
+                value={editApp.universityName}
+                onChange={(e) =>
+                  setEditApp({
+                    ...editApp,
+                    universityName: e.target.value,
+                  })
+                }
+              />
+
+              <label className="block mb-2">Subject Category</label>
+              <input
+                type="text"
+                className="input input-bordered w-full mb-4"
+                value={editApp.subjectCategory}
+                onChange={(e) =>
+                  setEditApp({
+                    ...editApp,
+                    subjectCategory: e.target.value,
+                  })
+                }
+              />
+
+              <div className="modal-action">
+                <button
+                  className="btn btn-outline"
+                  onClick={() => document.getElementById("edit_modal").close()}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="btn btn-primary"
+                  onClick={handleUpdateApplication}
+                >
+                  Update
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </dialog>
 
       {/* Detail Modal */}
       <dialog id="detail_modal" className="modal modal-bottom sm:modal-middle">

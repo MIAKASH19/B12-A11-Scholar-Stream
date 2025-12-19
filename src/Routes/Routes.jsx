@@ -16,12 +16,16 @@ import Payment from "../Pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess";
 import PaymentCancel from "../Pages/Dashboard/Payment/PaymentCancel";
 import MyPayments from "../Pages/Dashboard/MyPayments";
+import ModeratorApply from "../Pages/ModeratorApply";
+import ApproveModerator from "../Pages/Dashboard/ApproveModerator";
+import LoadingPage from "../Pages/LoadingPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayouts,
     errorElement: ErrorPage,
+    hydrateFallbackElement: <LoadingPage />,
     children: [
       {
         index: true,
@@ -52,6 +56,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ApplyScholarship></ApplyScholarship>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "moderator-apply",
+        element: (
+          <PrivateRoute>
+            <ModeratorApply></ModeratorApply>
           </PrivateRoute>
         ),
       },
@@ -92,6 +104,10 @@ export const router = createBrowserRouter([
       {
         path: "payment-cancelled",
         Component: PaymentCancel,
+      },
+      {
+        path: "approve-moderators",
+        Component: ApproveModerator,
       },
     ],
   },
