@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
-import { FaEdit, FaRegTrashAlt, FaStar } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaClock,
+  FaEdit,
+  FaRegTrashAlt,
+  FaStar,
+} from "react-icons/fa";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { BiDetail } from "react-icons/bi";
 import { MdPayment } from "react-icons/md";
@@ -115,187 +121,197 @@ const MyApplications = () => {
         My Applications ({applications.length})
       </h1>
 
-      <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
-          <thead className="bg-gray-100">
-            <tr>
-              <th>Sl</th>
-              <th>University</th>
-              <th>Address</th>
-              <th>Feedback</th>
-              <th>Category</th>
-              <th>App. Status</th>
-              <th>Pay. Status</th>
-              <th>Fees</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {applications.map((app, index) => (
-              <tr key={app._id}>
-                <td>{index + 1}</td>
-                <td className="font-medium text-xs">{app.universityName}</td>
-                <td className="font-medium text-xs">{app.universityAddress}</td>
-                <td className="font-medium text-xs">
-                  {app.feedback || "No feedback yet"}
-                </td>
-                <td className="font-medium text-xs">{app.subjectCategory}</td>
-                <td>
-                  <span
-                    className={`badge font-semibold rounded-sm capitalize ${
-                      app.applicationStatus === "pending"
-                        ? "badge-warning"
-                        : app.applicationStatus === "completed"
-                        ? "badge-success"
-                        : "badge-info"
-                    }`}
-                  >
-                    {app.applicationStatus}
-                  </span>
-                </td>
-                <td className="text-xs ">
-                  <h1
-                    className={`${
-                      app.paymentStatus == "paid" ? "bg-green-500" : "bg-error"
-                    } rounded-sm px-3 py-2 w-fit font-semibold capitalize`}
-                  >
-                    {app.paymentStatus}
-                  </h1>
-                </td>
-                <td className="font-semibold text-xs">${app.totalCost}</td>
-                <td className="flex gap-2 flex-wrap">
-                  <button
-                    className="btn text-lg hover:btn-success tooltip tooltip-top"
-                    data-tip="Details"
-                    onClick={() => {
-                      setSelectedApp(app);
-                      document.getElementById("detail_modal").showModal();
-                    }}
-                  >
-                    <BiDetail />
-                  </button>
-                  {app.applicationStatus === "pending" && (
-                    <>
-                      <button
-                        className="btn text-lg hover:btn-warning tooltip tooltip-top"
-                        data-tip="Edit"
-                        onClick={() => {
-                          setEditApp(app);
-                          document.getElementById("edit_modal").showModal();
-                        }}
-                      >
-                        <FaEdit />
-                      </button>
-
-                      {/* Edit MOdal */}
-                      <dialog
-                        id="edit_modal"
-                        className="modal modal-bottom sm:modal-middle"
-                      >
-                        <div className="modal-box max-w-xl">
-                          {editApp && (
-                            <>
-                              <h3 className="text-xl font-semibold mb-4">
-                                Edit Application
-                              </h3>
-
-                              <label className="block mb-2">
-                                University Name
-                              </label>
-                              <input
-                                type="text"
-                                className="input input-bordered w-full mb-4"
-                                value={editApp.universityName}
-                                onChange={(e) =>
-                                  setEditApp({
-                                    ...editApp,
-                                    universityName: e.target.value,
-                                  })
-                                }
-                              />
-
-                              <label className="block mb-2">
-                                Subject Category
-                              </label>
-                              <input
-                                type="text"
-                                className="input input-bordered w-full mb-4"
-                                value={editApp.subjectCategory}
-                                onChange={(e) =>
-                                  setEditApp({
-                                    ...editApp,
-                                    subjectCategory: e.target.value,
-                                  })
-                                }
-                              />
-
-                              <div className="modal-action">
-                                <button
-                                  className="btn btn-outline"
-                                  onClick={() =>
-                                    document
-                                      .getElementById("edit_modal")
-                                      .close()
-                                  }
-                                >
-                                  Cancel
-                                </button>
-                                <button
-                                  className="btn btn-primary"
-                                  onClick={handleUpdateApplication}
-                                >
-                                  Update
-                                </button>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      </dialog>
-
-                      {app.paymentStatus === "unpaid" && (
-                        <Link to={`/dashboard/payment/${app._id}`}>
-                          <button
-                            className="btn text-lg hover:btn-primary tooltip tooltip-top "
-                            data-tip="Payment"
-                          >
-                            <MdPayment />
-                          </button>
-                        </Link>
-                      )}
-                      {app.applicationStatus === "pending" && (
+      {applications.length === 0 ? (
+        <div className="text-center text-gray-500 py-10">
+          No Application found.
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="table table-zebra w-full">
+            <thead className="bg-gray-100">
+              <tr>
+                <th>Sl</th>
+                <th>University</th>
+                <th>Address</th>
+                <th>Feedback</th>
+                <th>Category</th>
+                <th>App. Status</th>
+                <th>Pay. Status</th>
+                <th>Fees</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {applications.map((app, index) => (
+                <tr key={app._id}>
+                  <td>{index + 1}</td>
+                  <td className="font-medium text-xs">{app.universityName}</td>
+                  <td className="font-medium text-xs">
+                    {app.universityAddress}
+                  </td>
+                  <td className="font-medium text-xs">
+                    {app.feedback || "No feedback yet"}
+                  </td>
+                  <td className="font-medium text-xs">{app.subjectCategory}</td>
+                  <td>
+                    <span
+                      className={`badge font-semibold rounded-sm capitalize ${
+                        app.applicationStatus === "pending"
+                          ? "badge-warning"
+                          : app.applicationStatus === "completed"
+                          ? "badge-success"
+                          : "badge-info"
+                      }`}
+                    >
+                      {app.applicationStatus}
+                    </span>
+                  </td>
+                  <td>
+                    {app.paymentStatus === "paid" ? (
+                      <span className="flex items-center gap-2 text-green-600 font-semibold">
+                        <FaCheckCircle /> Paid
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-2 text-yellow-500 font-semibold">
+                        <FaClock /> Unpaid
+                      </span>
+                    )}
+                  </td>
+                  <td className="font-semibold text-xs">${app.totalCost}</td>
+                  <td className="flex gap-2 flex-wrap">
+                    <button
+                      className="btn text-lg hover:btn-success tooltip tooltip-top"
+                      data-tip="Details"
+                      onClick={() => {
+                        setSelectedApp(app);
+                        document.getElementById("detail_modal").showModal();
+                      }}
+                    >
+                      <BiDetail />
+                    </button>
+                    {app.applicationStatus === "pending" && (
+                      <>
                         <button
-                          className="btn text-lg hover:btn-error tooltip tooltip-top"
-                          data-tip="Delete"
-                          onClick={() => handleDeleteApplication(app._id)}
-                        >
-                          <FaRegTrashAlt />
-                        </button>
-                      )}
-
-                      {app.applciationStatus === "completed" && (
-                        <button
-                          className="btn text-lg hover:btn-info tooltip tooltip-top "
-                          data-tip="Add Review"
+                          className="btn text-lg hover:btn-warning tooltip tooltip-top"
+                          data-tip="Edit"
                           onClick={() => {
-                            setSelectedApp(app);
-                            setReviewComment("");
-                            setReviewRating(0);
-                            document
-                              .getElementById("my_review_modal")
-                              .showModal();
+                            setEditApp(app);
+                            document.getElementById("edit_modal").showModal();
                           }}
                         >
-                          <IoIosAddCircleOutline />
+                          <FaEdit />
                         </button>
-                      )}
-                    </>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+
+                        {/* Edit MOdal */}
+                        <dialog
+                          id="edit_modal"
+                          className="modal modal-bottom sm:modal-middle"
+                        >
+                          <div className="modal-box max-w-xl">
+                            {editApp && (
+                              <>
+                                <h3 className="text-xl font-semibold mb-4">
+                                  Edit Application
+                                </h3>
+
+                                <label className="block mb-2">
+                                  University Name
+                                </label>
+                                <input
+                                  type="text"
+                                  className="input input-bordered w-full mb-4"
+                                  value={editApp.universityName}
+                                  onChange={(e) =>
+                                    setEditApp({
+                                      ...editApp,
+                                      universityName: e.target.value,
+                                    })
+                                  }
+                                />
+
+                                <label className="block mb-2">
+                                  Subject Category
+                                </label>
+                                <input
+                                  type="text"
+                                  className="input input-bordered w-full mb-4"
+                                  value={editApp.subjectCategory}
+                                  onChange={(e) =>
+                                    setEditApp({
+                                      ...editApp,
+                                      subjectCategory: e.target.value,
+                                    })
+                                  }
+                                />
+
+                                <div className="modal-action">
+                                  <button
+                                    className="btn btn-outline"
+                                    onClick={() =>
+                                      document
+                                        .getElementById("edit_modal")
+                                        .close()
+                                    }
+                                  >
+                                    Cancel
+                                  </button>
+                                  <button
+                                    className="btn btn-primary"
+                                    onClick={handleUpdateApplication}
+                                  >
+                                    Update
+                                  </button>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </dialog>
+
+                        {app.paymentStatus === "unpaid" && (
+                          <Link to={`/dashboard/payment/${app._id}`}>
+                            <button
+                              className="btn text-lg hover:btn-primary tooltip tooltip-top "
+                              data-tip="Payment"
+                            >
+                              <MdPayment />
+                            </button>
+                          </Link>
+                        )}
+                        {app.applicationStatus === "pending" && (
+                          <button
+                            className="btn text-lg hover:btn-error tooltip tooltip-top"
+                            data-tip="Delete"
+                            onClick={() => handleDeleteApplication(app._id)}
+                          >
+                            <FaRegTrashAlt />
+                          </button>
+                        )}
+
+                        {app.applciationStatus === "completed" && (
+                          <button
+                            className="btn text-lg hover:btn-info tooltip tooltip-top "
+                            data-tip="Add Review"
+                            onClick={() => {
+                              setSelectedApp(app);
+                              setReviewComment("");
+                              setReviewRating(0);
+                              document
+                                .getElementById("my_review_modal")
+                                .showModal();
+                            }}
+                          >
+                            <IoIosAddCircleOutline />
+                          </button>
+                        )}
+                      </>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* Detail Modal */}
       <dialog id="detail_modal" className="modal modal-bottom sm:modal-middle">

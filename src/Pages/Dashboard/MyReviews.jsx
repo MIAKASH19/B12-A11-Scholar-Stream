@@ -57,63 +57,83 @@ const MyReviews = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-semibold mb-6">My Reviews ({reviews.length})</h1>
-      <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
-          <thead className="bg-gray-100">
-            <tr>
-              <th>Sl</th>
-              <th>Scholarship Name</th>
-              <th>University Name</th>
-              <th>Comment</th>
-              <th>Rating</th>
-              <th>Review Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reviews.map((review, idx) => (
-              <tr key={review._id}>
-                <td>{idx + 1}</td>
-                <td className="font-medium">{review.scholarshipName || "N/A"}</td>
-                <td>{review.universityName}</td>
-                <td>{review.reviewComment}</td>
-                <td className="flex items-center">
-                  {[1,2,3,4,5].map((star) => (
-                    <FaStar
-                      key={star}
-                      className="mr-1"
-                      color={review.ratingPoint >= star ? "#facc15" : "#d1d5db"}
-                    />
-                  ))}
-                </td>
-                <td>{new Date(review.reviewDate).toLocaleDateString()}</td>
-                <td className="flex gap-2">
-                  <button
-                    className="btn text-lg hover:btn-info gap-2 tooltip tooltip-top " data-tip="Edit Review"
-                    onClick={() => {
-                      setSelectedReview(review);
-                      setUpdatedComment(review.reviewComment);
-                      setUpdatedRating(review.ratingPoint);
-                      document.getElementById("edit_review_modal").showModal();
-                    }}
-                  >
-                    <FaEdit />      
-                  </button>
-                  <button
-                    className="btn text-lg tooltip tooltip-top hover:btn-error gap-2" data-tip="Delete Review"
-                    onClick={() => handleDelete(review._id)}
-                  >
-                    <FaTrash /> 
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <h1 className="text-2xl font-semibold mb-6">
+        My Reviews ({reviews.length})
+      </h1>
 
-      <dialog id="edit_review_modal" className="modal modal-bottom sm:modal-middle">
+      {reviews.length === 0 ? (
+        <div className="text-center text-gray-500 py-10">
+          No Reviews found.
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="table table-zebra w-full">
+            <thead className="bg-gray-100">
+              <tr>
+                <th>Sl</th>
+                <th>Scholarship Name</th>
+                <th>University Name</th>
+                <th>Comment</th>
+                <th>Rating</th>
+                <th>Review Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reviews.map((review, idx) => (
+                <tr key={review._id}>
+                  <td>{idx + 1}</td>
+                  <td className="font-medium">
+                    {review.scholarshipName || "N/A"}
+                  </td>
+                  <td>{review.universityName}</td>
+                  <td>{review.reviewComment}</td>
+                  <td className="flex items-center">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <FaStar
+                        key={star}
+                        className="mr-1"
+                        color={
+                          review.ratingPoint >= star ? "#facc15" : "#d1d5db"
+                        }
+                      />
+                    ))}
+                  </td>
+                  <td>{new Date(review.reviewDate).toLocaleDateString()}</td>
+                  <td className="flex gap-2">
+                    <button
+                      className="btn text-lg hover:btn-info gap-2 tooltip tooltip-top "
+                      data-tip="Edit Review"
+                      onClick={() => {
+                        setSelectedReview(review);
+                        setUpdatedComment(review.reviewComment);
+                        setUpdatedRating(review.ratingPoint);
+                        document
+                          .getElementById("edit_review_modal")
+                          .showModal();
+                      }}
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
+                      className="btn text-lg tooltip tooltip-top hover:btn-error gap-2"
+                      data-tip="Delete Review"
+                      onClick={() => handleDelete(review._id)}
+                    >
+                      <FaTrash />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <dialog
+        id="edit_review_modal"
+        className="modal modal-bottom sm:modal-middle"
+      >
         <div className="modal-box max-w-3xl p-6">
           <h3 className="text-xl font-semibold mb-4 text-center">
             Edit Review for {selectedReview?.universityName}
@@ -141,7 +161,9 @@ const MyReviews = () => {
           <div className="flex justify-end gap-3">
             <button
               className="btn btn-outline"
-              onClick={() => document.getElementById("edit_review_modal").close()}
+              onClick={() =>
+                document.getElementById("edit_review_modal").close()
+              }
             >
               Cancel
             </button>

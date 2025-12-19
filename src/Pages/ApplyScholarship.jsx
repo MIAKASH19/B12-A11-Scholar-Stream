@@ -78,7 +78,7 @@ const ApplyScholarship = () => {
               };
               console.log("Application Data with ID:", updatedApplicationData);
               if (applicationId) {
-                // navigate(`/checkout/${applicationId}`);
+                navigate(`/dashboard/my-applications`);
               }
             } else {
               Swal.fire({

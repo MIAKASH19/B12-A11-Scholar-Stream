@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import SocialLogin from "./SocialLogin";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const Register = () => {
   const {
@@ -14,9 +15,10 @@ const Register = () => {
 
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
-  const { createUser, updateUser, setUser, signInWithGoogle } = useAuth();
+  const { createUser, updateUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosSecure = useAxiosSecure();
 
   const handleRegistration = (data) => {
     const { name, photoUrl, email, password } = data;
@@ -25,30 +27,39 @@ const Register = () => {
       .then((result) => {
         const user = result.user;
 
-        updateUser({ displayName: name, photoURL: photoUrl })
+        const userProfile = {
+          displayName: name,
+          photoURL: photoUrl,
+        };
+
+        updateUser(userProfile)
           .then(() => {
-            const updatedUser = {
-              name,
+            const userInfo = {
               email,
-              image: photoUrl,
-              role: "Student",
+              displayName: name,
+              photoURL: photoUrl,
+              uid: user.uid,
             };
 
-            fetch("http://localhost:3000/users", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(updatedUser),
-            })
-              .then((res) => res.json())
+            axiosSecure
+              .post("/users", userInfo)
               .then(() => {
-                setUser({ ...user, displayName: name, photoURL: photoUrl });
                 navigate(location?.state || "/");
+              })
+              .catch((err) => {
+                console.log("Database error:", err);
+                setError("Failed to save user");
               });
-            console.log("user is Created");
           })
-          .catch((err) => setError(err.message));
+          .catch((err) => {
+            console.log("Profile update error:", err);
+            setError(err.message);
+          });
       })
-      .catch((err) => setError(err.code));
+      .catch((err) => {
+        console.log("Register error:", err);
+        setError(err.message);
+      });
   };
 
   return (
@@ -104,7 +115,7 @@ const Register = () => {
                   className="input w-full rounded-sm border-[#e5e5e5]"
                   {...register("password", {
                     required: true,
-                    minLength: true,
+                    minLength: 6,
                     pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[^A-Za-z0-9]).{6,}$/,
                   })}
                   placeholder="Password"
@@ -121,7 +132,8 @@ const Register = () => {
 
                 {errors.password?.type === "pattern" && (
                   <p className="text-red-500">
-                    Password must contain at least 1 uppercase letter, 1 lowercase letter, and 1 special character.
+                    Password must contain at least 1 uppercase letter, 1
+                    lowercase letter, and 1 special character.
                   </p>
                 )}
 

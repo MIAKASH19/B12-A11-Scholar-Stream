@@ -1,6 +1,6 @@
 import React from "react";
 import { CgProfile } from "react-icons/cg";
-import { MdOutlineReviews } from "react-icons/md";
+import { MdOutlineReviews, MdPayment } from "react-icons/md";
 import { SiJirasoftware } from "react-icons/si";
 import { Link, Outlet } from "react-router";
 
@@ -47,7 +47,7 @@ const DashboardLayout = () => {
         ></label>
         <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
           {/* Sidebar content here */}
-          <ul className="menu w-full  grow">
+          <ul className="menu w-full grow gap-4">
             {/* List item */}
             <li>
               <Link
@@ -64,7 +64,7 @@ const DashboardLayout = () => {
                   strokeWidth="2"
                   fill="none"
                   stroke="currentColor"
-                  className="my-1.5 inline-block size-4"
+                  className="my-1.5 inline-block size-5"
                 >
                   <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
                   <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -83,7 +83,7 @@ const DashboardLayout = () => {
                 data-tip="My Applications"
                 to="/dashboard/my-applications"
               >
-                <SiJirasoftware />
+                <SiJirasoftware className="text-xl"/>
                 <span className="is-drawer-close:hidden">My Applications</span>
               </Link>
             </li>
@@ -93,8 +93,18 @@ const DashboardLayout = () => {
                 data-tip="My Reviews"
                 to="/dashboard/my-reviews"
               >
-                <MdOutlineReviews />
+                <MdOutlineReviews className="text-xl"/>
                 <span className="is-drawer-close:hidden">My Reviews</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="My Payments"
+                to="/dashboard/my-payments"
+              >
+                <MdPayment className="text-xl"/>
+                <span className="is-drawer-close:hidden">My Payments</span>
               </Link>
             </li>
             <li>
@@ -103,7 +113,7 @@ const DashboardLayout = () => {
                 data-tip="My Profile"
                 to="/dashboard/my-profile"
               >
-                <CgProfile />
+                <CgProfile className="text-xl"/>
                 <span className="is-drawer-close:hidden">My Profile</span>
               </Link>
             </li>
