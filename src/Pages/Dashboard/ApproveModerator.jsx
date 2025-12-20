@@ -122,19 +122,22 @@ const ApproveModerator = () => {
                   </td>
                   <td className="flex gap-2 flex-wrap">
                     <button
-                      className="btn btn-success btn-sm"
+                      className="btn btn-success btn-md tooltip tooltip-top"
+                      data-tip="Approve"
                       onClick={() => handleUpdateStatus(app._id, "approved")}
                     >
                       <FaCheckCircle />
                     </button>
                     <button
-                      className="btn btn-error btn-sm"
+                      className="btn btn-error btn-md tooltip tooltip-top"
+                      data-tip="Reject"
                       onClick={() => handleUpdateStatus(app._id, "rejected")}
                     >
                       <FaTimesCircle />
                     </button>
                     <button
-                      className="btn btn-info btn-sm"
+                      className="btn btn-info btn-md tooltip tooltip-top"
+                      data-tip="Details"
                       onClick={() => {
                         setSelectedApp(app);
                         document.getElementById("detail_modal").showModal();

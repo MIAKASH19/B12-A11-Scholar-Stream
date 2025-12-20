@@ -19,6 +19,8 @@ import MyPayments from "../Pages/Dashboard/MyPayments";
 import ModeratorApply from "../Pages/ModeratorApply";
 import ApproveModerator from "../Pages/Dashboard/ApproveModerator";
 import LoadingPage from "../Pages/LoadingPage";
+import AboutUs from "../Pages/AboutUs";
+import StudentManagement from "../Pages/Dashboard/StudentManagement";
 
 export const router = createBrowserRouter([
   {
@@ -42,6 +44,10 @@ export const router = createBrowserRouter([
       {
         path: "all-scholarships",
         Component: AllScholarships,
+      },
+      {
+        path: "about-us",
+        Component: AboutUs,
       },
       {
         path: "/scholarship-details/:id",
@@ -108,6 +114,10 @@ export const router = createBrowserRouter([
       {
         path: "approve-moderators",
         Component: ApproveModerator,
+      },
+      {
+        path: "students-management",
+        Component: StudentManagement,
       },
     ],
   },

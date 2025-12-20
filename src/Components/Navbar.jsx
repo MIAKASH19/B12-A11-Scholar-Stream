@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router";
 import { AuthContext } from "../Contexts/AuthContext";
+import { FaGoogleScholar } from "react-icons/fa6";
 
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
@@ -21,6 +22,9 @@ const Navbar = () => {
           Dashboard
         </Link>
       )}
+      <Link to="/about-us" className="text-black">
+        About Us
+      </Link>
     </>
   );
 
@@ -58,7 +62,10 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <a className="font-semibold text-xl">Scholar-Stream</a>
+        <a className="font-semibold flex items-center gap-2 text-xl">
+          <FaGoogleScholar className="text-blue-600" />
+          Scholar-Stream
+        </a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 flex gap-5">{links}</ul>
@@ -77,13 +84,15 @@ const Navbar = () => {
               tabIndex="-1"
               className="dropdown-content menu bg-base-100 rounded-xl z-1 w-32 p-4 shadow-xl border border-zinc-200"
             >
-                <Link to="/dashboard/my-profile" className="opacity-80 mb-2 ">My Profile</Link>
-                <button
-                  onClick={handleSignOut}
-                  className="bg-blue-600 text-white transition-all duration-300-2 rounded-3xl mt-3 py-2 cursor-pointer"
-                >
-                  Log Out
-                </button>
+              <Link to="/dashboard/my-profile" className="opacity-80 mb-2 ">
+                My Profile
+              </Link>
+              <button
+                onClick={handleSignOut}
+                className="bg-blue-600 text-white transition-all duration-300-2 rounded-3xl mt-3 py-2 cursor-pointer"
+              >
+                Log Out
+              </button>
             </div>
           </div>
         ) : (

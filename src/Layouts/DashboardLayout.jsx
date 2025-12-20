@@ -1,11 +1,15 @@
 import React from "react";
 import { BsPersonWorkspace } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
+import { FaUsers } from "react-icons/fa";
+import { FaGoogleScholar } from "react-icons/fa6";
 import { MdOutlineReviews, MdPayment } from "react-icons/md";
 import { SiJirasoftware } from "react-icons/si";
 import { Link, Outlet } from "react-router";
+import useRole from "../Hooks/useRole";
 
 const DashboardLayout = () => {
+  const { role } = useRole();
   return (
     <div className="drawer lg:drawer-open font-inter">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -32,9 +36,12 @@ const DashboardLayout = () => {
               <path d="M9 4v16"></path>
               <path d="M14 10l2 2l-2 2"></path>
             </svg>
-            
           </label>
-          <h1 className="font-semibold">Scholar-Stream Dashboard</h1>
+          <h1 className="font-semibold flex items-center gap-2 ">
+            {" "}
+            <FaGoogleScholar className="text-blue-600" />
+            Scholar-Stream Dashboard
+          </h1>
         </nav>
         {/* Page content here */}
         <Outlet></Outlet>
@@ -84,7 +91,7 @@ const DashboardLayout = () => {
                 data-tip="My Applications"
                 to="/dashboard/my-applications"
               >
-                <SiJirasoftware className="text-xl"/>
+                <SiJirasoftware className="text-xl" />
                 <span className="is-drawer-close:hidden">My Applications</span>
               </Link>
             </li>
@@ -94,7 +101,7 @@ const DashboardLayout = () => {
                 data-tip="My Reviews"
                 to="/dashboard/my-reviews"
               >
-                <MdOutlineReviews className="text-xl"/>
+                <MdOutlineReviews className="text-xl" />
                 <span className="is-drawer-close:hidden">My Reviews</span>
               </Link>
             </li>
@@ -104,7 +111,7 @@ const DashboardLayout = () => {
                 data-tip="My Payments"
                 to="/dashboard/my-payments"
               >
-                <MdPayment className="text-xl"/>
+                <MdPayment className="text-xl" />
                 <span className="is-drawer-close:hidden">My Payments</span>
               </Link>
             </li>
@@ -114,22 +121,38 @@ const DashboardLayout = () => {
                 data-tip="My Profile"
                 to="/dashboard/my-profile"
               >
-                <CgProfile className="text-xl"/>
+                <CgProfile className="text-xl" />
                 <span className="is-drawer-close:hidden">My Profile</span>
               </Link>
             </li>
-            <li>
-              <Link
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Approve Moderators"
-                to="/dashboard/approve-moderators"
-              >
-                <BsPersonWorkspace  className="text-xl"/>
-                <span className="is-drawer-close:hidden">Approve Moderators</span>
-              </Link>
-            </li>
-
-            
+            {role === "admin" && (
+              <>
+                <li>
+                  <Link
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Approve Moderators"
+                    to="/dashboard/approve-moderators"
+                  >
+                    <BsPersonWorkspace className="text-xl" />
+                    <span className="is-drawer-close:hidden">
+                      Approve Moderators
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Students Management"
+                    to="/dashboard/students-management"
+                  >
+                    <FaUsers className="text-xl" />
+                    <span className="is-drawer-close:hidden">
+                      Students Management
+                    </span>
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>

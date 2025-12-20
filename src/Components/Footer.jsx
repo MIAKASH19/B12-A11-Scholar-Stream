@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
 import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaGoogleScholar } from "react-icons/fa6";
 
 const socialLinks = [
   { name: "Facebook", icon: FaFacebook, link: "#" },
@@ -32,7 +33,11 @@ const Footer = () => {
       <div className="bg-white relative h-fit  border border-zinc-200 mt-10 w-full rounded-2xl p-5 pb-0">
         <div className="flex items-start justify-between">
           <div className="flex flex-col w-120 gap-5">
-            <h1 className="text-3xl font-semibold">Scholar-Stream</h1>
+            <h1 className="text-3xl font-semibold flex items-center gap-2">
+              {" "}
+              <FaGoogleScholar className="text-blue-600" />
+              Scholar-Stream
+            </h1>
             <p className="w-fit tracking-tight text-sm">
               Sign Up to Enjoy Your Learning.
             </p>
