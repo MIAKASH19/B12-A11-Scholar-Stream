@@ -61,17 +61,29 @@ const AllScholarships = () => {
         ))}
       </div>
       <div className="mt-10  flex items-center justify-center gap-3">
+        {currentPage > 0 && (
+          <button onClick={()=> setCurrentPage(currentPage -1)} className="btn border border-zinc-300 bg-white   hover:bg-blue-600 hover:border-blue-600">
+            Prev
+          </button>
+        )}
         {[...Array(totalPages).keys()].map((pageNumber) => (
           <button
             key={pageNumber}
             onClick={() => setCurrentPage(pageNumber)}
             className={`btn border border-zinc-300  hover:bg-blue-600 hover:border-blue-600 ${
-              currentPage === pageNumber ? "bg-blue-600 text-white" : "bg-white text-black"
+              currentPage === pageNumber
+                ? "bg-blue-600 text-white"
+                : "bg-white text-black"
             }`}
           >
             {pageNumber}
           </button>
         ))}
+        {currentPage < totalPages - 1 && (
+          <button onClick={()=> setCurrentPage(currentPage +1)} className="btn border border-zinc-300 bg-white   hover:bg-blue-600 hover:border-blue-600">
+            next
+          </button>
+        )}
       </div>
     </div>
   );

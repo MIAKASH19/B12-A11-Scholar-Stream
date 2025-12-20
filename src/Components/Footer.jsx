@@ -1,5 +1,13 @@
 import React from "react";
 import { Link } from "react-router";
+import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
+
+const socialLinks = [
+  { name: "Facebook", icon: FaFacebook, link: "#" },
+  { name: "Twitter", icon: FaTwitter, link: "#" },
+  { name: "Instagram", icon: FaInstagram, link: "#" },
+  { name: "Youtube", icon: FaYoutube, link: "#" },
+];
 
 const Footer = () => {
   return (
@@ -25,7 +33,9 @@ const Footer = () => {
         <div className="flex items-start justify-between">
           <div className="flex flex-col w-120 gap-5">
             <h1 className="text-3xl font-semibold">Scholar-Stream</h1>
-            <p className="w-fit tracking-tight text-sm">Sign Up to Enjoy Your Learning.</p>
+            <p className="w-fit tracking-tight text-sm">
+              Sign Up to Enjoy Your Learning.
+            </p>
             <div className="w-fit p-2 pl-3 border border-zinc-400 rounded-full">
               <input type="text" placeholder="Enter Your Email" />
               <button className="bg-black text-white px-4 py-2 rounded-full">
@@ -33,16 +43,16 @@ const Footer = () => {
               </button>
             </div>
             <p className="w-full  opacity-80 text-sm">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Recusandae autem exercitationem, itaque voluptatibus tempora
-              aliquam?
+              Discover verified local and international scholarships in one
+              place. Search, compare, and apply with confidence, all from a
+              single platform.
             </p>
           </div>
-          <div className=" gap-3">
+          <div className="gap-3">
             <h1 className="font-medium mb-3">Learn</h1>
             <div className="flex flex-col gap-2">
               {["Blogs", "Education", "Certification"].map((n, i) => (
-                <p key={i} className="text-sm opacity-85">
+                <p key={i} className="text-sm hover:text-blue-600">
                   {n}
                 </p>
               ))}
@@ -52,7 +62,7 @@ const Footer = () => {
             <h1 className="font-medium mb-3">About</h1>
             <div className="flex flex-col gap-2">
               {["Providers", "About Us"].map((n, i) => (
-                <p key={i} className="text-sm opacity-85">
+                <p key={i} className="text-sm hover:text-blue-600">
                   {n}
                 </p>
               ))}
@@ -61,24 +71,46 @@ const Footer = () => {
           <div>
             <h1 className="font-medium mb-3">Pages</h1>
             <div className="flex flex-col gap-2">
-              {["Home", "All Scholarships", "Contact Us", "About Us"].map((n, i) => (
-                  <Link key={i} to={`/${n}`} className="text-sm opacity-75 hover:opacity-100">
-                  {n}
-                </Link>
-              ))}
+              {["Home", "All Scholarships", "Contact Us", "About Us"].map(
+                (n, i) => (
+                  <Link
+                    key={i}
+                    to={`/${n}`}
+                    className="text-sm hover:text-blue-600"
+                  >
+                    {n}
+                  </Link>
+                )
+              )}
             </div>
           </div>
           <div>
-              <h1 className="font-medium mb-3">Legal</h1>
-              <div className="flex flex-col gap-2">
-              {["Terms & Condition", "Privacy Policy", "Risk and Benefits"].map((n, i) => (
-                  <p key={i} className="text-sm opacity-75 hover:opacity-100">
-                  {n}
-                </p>
+            <h1 className="font-medium mb-3">Legal</h1>
+            <div className="flex flex-col gap-2">
+              {["Terms & Condition", "Privacy Policy", "Risk and Benefits"].map(
+                (n, i) => (
+                  <p key={i} className="text-sm hover:text-blue-600">
+                    {n}
+                  </p>
+                )
+              )}
+            </div>
+          </div>
+          <div>
+            <h1 className="font-medium mb-3">Social</h1>
+            <div className="flex flex-col gap-2">
+              {socialLinks.map(({ name, icon: Icon, link }, i) => (
+                <a
+                  key={i}
+                  href={link}
+                  className="flex items-center gap-2 text-sm hover:text-blue-600"
+                >
+                  <Icon className="text-lg" />
+                  {name}
+                </a>
               ))}
             </div>
           </div>
-          <div></div>
         </div>
         <div className="border-t text-center flex items-center justify-center h-15 border-zinc-300 mt-5">
           <p className="opacity-80 text-sm">Copyright Reserved @ 2025</p>
