@@ -31,7 +31,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center px-4 overflow-hidden">
+    <div className="min-h-screen relative flex items-center justify-center px-4 py-20 overflow-hidden">
       <div className="bg-blue-200 w-100 h-70 absolute top-40 left-0 blur-2xl scale-200 rounded-full"></div>
       <div className="bg-pink-100 w-100 h-70 absolute bottom-40 right-0 blur-2xl scale-200 rounded-full"></div>
 
@@ -39,7 +39,7 @@ const Login = () => {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative bg-white border border-zinc-200 rounded-3xl shadow-2xl w-full max-w-md p-8"
+        className="relative bg-white border border-zinc-200 rounded-sm shadow-2xl w-full max-w-md p-8"
       >
         <h1 className="text-3xl font-semibold text-center">Welcome Back</h1>
         <p className="text-sm text-center opacity-70 mt-2">
@@ -51,7 +51,7 @@ const Login = () => {
             <label className="text-sm">Email</label>
             <input
               type="email"
-              className="w-full mt-1 px-4 py-2 border border-zinc-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
+              className="w-full mt-1 px-4 py-2 border border-zinc-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-black"
               placeholder="Enter your email"
               {...register("email", { required: true })}
             />
@@ -64,7 +64,7 @@ const Login = () => {
             <label className="text-sm">Password</label>
             <input
               type={show ? "text" : "password"}
-              className="w-full mt-1 px-4 py-2 border border-zinc-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
+              className="w-full mt-1 px-4 py-2 border border-zinc-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-black"
               placeholder="Enter your password"
               {...register("password", { required: true })}
             />
@@ -84,7 +84,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full bg-black text-white py-2.5 rounded-full hover:scale-105 transition shadow-lg"
+            className="w-full bg-black text-white py-2.5 rounded-sm hover:scale-105 transition shadow-lg"
           >
             Login
           </button>

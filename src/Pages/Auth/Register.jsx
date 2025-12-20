@@ -63,7 +63,7 @@ const Register = () => {
   };
 
   return (
-    <div className="w-full md:min-h-screen flex items-center justify-center h-fit md:px-10 px-4 my-10">
+    <div className="w-full md:min-h-screen flex items-center justify-center h-fit md:px-10 px-4 py-20">
       <div className="md:w-1/2 w-full h-full flex items-center justify-center border border-zinc-200 shadow-2xl rounded-2xl">
         <div className="card md:w-4/5 w-full h-full py-6 pb-10">
           <h1 className="text-5xl font-semibold text-center">
@@ -71,7 +71,7 @@ const Register = () => {
           </h1>
           <p className="text-zinc-500 mt-2 hidden lg:block text-sm text-center">
             Access your saved scholarships, track your applications, and explore
-            new opportunities anytime, anywhere — all in one streamlined
+            new opportunities anytime, anywhere all in one streamlined
             platform.
           </p>
 
@@ -156,7 +156,7 @@ const Register = () => {
                 </Link>
               </div>
 
-              <button className="btn btn-neutral mt-4">Register</button>
+              <button className="btn bg-blue-600 text-white mt-4">Register</button>
 
               <SocialLogin />
 

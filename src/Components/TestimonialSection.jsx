@@ -30,7 +30,7 @@ const Testimonials = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-6xl font-medium">
-            What Students <span className="text-[#264EA3]">Say</span>
+            What Students <span className="text-blue-600">Say</span>
           </h2>
           <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-sm">
             Real experiences from students who found and applied for
@@ -47,7 +47,7 @@ const Testimonials = () => {
                 activeIndex === index ? "scale-[1.02] shadow-md" : "opacity-90"
               }`}
             >
-              <Quote className="w-8 h-8 text-[#264EA3] mb-4 opacity-80" />
+              <Quote className="w-8 h-8 text-blue-600 mb-4 opacity-80" />
 
               <p className="text-sm text-gray-600 leading-relaxed mb-6">
                 “{item.feedback}”

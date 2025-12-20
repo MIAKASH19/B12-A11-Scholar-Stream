@@ -21,6 +21,8 @@ import ApproveModerator from "../Pages/Dashboard/ApproveModerator";
 import LoadingPage from "../Pages/LoadingPage";
 import AboutUs from "../Pages/AboutUs";
 import StudentManagement from "../Pages/Dashboard/StudentManagement";
+import Forbidden from "../Pages/Forbidden";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +50,10 @@ export const router = createBrowserRouter([
       {
         path: "about-us",
         Component: AboutUs,
+      },
+      {
+        path: "forbidden",
+        Component: Forbidden,
       },
       {
         path: "/scholarship-details/:id",
@@ -113,11 +119,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "approve-moderators",
-        Component: ApproveModerator,
+        element: (
+          <AdminRoute>
+            <ApproveModerator></ApproveModerator>
+          </AdminRoute>
+        ),
       },
       {
         path: "students-management",
-        Component: StudentManagement,
+        element: (
+          <AdminRoute>
+            <StudentManagement></StudentManagement>
+          </AdminRoute>
+        ),
       },
     ],
   },

@@ -35,7 +35,7 @@ const Banner = () => {
 
       <h1 className="text-6xl w-[70%] relative text-center font-medium">
         We Bring the Best
-        <span className="text-[#264EA3]"> Scholarships </span>
+        <span className="text-blue-600"> Scholarships </span>
         Right to Your Door
       </h1>
 
@@ -46,7 +46,7 @@ const Banner = () => {
 
       <Link
         to="/all-scholarships"
-        className="bg-[#264EA3] relative px-5 py-3 rounded-full text-white text-sm font-medium shadow-2xl cursor-pointer"
+        className="bg-blue-600 relative px-5 py-3 rounded-full text-white text-sm font-medium shadow-2xl cursor-pointer"
       >
         Search Scholarships
       </Link>

@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { FaUserShield, FaUserSlash } from "react-icons/fa6";
 import Swal from "sweetalert2";
+import { GoSearch } from "react-icons/go";
 
 const StudentManagement = () => {
   const axiosSecure = useAxiosSecure();
+  const [searchText, setSearchText] = useState("");
 
   const {
     refetch,
     data: users = [],
-    isLoading,
   } = useQuery({
-    queryKey: ["Users"],
+    queryKey: ["Users", searchText],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/users`);
+      const res = await axiosSecure.get(`/users?searchText=${encodeURIComponent(searchText)}`);
       console.log(res.data);
       return res.data;
     },
@@ -32,7 +33,7 @@ const StudentManagement = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const roleinfo = { role: "admin" };
-        axiosSecure.patch(`/users/${user._id}`, roleinfo).then((res) => {
+        axiosSecure.patch(`/users/${user._id}/role`, roleinfo).then((res) => {
           console.log(res.data);
           if (res.data.modifiedCount > 0) {
             refetch();
@@ -60,7 +61,7 @@ const StudentManagement = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const roleinfo = { role: "student" };
-        axiosSecure.patch(`/users/${user._id}`, roleinfo).then((res) => {
+        axiosSecure.patch(`/users/${user._id}/role`, roleinfo).then((res) => {
           console.log(res.data);
           if (res.data.modifiedCount > 0) {
             refetch();
@@ -77,12 +78,28 @@ const StudentManagement = () => {
     });
   };
 
-  if (isLoading) return <div>Loading users...</div>;
   return (
     <div className="px-6 py-4">
-      <h1 className="text-2xl font-semibold mb-6">
-        Manage Students {users.length}
-      </h1>
+      <div className="flex items-center justify-between mb-5">
+        <h1 className="text-2xl font-semibold mb-6">
+          Manage Students {users.length}
+        </h1>
+
+        <div className="relative w-full md:w-[50%]">
+          <input
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+            value={searchText}
+            type="text"
+            placeholder="Search Students..."
+            className="w-full rounded-xl border border-zinc-300 bg-white px-5 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
+          />
+          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-600 text-lg">
+            <GoSearch />
+          </span>
+        </div>
+      </div>
 
       <div className="overflow-x-auto">
         <table className="table">

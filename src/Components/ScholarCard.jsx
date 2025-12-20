@@ -48,7 +48,7 @@ const ScholarCard = ({ scholarship, index }) => {
         <div className="h-px w-full bg-zinc-200 mb-4"></div>
         <Link
           to={`/scholarship-details/${scholarship._id}`}
-          className="bg-[#264EA3] text-white px-4 py-2 rounded-full text-sm w-full font-medium hover:bg-blue-700 transition-colors duration-300"
+          className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm w-full font-medium hover:bg-blue-700 transition-colors duration-300"
         >
           View Details
         </Link>

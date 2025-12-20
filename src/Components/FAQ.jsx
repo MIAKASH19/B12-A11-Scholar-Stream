@@ -41,7 +41,7 @@ const FAQ = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-6xl font-medium">
-            Frequently Asked <span className="text-[#264EA3]">Questions</span>
+            Frequently Asked <span className="text-blue-600">Questions</span>
           </h2>
           <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-sm">
             Everything you need to know about using ScholarStream and finding
