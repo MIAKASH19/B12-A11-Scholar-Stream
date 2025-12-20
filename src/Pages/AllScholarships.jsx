@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ScholarCard from "../Components/ScholarCard";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
-import { IoSearch } from "react-icons/io5";
 import { GoSearch } from "react-icons/go";
 
 const AllScholarships = () => {
@@ -14,6 +13,7 @@ const AllScholarships = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
+  const [searchText, setSearchText] = useState("");
 
   const limit = 6;
 
@@ -22,7 +22,10 @@ const AllScholarships = () => {
       .get(
         `http://localhost:3000/scholarships?limit=${limit}&skip=${
           currentPage * limit
-        }&category=${category}&location=${location}`
+        }&category=${category}&location=${location}&search=${encodeURIComponent(
+          searchText
+        )}
+`
       )
       .then((res) => {
         setScholarships(res.data.result);
@@ -33,7 +36,7 @@ const AllScholarships = () => {
       .catch((error) => {
         console.error("Failed to fetch scholarships:", error);
       });
-  }, [currentPage, category, location]);
+  }, [currentPage, category, location, searchText]);
 
   useEffect(() => {
     axiosSecure
@@ -42,7 +45,7 @@ const AllScholarships = () => {
   }, []);
 
   return (
-    <div className="w-full relative mx-auto px-10 py-20 pt-30 ">
+    <div className="w-full relative mx-auto px-10 py-20 pt-30 overflow-hidden">
       <div className="bg-blue-200 w-100 h-70 absolute top-80 left-0 blur-2xl scale-200 rounded-full -z-1" />
       <div className="bg-pink-100 w-100 h-70 absolute top-80 right-0 blur-2xl scale-200 rounded-full -z-1" />
       <motion.div
@@ -65,9 +68,13 @@ const AllScholarships = () => {
       <div className="mb-12">
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
           <h1 className="text-2xl ">Total ({totalScholarships})</h1>
-          {/* Search Input */}
           <div className="relative w-full md:w-[50%]">
             <input
+              onChange={(e) => {
+                setSearchText(e.target.value);
+                setCurrentPage(0);
+              }}
+              value={searchText} 
               type="text"
               placeholder="Search by scholarship, university or degree..."
               className="w-full rounded-xl border border-zinc-300 bg-white px-5 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
@@ -77,10 +84,12 @@ const AllScholarships = () => {
             </span>
           </div>
 
-          {/* Filter / Sort Dropdown */}
           <div className="flex gap-3 w-full md:w-auto">
             <select
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) => {
+                setCurrentPage(0);
+                setCategory(e.target.value);
+              }}
               className="w-full md:w-[200px] rounded-xl border border-zinc-300 bg-white px-2 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
             >
               <option value="">Scholarship Category</option>
@@ -90,7 +99,10 @@ const AllScholarships = () => {
             </select>
 
             <select
-              onChange={(e) => setLocation(e.target.value)}
+              onChange={(e) => {
+                setCurrentPage(0);
+                setLocation(e.target.value);
+              }}
               className="w-full md:w-[200px] rounded-xl border border-zinc-300 bg-white px-2 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
             >
               <option value="">Location</option>
@@ -104,15 +116,22 @@ const AllScholarships = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {scholarships.map((scholarship, index) => (
-          <ScholarCard
-            key={scholarship._id?.$oid || scholarship._id}
-            scholarship={scholarship}
-            index={index}
-          />
-        ))}
-      </div>
+      {scholarships.length === 0 ? (
+        <p className="text-center col-span-full text-gray-500">
+          No scholarships found.
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {scholarships.map((scholarship, index) => (
+            <ScholarCard
+              key={scholarship._id?.$oid || scholarship._id}
+              scholarship={scholarship}
+              index={index}
+            />
+          ))}
+        </div>
+      )}
+
       <div className="mt-10  flex items-center justify-center gap-3">
         {currentPage > 0 && (
           <button
@@ -132,7 +151,7 @@ const AllScholarships = () => {
                 : "bg-white text-black"
             }`}
           >
-            {pageNumber}
+            {pageNumber + 1}
           </button>
         ))}
         {currentPage < totalPages - 1 && (
