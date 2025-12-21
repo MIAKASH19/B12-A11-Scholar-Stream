@@ -230,24 +230,23 @@ const MyApplications = () => {
                             <FaRegTrashAlt />
                           </button>
                         )}
-
-                        {app.applicationStatus === "completed" && (
-                          <button
-                            className="btn text-lg hover:btn-info tooltip tooltip-top "
-                            data-tip="Add Review"
-                            onClick={() => {
-                              setSelectedApp(app);
-                              setReviewComment("");
-                              setReviewRating(0);
-                              document
-                                .getElementById("my_review_modal")
-                                .showModal();
-                            }}
-                          >
-                            <IoIosAddCircleOutline />
-                          </button>
-                        )}
                       </>
+                    )}
+                    {app.applicationStatus === "completed" && (
+                      <button
+                        className="btn text-lg hover:btn-info tooltip tooltip-top "
+                        data-tip="Add Review"
+                        onClick={() => {
+                          setSelectedApp(app);
+                          setReviewComment("");
+                          setReviewRating(0);
+                          document
+                            .getElementById("my_review_modal")
+                            .showModal();
+                        }}
+                      >
+                        <IoIosAddCircleOutline />
+                      </button>
                     )}
                   </td>
                 </tr>

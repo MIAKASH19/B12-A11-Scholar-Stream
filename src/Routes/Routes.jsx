@@ -25,6 +25,7 @@ import Forbidden from "../Pages/Forbidden";
 import AdminRoute from "./AdminRoute";
 import AppliedApplication from "../Pages/Dashboard/AppliedApplications";
 import AllStudentReviews from "../Pages/Dashboard/AllStudentReviews";
+import ModeratorRoute from "./ModeratorRoute";
 
 export const router = createBrowserRouter([
   {
@@ -122,11 +123,19 @@ export const router = createBrowserRouter([
       // Moderator Routes
       {
         path: "applied-applications",
-        Component: AppliedApplication,
+        element: (
+          <ModeratorRoute>
+            <AppliedApplication></AppliedApplication>
+          </ModeratorRoute>
+        ),
       },
       {
         path: "all-student-reviews",
-        Component: AllStudentReviews,
+        element: (
+          <ModeratorRoute>
+            <AllStudentReviews></AllStudentReviews>
+          </ModeratorRoute>
+        ),
       },
       // Admin Routes
       {
