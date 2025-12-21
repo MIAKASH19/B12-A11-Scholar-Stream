@@ -82,7 +82,7 @@ const ApproveModerator = () => {
           No moderator applications found.
         </div>
       ) : (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto rounded-2xl">
           <table className="table table-zebra w-full">
             <thead className="bg-gray-100">
               <tr>

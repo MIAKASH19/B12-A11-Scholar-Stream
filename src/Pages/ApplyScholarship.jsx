@@ -249,7 +249,7 @@ const ApplyScholarship = () => {
           </p>
         </div>
 
-        <button type="submit" className="btn btn-primary rounded-full w-full">
+        <button type="submit" className="btn bg-blue-600 text-white rounded-full w-full">
           Apply & Proceed to Payment
         </button>
       </form>

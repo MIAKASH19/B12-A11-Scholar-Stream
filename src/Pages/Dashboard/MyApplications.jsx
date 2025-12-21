@@ -135,7 +135,7 @@ const MyApplications = () => {
           No Application found.
         </div>
       ) : (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto rounded-2xl">
           <table className="table table-zebra w-full">
             <thead className="bg-gray-100">
               <tr>
@@ -169,7 +169,7 @@ const MyApplications = () => {
                           ? "badge-warning"
                           : app.applicationStatus === "completed"
                           ? "badge-success"
-                          : "badge-info"
+                          : "badge-error"
                       }`}
                     >
                       {app.applicationStatus}

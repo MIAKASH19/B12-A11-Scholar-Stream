@@ -23,6 +23,8 @@ import AboutUs from "../Pages/AboutUs";
 import StudentManagement from "../Pages/Dashboard/StudentManagement";
 import Forbidden from "../Pages/Forbidden";
 import AdminRoute from "./AdminRoute";
+import AppliedApplication from "../Pages/Dashboard/AppliedApplications";
+import AllStudentReviews from "../Pages/Dashboard/AllStudentReviews";
 
 export const router = createBrowserRouter([
   {
@@ -117,6 +119,16 @@ export const router = createBrowserRouter([
         path: "payment-cancelled",
         Component: PaymentCancel,
       },
+      // Moderator Routes
+      {
+        path: "applied-applications",
+        Component: AppliedApplication,
+      },
+      {
+        path: "all-student-reviews",
+        Component: AllStudentReviews,
+      },
+      // Admin Routes
       {
         path: "approve-moderators",
         element: (

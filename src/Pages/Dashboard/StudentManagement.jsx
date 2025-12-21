@@ -101,9 +101,8 @@ const StudentManagement = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto rounded-2xl">
         <table className="table">
-          {/* head */}
           <thead>
             <tr>
               <th>#</th>

@@ -1,92 +1,120 @@
 import React, { useState } from "react";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const MyProfile = () => {
   const { user, setUser } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const [name, setName] = useState(user?.displayName || "");
-  const [photoURL, setPhotoURL] = useState(user?.photoURL || "");
-  const [loading, setLoading] = useState(false);
+  // const handleUpdateProfile = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const updatedUser = { displayName: name, photoURL };
+  //     const res = await axiosSecure.put(`/users/${user.email}`, updatedUser);
 
-  const handleUpdateProfile = async () => {
-    setLoading(true);
-    try {
-      const updatedUser = { displayName: name, photoURL };
-      const res = await axiosSecure.put(`/users/${user.email}`, updatedUser);
+  //     if (res.data.success) {
+  //       alert("Profile updated successfully!");
+  //       setUser({ ...user, ...updatedUser });
+  //     } else {
+  //       alert("Failed to update profile.");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("Something went wrong. Try again.");
+  //   }
+  //   setLoading(false);
+  // };
 
-      if (res.data.success) {
-        alert("Profile updated successfully!");
-        setUser({ ...user, ...updatedUser });
-      } else {
-        alert("Failed to update profile.");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Something went wrong. Try again.");
-    }
-    setLoading(false);
-  };
+  const { data: scholarUser = {}, isLoading } = useQuery({
+    queryKey: ["user-profile", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/${user.email}`);
+      console.log(res.data);
+      return res.data;
+    },
+  });
+
+  if (isLoading)
+    return (
+      <div className="w-full flex items-center justify-center h-[20vh] mt-10">
+        <span className="loading loading-spinner text-info"></span>
+      </div>
+    );
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <h1 className="text-2xl font-semibold mb-6">My Profile</h1>
+  <div className="max-w-7xl mx-auto px-4 py-10">
+    <h1 className="text-3xl font-bold mb-8 text-gray-800">My Profile</h1>
 
-      <div className="bg-white shadow-lg rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-center">
-        {/* Profile Image */}
-        <div className="shrink-0">
+    <div className="relative bg-white/80 backdrop-blur-xl border border-gray-200 rounded-3xl shadow-xl p-8">
+      {/* Role Badge */}
+      <span
+        className={`absolute top-6 right-6 px-4 py-1 rounded-full text-sm font-medium capitalize
+        ${
+          scholarUser.role === "admin"
+            ? "bg-red-100 text-red-600"
+            : scholarUser.role === "moderator"
+            ? "bg-indigo-100 text-indigo-600"
+            : "bg-emerald-100 text-emerald-600"
+        }`}
+      >
+        {scholarUser.role}
+      </span>
+
+      <div className="flex flex-col md:flex-row gap-10 items-center">
+        <div className="relative">
           <img
-            src={photoURL || "https://via.placeholder.com/150"}
-            alt={name}
-            className="w-32 h-32 rounded-full border-2 border-indigo-500 object-cover"
+            src={scholarUser.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
+            alt={scholarUser.displayName}
+            className="w-36 h-36 rounded-full object-cover ring-4 ring-indigo-500/30 shadow-lg"
           />
         </div>
 
-        {/* Profile Info */}
         <div className="flex-1 w-full">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm text-gray-500 mb-1">Name</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              />
+              <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">
+                Full Name
+              </p>
+              <p className="text-lg font-semibold text-gray-800">
+                {scholarUser.displayName || "Not set"}
+              </p>
             </div>
+
             <div>
-              <label className="block text-sm text-gray-500 mb-1">Email</label>
-              <input
-                type="email"
-                value={user?.email}
-                disabled
-                className="w-full border border-gray-300 rounded-lg p-2 bg-gray-100 cursor-not-allowed"
-              />
+              <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">
+                Email Address
+              </p>
+              <p className="text-lg font-medium text-gray-700 break-all">
+                {scholarUser.email}
+              </p>
             </div>
+
             <div>
-              <label className="block text-sm text-gray-500 mb-1">Role</label>
-              <input
-                type="text"
-                value={user?.role || "Student"}
-                disabled
-                className="w-full border border-gray-300 rounded-lg p-2 bg-gray-100 cursor-not-allowed"
-              />
+              <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">
+                Account Role
+              </p>
+              <p className="text-lg font-semibold capitalize text-indigo-600">
+                {scholarUser.role}
+              </p>
             </div>
+
             <div>
-              <label className="block text-sm text-gray-500 mb-1">Photo URL</label>
-              <input
-                type="text"
-                value={photoURL}
-                onChange={(e) => setPhotoURL(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              />
+              <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">
+                Account Status
+              </p>
+              <span className="inline-flex items-center gap-2 text-sm font-medium text-emerald-600">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                Active
+              </span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default MyProfile;

@@ -28,7 +28,7 @@ const MyPayments = () => {
           No payment records found.
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-xl shadow">
+        <div className="overflow-x-auto rounded-2xl shadow">
           <table className="table table-zebra w-full">
             <thead className="bg-gray-100">
               <tr>

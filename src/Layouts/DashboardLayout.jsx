@@ -3,10 +3,11 @@ import { BsPersonWorkspace } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { FaUsers } from "react-icons/fa";
 import { FaGoogleScholar } from "react-icons/fa6";
-import { MdOutlineReviews, MdPayment } from "react-icons/md";
+import { MdOutlineRateReview, MdOutlineReviews, MdPayment } from "react-icons/md";
 import { SiJirasoftware } from "react-icons/si";
 import { Link, Outlet } from "react-router";
 import useRole from "../Hooks/useRole";
+import { LuFileStack } from "react-icons/lu";
 
 const DashboardLayout = () => {
   const { role } = useRole();
@@ -115,6 +116,35 @@ const DashboardLayout = () => {
                 <span className="is-drawer-close:hidden">My Payments</span>
               </Link>
             </li>
+            {(role === "moderator" || role === "admin") && (
+              <li>
+                <Link
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Applied Applications"
+                  to="/dashboard/applied-applications"
+                >
+                  <LuFileStack className="text-xl" />
+                  <span className="is-drawer-close:hidden">
+                    Applied Applications
+                  </span>
+                </Link>
+              </li>
+            )}
+            {(role === "moderator" || role === "admin") && (
+              <li>
+                <Link
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="All Student Reviews"
+                  to="/dashboard/all-student-reviews"
+                >
+                  <MdOutlineRateReview className="text-xl"/>
+                  <span className="is-drawer-close:hidden">
+                    All Student Reviews 
+                  </span>
+                </Link>
+              </li>
+            )}
+
             <li>
               <Link
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
