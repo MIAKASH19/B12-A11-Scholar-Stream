@@ -3,11 +3,16 @@ import { BsPersonWorkspace } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { FaUsers } from "react-icons/fa";
 import { FaGoogleScholar } from "react-icons/fa6";
-import { MdOutlineRateReview, MdOutlineReviews, MdPayment } from "react-icons/md";
+import {
+  MdOutlineRateReview,
+  MdOutlineReviews,
+  MdPayment,
+} from "react-icons/md";
 import { SiJirasoftware } from "react-icons/si";
 import { Link, Outlet } from "react-router";
 import useRole from "../Hooks/useRole";
 import { LuFileStack } from "react-icons/lu";
+import { RiGraduationCapLine } from "react-icons/ri";
 
 const DashboardLayout = () => {
   const { role } = useRole();
@@ -137,26 +142,28 @@ const DashboardLayout = () => {
                   data-tip="All Student Reviews"
                   to="/dashboard/all-student-reviews"
                 >
-                  <MdOutlineRateReview className="text-xl"/>
+                  <MdOutlineRateReview className="text-xl" />
                   <span className="is-drawer-close:hidden">
-                    All Student Reviews 
+                    All Student Reviews
                   </span>
                 </Link>
               </li>
             )}
 
-            <li>
-              <Link
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="My Profile"
-                to="/dashboard/my-profile"
-              >
-                <CgProfile className="text-xl" />
-                <span className="is-drawer-close:hidden">My Profile</span>
-              </Link>
-            </li>
             {role === "admin" && (
               <>
+                <li>
+                  <Link
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Add Scholarships"
+                    to="/dashboard/add-scholarships"
+                  >
+                    <RiGraduationCapLine className="text-xl" />
+                    <span className="is-drawer-close:hidden">
+                      Add Scholarships
+                    </span>
+                  </Link>
+                </li>
                 <li>
                   <Link
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
@@ -183,6 +190,16 @@ const DashboardLayout = () => {
                 </li>
               </>
             )}
+            <li>
+              <Link
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="My Profile"
+                to="/dashboard/my-profile"
+              >
+                <CgProfile className="text-xl" />
+                <span className="is-drawer-close:hidden">My Profile</span>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

@@ -26,6 +26,7 @@ import AdminRoute from "./AdminRoute";
 import AppliedApplication from "../Pages/Dashboard/AppliedApplications";
 import AllStudentReviews from "../Pages/Dashboard/AllStudentReviews";
 import ModeratorRoute from "./ModeratorRoute";
+import AddScholarships from "../Pages/Dashboard/AddScholarships";
 
 export const router = createBrowserRouter([
   {
@@ -138,6 +139,14 @@ export const router = createBrowserRouter([
         ),
       },
       // Admin Routes
+      {
+        path: "approve-moderators",
+        element: (
+          <AdminRoute>
+            <AddScholarships></AddScholarships>
+          </AdminRoute>
+        ),
+      },
       {
         path: "approve-moderators",
         element: (
