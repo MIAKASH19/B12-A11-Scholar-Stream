@@ -13,7 +13,7 @@ const ApplyScholarship = () => {
 
   useEffect(() => {
     axiosSecure
-      .get(`http://localhost:3000/scholarship-details/${id}`)
+      .get(`/scholarship-details/${id}`)
       .then((res) => {
         setScholarship(res.data);
         
@@ -72,7 +72,7 @@ const ApplyScholarship = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure
-          .post(`http://localhost:3000/applications`, applicationData)
+          .post(`/applications`, applicationData)
           .then((res) => {
             const data = res.data;
 

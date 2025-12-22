@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import ScholarCard from "./ScholarCard";
+import useAxiosSecure from './../Hooks/useAxiosSecure';
 
 const TopScholarships = () => {
   const [topScholarships, setTopScholarships] = useState([]);
+  const axiosSecure = useAxiosSecure();
+
   useEffect(() => {
-    fetch("http://localhost:3000/recent-scholarships")
-      .then((res) => res.json())
-      .then((data) => {
-        setTopScholarships(data);
+    axiosSecure.get('/recent-scholarships')
+      .then((res) => {
+        setTopScholarships(res.data); 
       })
       .catch((error) => {
         console.error("Failed to fetch scholarships:", error);

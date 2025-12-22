@@ -2,28 +2,27 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { motion } from "framer-motion";
 import ReviewsSection from "../Components/ReviewSection";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const ScholarshipDetails = () => {
   const { id } = useParams();
   const [scholarship, setScholarship] = useState(null);
   const [reviews, setReviews] = useState([]);
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure()
 
   const handleApply = () => {
     navigate(`/apply/${scholarship._id}`);
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/scholarship-details/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setScholarship(data);
-
-        return fetch(`http://localhost:3000/reviews?scholarshipId=${id}`);
+    axiosSecure.get(`/scholarship-details/${id}`)
+      .then((res) => {
+        setScholarship(res.data); 
+        return axiosSecure.get(`/reviews?scholarshipId=${id}`);
       })
-      .then((res) => res.json())
-      .then((reviewsData) => {
-        setReviews(reviewsData);
+      .then((res) => {
+        setReviews(res.data);
       })
       .catch((err) => console.error("Fetch error:", err));
   }, [id]);
