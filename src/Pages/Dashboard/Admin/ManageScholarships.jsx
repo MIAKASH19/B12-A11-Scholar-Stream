@@ -99,8 +99,7 @@ const ManageScholarships = () => {
         Manage Scholarships ({totalScholarships})
       </h2>
 
-      {/* ================= TABLE ================= */}
-      <div className="overflow-x-auto bg-white rounded-xl shadow border">
+      <div className="overflow-x-auto bg-white rounded-xl shadow border border-zinc-200">
         <table className="table">
           <thead className="bg-gray-100">
             <tr>
@@ -146,7 +145,7 @@ const ManageScholarships = () => {
                       className="btn text-lg hover:btn-info tooltip tooltip-top"
                       onClick={() => {
                         setSelectedScholarship(item);
-                        reset(item); // ⭐ prefill form
+                        reset(item); 
                         document
                           .getElementById("edit_scholarship_modal")
                           .showModal();
@@ -177,7 +176,6 @@ const ManageScholarships = () => {
         </table>
       </div>
 
-      {/* ================= PAGINATION ================= */}
       <div className="mt-10 flex justify-center gap-2">
         {currentPage > 0 && (
           <button onClick={() => setCurrentPage((p) => p - 1)} className="btn">
@@ -204,7 +202,6 @@ const ManageScholarships = () => {
         )}
       </div>
 
-      {/* ================= MODAL ================= */}
       <dialog id="edit_scholarship_modal" className="modal">
         <div className="modal-box max-w-2xl">
           <h3 className="font-semibold text-xl mb-4">Update Scholarship</h3>
@@ -213,7 +210,6 @@ const ManageScholarships = () => {
             onSubmit={handleSubmit(handleUpdateScholarship)}
             className="space-y-4"
           >
-            {/* Scholarship Name */}
             <div>
               <label className="label">Scholarship Name</label>
               <input
@@ -221,8 +217,6 @@ const ManageScholarships = () => {
                 className="input input-bordered w-full"
               />
             </div>
-
-            {/* University Name */}
             <div>
               <label className="label">University Name</label>
               <input
@@ -231,7 +225,6 @@ const ManageScholarships = () => {
               />
             </div>
 
-            {/* University Image */}
             <div>
               <label className="label">University Image URL</label>
               <input
@@ -240,7 +233,6 @@ const ManageScholarships = () => {
               />
             </div>
 
-            {/* Country & City */}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="label">Country</label>
@@ -258,8 +250,6 @@ const ManageScholarships = () => {
                 />
               </div>
             </div>
-
-            {/* World Rank */}
             <div>
               <label className="label">University World Rank</label>
               <input
@@ -269,7 +259,6 @@ const ManageScholarships = () => {
               />
             </div>
 
-            {/* Subject Category */}
             <div>
               <label className="label">Subject Category</label>
               <input
@@ -278,7 +267,6 @@ const ManageScholarships = () => {
               />
             </div>
 
-            {/* Scholarship Category */}
             <div>
               <label className="label">Scholarship Category</label>
               <select
@@ -291,7 +279,6 @@ const ManageScholarships = () => {
               </select>
             </div>
 
-            {/* Degree */}
             <div>
               <label className="label">Degree</label>
               <select
@@ -304,7 +291,6 @@ const ManageScholarships = () => {
               </select>
             </div>
 
-            {/* Fees */}
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <label className="label">Tuition Fees</label>
@@ -334,7 +320,6 @@ const ManageScholarships = () => {
               </div>
             </div>
 
-            {/* Deadline */}
             <div>
               <label className="label">Application Deadline</label>
               <input

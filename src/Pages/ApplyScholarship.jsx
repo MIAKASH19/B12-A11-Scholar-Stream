@@ -113,7 +113,7 @@ const ApplyScholarship = () => {
     });
   };
 
-  if (isLoading)
+  if (loading || !scholarship)
     return (
       <div className="flex justify-center mt-20">
         <span className="loading loading-spinner text-info"></span>

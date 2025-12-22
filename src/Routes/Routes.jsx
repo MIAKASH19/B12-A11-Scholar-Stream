@@ -30,6 +30,7 @@ import AddScholarships from "../Pages/Dashboard/Admin/AddScholarships";
 import ApproveModerator from "../Pages/Dashboard/Admin/ApproveModerator";
 import MangeScholarships from "../Pages/Dashboard/Admin/ManageScholarships";
 import StudentManagement from "../Pages/Dashboard/Admin/StudentManagement";
+import Analytics from "../Pages/Dashboard/Admin/Analytics";
 
 export const router = createBrowserRouter([
   {
@@ -171,6 +172,14 @@ export const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <StudentManagement></StudentManagement>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "analytics",
+        element: (
+          <AdminRoute>
+            <Analytics></Analytics>
           </AdminRoute>
         ),
       },

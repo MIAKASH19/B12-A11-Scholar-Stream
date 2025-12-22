@@ -1,18 +1,18 @@
 import React from "react";
 import { BsPersonWorkspace } from "react-icons/bs";
-import { CgProfile } from "react-icons/cg";
-import { FaUsers } from "react-icons/fa";
+import { CgFileDocument, CgProfile } from "react-icons/cg";
+import {  FaUsers } from "react-icons/fa";
 import { FaGoogleScholar } from "react-icons/fa6";
 import {
   MdOutlineRateReview,
   MdOutlineReviews,
   MdPayment,
 } from "react-icons/md";
-import { SiJirasoftware } from "react-icons/si";
-import { Link, Outlet } from "react-router";
+import { NavLink, Outlet } from "react-router";
 import useRole from "../Hooks/useRole";
 import { LuFileStack } from "react-icons/lu";
 import { RiGraduationCapLine, RiStickyNoteAddLine } from "react-icons/ri";
+import { TbBrandGoogleAnalytics } from "react-icons/tb";
 
 const DashboardLayout = () => {
   const { role } = useRole();
@@ -64,7 +64,7 @@ const DashboardLayout = () => {
           <ul className="menu w-full grow gap-4">
             {/* List item */}
             <li>
-              <Link
+              <NavLink
                 to="/"
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Home"
@@ -86,45 +86,57 @@ const DashboardLayout = () => {
                 <span className="is-drawer-close:hidden font-semibold">
                   Home
                 </span>
-              </Link>
+              </NavLink>
             </li>
 
             {/* Our Lists Items */}
 
             <li>
-              <Link
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+              <NavLink
+                className={({ isActive }) =>
+                  `is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2 px-3 py-2 rounded
+     ${isActive ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-blue-100"}`
+                }
                 data-tip="My Applications"
                 to="/dashboard/my-applications"
               >
-                <SiJirasoftware className="text-xl" />
+                <CgFileDocument  className="text-xl" />
                 <span className="is-drawer-close:hidden">My Applications</span>
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+              <NavLink
+                className={({ isActive }) =>
+                  `is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2 px-3 py-2 rounded
+     ${isActive ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-blue-100"}`
+                }
                 data-tip="My Reviews"
                 to="/dashboard/my-reviews"
               >
                 <MdOutlineReviews className="text-xl" />
                 <span className="is-drawer-close:hidden">My Reviews</span>
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+              <NavLink
+                className={({ isActive }) =>
+                  `is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2 px-3 py-2 rounded
+     ${isActive ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-blue-100"}`
+                }
                 data-tip="My Payments"
                 to="/dashboard/my-payments"
               >
                 <MdPayment className="text-xl" />
                 <span className="is-drawer-close:hidden">My Payments</span>
-              </Link>
+              </NavLink>
             </li>
             {(role === "moderator" || role === "admin") && (
               <li>
-                <Link
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                <NavLink
+                  className={({ isActive }) =>
+                    `is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2 px-3 py-2 rounded
+     ${isActive ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-blue-100"}`
+                  }
                   data-tip="Applied Applications"
                   to="/dashboard/applied-applications"
                 >
@@ -132,13 +144,16 @@ const DashboardLayout = () => {
                   <span className="is-drawer-close:hidden">
                     Applied Applications
                   </span>
-                </Link>
+                </NavLink>
               </li>
             )}
             {(role === "moderator" || role === "admin") && (
               <li>
-                <Link
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                <NavLink
+                  className={({ isActive }) =>
+                    `is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2 px-3 py-2 rounded
+     ${isActive ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-blue-100"}`
+                  }
                   data-tip="All Student Reviews"
                   to="/dashboard/all-student-reviews"
                 >
@@ -146,27 +161,33 @@ const DashboardLayout = () => {
                   <span className="is-drawer-close:hidden">
                     All Student Reviews
                   </span>
-                </Link>
+                </NavLink>
               </li>
             )}
 
             {role === "admin" && (
               <>
                 <li>
-                  <Link
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  <NavLink
+                    className={({ isActive }) =>
+                      `is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2 px-3 py-2 rounded
+     ${isActive ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-blue-100"}`
+                    }
                     data-tip="Add Scholarships"
                     to="/dashboard/add-scholarships"
                   >
-                    <RiStickyNoteAddLine className="text-xl"/>
+                    <RiStickyNoteAddLine className="text-xl" />
                     <span className="is-drawer-close:hidden">
                       Add Scholarships
                     </span>
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  <NavLink
+                    className={({ isActive }) =>
+                      `is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2 px-3 py-2 rounded
+     ${isActive ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-blue-100"}`
+                    }
                     data-tip="Manage Scholarships"
                     to="/dashboard/manage-scholarships"
                   >
@@ -174,11 +195,14 @@ const DashboardLayout = () => {
                     <span className="is-drawer-close:hidden">
                       Manage Scholarships
                     </span>
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  <NavLink
+                    className={({ isActive }) =>
+                      `is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2 px-3 py-2 rounded
+     ${isActive ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-blue-100"}`
+                    }
                     data-tip="Approve Moderators"
                     to="/dashboard/approve-moderators"
                   >
@@ -186,11 +210,14 @@ const DashboardLayout = () => {
                     <span className="is-drawer-close:hidden">
                       Approve Moderators
                     </span>
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  <NavLink
+                    className={({ isActive }) =>
+                      `is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2 px-3 py-2 rounded
+     ${isActive ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-blue-100"}`
+                    }
                     data-tip="Students Management"
                     to="/dashboard/students-management"
                   >
@@ -198,19 +225,37 @@ const DashboardLayout = () => {
                     <span className="is-drawer-close:hidden">
                       Students Management
                     </span>
-                  </Link>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className={({ isActive }) =>
+                      `is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2 px-3 py-2 rounded
+     ${isActive ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-blue-100"}`
+                    }
+                    data-tip="Analytics"
+                    to="/dashboard/analytics"
+                  >
+                    <TbBrandGoogleAnalytics className="text-xl" />
+                    <span className="is-drawer-close:hidden">
+                      Analytics
+                    </span>
+                  </NavLink>
                 </li>
               </>
             )}
             <li>
-              <Link
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+              <NavLink
+                className={({ isActive }) =>
+                  `is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-2 px-3 py-2 rounded
+     ${isActive ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-blue-100"}`
+                }
                 data-tip="My Profile"
                 to="/dashboard/my-profile"
               >
                 <CgProfile className="text-xl" />
                 <span className="is-drawer-close:hidden">My Profile</span>
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </div>
