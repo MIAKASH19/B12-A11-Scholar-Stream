@@ -1,16 +1,33 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Scholar_Stream
 
-Currently, two official plugins are available:
+**Scholar_Stream** is an online education platform where students can discover the best scholarships from top universities around the world. The platform helps students compare scholarships, find the best options, and pay online seamlessly.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+1. **Compare Scholarships**  
+   Students can compare different scholarships to choose the best one according to their needs and eligibility.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+2. **Find Best Prices**  
+   Find scholarships and educational programs that offer the most value, helping students save time and money.
 
-## Expanding the ESLint configuration
+3. **Online Payment**  
+   Students can complete payments online securely for scholarships or application fees.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+4. **Student can Apply in The scholarships**
+
+5. **Student can Take Feedback from moderators**
+
+6. **Student can Review their applied scholarships**
+
+7. **Admin Verify Moderators and Add Verified Scholarships**
+
+## Technologies Used
+
+- Frontend: HTML, CSS, JavaScript,Tailwind, React, Daisy Ui , React-icons, Framer-motion, Sweetalert2
+- Backend: Node.js, Express , cors,(or your backend)  
+- Authentication: Firebase,
+- Database: MongoDB   
+- Payment Integration: Stripe  
+
+
