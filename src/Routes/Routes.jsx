@@ -87,6 +87,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      { path: "*", Component: ErrorPage },
     ],
   },
   {
@@ -183,6 +184,7 @@ export const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
+      { path: "*", Component: ErrorPage },
     ],
   },
 ]);
