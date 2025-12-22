@@ -32,8 +32,8 @@ const ModeratorApply = () => {
   };
 
   return (
-    <div className="w-full md:min-h-screen flex items-center justify-center h-fit md:px-10 px-4 my-20">
-      <div className="md:w-1/2 w-full flex items-center justify-center border border-zinc-200 shadow-2xl rounded-2xl px-4">
+    <div className="w-full md:min-h-screen flex items-center justify-center h-fit px-4 my-20">
+      <div className="md:max-w-3xl w-full flex items-center justify-center border border-zinc-200 shadow-2xl rounded-2xl px-4">
         <div className="card md:w-4/5 w-full h-full py-6 pb-10">
           <h1 className="text-4xl font-semibold text-center">
             Apply for Moderator
@@ -45,7 +45,6 @@ const ModeratorApply = () => {
 
           <form onSubmit={handleSubmit(handleModeratorApply)}>
             <fieldset className="fieldset mt-4">
-              {/* Name (readonly) */}
               <label className="mt-2 text-sm">Name</label>
               <input
                 type="text"
@@ -55,7 +54,6 @@ const ModeratorApply = () => {
                 readOnly
               />
 
-              {/* Email (readonly) */}
               <label className="mt-2 text-sm">Email</label>
               <input
                 type="email"
@@ -65,7 +63,6 @@ const ModeratorApply = () => {
                 readOnly
               />
 
-              {/* Profession */}
               <label className="mt-2 text-sm">Profession</label>
               <input
                 type="text"
@@ -79,7 +76,6 @@ const ModeratorApply = () => {
                 </p>
               )}
 
-              {/* Age */}
               <label className="mt-2 text-sm">Age</label>
               <input
                 type="number"
@@ -93,7 +89,6 @@ const ModeratorApply = () => {
                 </p>
               )}
 
-              {/* Study Level */}
               <label className="mt-2 text-sm">Study Level</label>
               <select
                 className="input w-full rounded-sm border-[#e5e5e5]"
@@ -111,7 +106,6 @@ const ModeratorApply = () => {
                 </p>
               )}
 
-              {/* Message / Reason */}
               <label className="mt-2 text-sm">
                 Why do you want to become a Moderator?
               </label>

@@ -77,8 +77,8 @@ const Navbar = () => {
 
 
   return (
-    <div className="navbar bg-white fixed top-0 left-0 shadow-sm px-10 sm:px-0 md:px-8 z-99">
-      <div className="navbar-start flex items-center w-66 md:w-fit -ml-7 sm:ml-0 md:ml-0">
+    <div className="navbar bg-white flex items-center justify-between fixed top-0 left-0 shadow-sm px-10 sm:px-0 md:px-8 z-99">
+      <div className="navbar-start flex items-center -ml-7 sm:ml-0 md:ml-0">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg
@@ -104,10 +104,10 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <a className="font-semibold flex items-center gap-2 md:text-xl sm:text-sm text-xs">
+        <Link to="/" className="font-semibold flex items-center gap-2 md:text-xl sm:text-sm text-xs">
           <FaGoogleScholar className="text-blue-600 text-lg " />
-          Scholar-Stream
-        </a>
+          Scholar_Stream
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 flex gap-5">{links}</ul>

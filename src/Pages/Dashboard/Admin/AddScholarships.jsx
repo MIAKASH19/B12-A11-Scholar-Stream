@@ -2,8 +2,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAuth from "../../../Hooks/useAuth";
 
 const AddScholarship = () => {
+  const {user } = useAuth()
   const axiosSecure = useAxiosSecure();
 
   const {
@@ -15,7 +17,12 @@ const AddScholarship = () => {
 
   const addScholarship = async (data) => {
     try {
-      const response = await axiosSecure.post("/scholarships", data);
+      const postData = {
+        ...data,
+        scholarshipPostDate: new Date().toISOString(), 
+        postedUserEmail: user?.email || "unknown", 
+      };
+      const response = await axiosSecure.post("/scholarships", postData);
       if (response.data) {
         Swal.fire({
           icon: "success",

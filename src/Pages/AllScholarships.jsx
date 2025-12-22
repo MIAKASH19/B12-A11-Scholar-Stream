@@ -14,18 +14,18 @@ const AllScholarships = () => {
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
   const [searchText, setSearchText] = useState("");
+  const [sortOrder, setSortOrder] = useState(""); // "asc" বা "desc"
+
 
   const limit = 6;
 
   useEffect(() => {
     axiosSecure
       .get(
-        `http://localhost:3000/scholarships?limit=${limit}&skip=${
-          currentPage * limit
+        `/scholarships?limit=${limit}&skip=${currentPage * limit
         }&category=${category}&location=${location}&search=${encodeURIComponent(
           searchText
-        )}
-`
+        )}&sort=${sortOrder}`
       )
       .then((res) => {
         setScholarships(res.data.result);
@@ -36,7 +36,7 @@ const AllScholarships = () => {
       .catch((error) => {
         console.error("Failed to fetch scholarships:", error);
       });
-  }, [currentPage, category, location, searchText]);
+  }, [currentPage, category, location, searchText,sortOrder]);
 
   useEffect(() => {
     axiosSecure
@@ -74,7 +74,7 @@ const AllScholarships = () => {
                 setSearchText(e.target.value);
                 setCurrentPage(0);
               }}
-              value={searchText} 
+              value={searchText}
               type="text"
               placeholder="Search by scholarship, university or degree..."
               className="w-full rounded-xl border border-zinc-300 bg-white px-5 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
@@ -112,6 +112,19 @@ const AllScholarships = () => {
                 </option>
               ))}
             </select>
+
+            {/* Sorting Data */}
+            <select
+              onChange={(e) => {
+                setCurrentPage(0);
+                setSortOrder(e.target.value);
+              }}
+              className="w-full md:w-50 rounded-xl border border-zinc-300 bg-white px-2 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
+            >
+              <option value="desc">Descending post Date</option>
+              <option value="asc">Ascending post Date</option>
+            </select>
+
           </div>
         </div>
       </div>
@@ -145,11 +158,10 @@ const AllScholarships = () => {
           <button
             key={pageNumber}
             onClick={() => setCurrentPage(pageNumber)}
-            className={`btn border border-zinc-300  hover:bg-blue-600 hover:border-blue-600 ${
-              currentPage === pageNumber
-                ? "bg-blue-600 text-white"
-                : "bg-white text-black"
-            }`}
+            className={`btn border border-zinc-300  hover:bg-blue-600 hover:border-blue-600 ${currentPage === pageNumber
+              ? "bg-blue-600 text-white"
+              : "bg-white text-black"
+              }`}
           >
             {pageNumber + 1}
           </button>

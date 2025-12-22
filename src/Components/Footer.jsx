@@ -16,14 +16,14 @@ const Footer = () => {
     <div className="min-h-screen relative flex flex-col items-center p-3 pt-10 md:pt-3 border-t border-zinc-200 overflow-hidden">
       <div className="bg-blue-200 w-100 h-70 absolute top-80 left-0 blur-2xl scale-200 rounded-full"></div>
       <div className="bg-pink-100 w-100 h-70 absolute top-80 right-0 blur-2xl scale-200 rounded-full"></div>
-      <h1 className="md:text-6xl text-5xl text-center md:w-1/2 w-full md:font-medium font-semiboldpt-10 relative">
+      <h1 className="md:text-6xl text-5xl text-center md:w-1/2 w-full md:font-normal font-semibold pt-10 relative">
         Ready to Take Challenge in Your Study?
       </h1>
       <p className="relative text-sm md:w-1/2 w-full text-center mt-5 opacity-85">
         Discover verified local and international scholarships in one place.
         Search, compare, and apply with confidence, all from a single platform.
       </p>
-      <div className="md:flex hidden gap-8 bg-red-500 mt-5">
+      <div className="md:flex hidden gap-8  mt-5">
         <button className="bg-blue-600 px-5 py-2 rounded-full text-white text-sm font-medium shadow-2xl cursor-pointer">
           Get Start
         </button>
@@ -37,7 +37,7 @@ const Footer = () => {
             <h1 className="text-3xl font-semibold flex items-center gap-2">
               {" "}
               <FaGoogleScholar className="text-blue-600" />
-              Scholar-Stream
+              Scholar_Stream
             </h1>
             <p className="w-fit tracking-tight text-sm">
               Sign Up to Enjoy Your Learning.
