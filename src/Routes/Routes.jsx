@@ -17,16 +17,19 @@ import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess";
 import PaymentCancel from "../Pages/Dashboard/Payment/PaymentCancel";
 import MyPayments from "../Pages/Dashboard/MyPayments";
 import ModeratorApply from "../Pages/ModeratorApply";
-import ApproveModerator from "../Pages/Dashboard/ApproveModerator";
 import LoadingPage from "../Pages/LoadingPage";
 import AboutUs from "../Pages/AboutUs";
-import StudentManagement from "../Pages/Dashboard/StudentManagement";
 import Forbidden from "../Pages/Forbidden";
-import AdminRoute from "./AdminRoute";
-import AppliedApplication from "../Pages/Dashboard/AppliedApplications";
-import AllStudentReviews from "../Pages/Dashboard/AllStudentReviews";
+//Moderator Routes Path
 import ModeratorRoute from "./ModeratorRoute";
-import AddScholarships from "../Pages/Dashboard/AddScholarships";
+import AppliedApplication from "../Pages/Dashboard/Moderator/AppliedApplications";
+import AllStudentReviews from "../Pages/Dashboard/Moderator/AllStudentReviews";
+// Admin Routes Path
+import AdminRoute from "./AdminRoute";
+import AddScholarships from "../Pages/Dashboard/Admin/AddScholarships";
+import ApproveModerator from "../Pages/Dashboard/Admin/ApproveModerator";
+import MangeScholarships from "../Pages/Dashboard/Admin/ManageScholarships";
+import StudentManagement from "../Pages/Dashboard/Admin/StudentManagement";
 
 export const router = createBrowserRouter([
   {
@@ -140,10 +143,18 @@ export const router = createBrowserRouter([
       },
       // Admin Routes
       {
-        path: "approve-moderators",
+        path: "add-scholarships",
         element: (
           <AdminRoute>
             <AddScholarships></AddScholarships>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "manage-scholarships",
+        element: (
+          <AdminRoute>
+            <MangeScholarships></MangeScholarships>
           </AdminRoute>
         ),
       },

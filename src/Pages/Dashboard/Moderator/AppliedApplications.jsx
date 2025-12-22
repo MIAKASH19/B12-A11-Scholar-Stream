@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FaEye, FaCommentDots, FaTimes } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
@@ -76,7 +76,12 @@ const AppliedApplications = () => {
     }
   };
 
-  if (isLoading) return <div>Loading applications...</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center mt-20">
+        <span className="loading loading-spinner text-info"></span>
+      </div>
+    );
 
   return (
     <div className="p-6">

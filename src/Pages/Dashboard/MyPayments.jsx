@@ -15,7 +15,12 @@ const MyPayments = () => {
     },
   });
 
-  if (isLoading) return <div className="p-6">Loading payments...</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center mt-20">
+        <span className="loading loading-spinner text-info"></span>
+      </div>
+    );
 
   return (
     <div className="p-6">

@@ -23,19 +23,18 @@ const ScholarshipDetails = () => {
       })
       .then((res) => res.json())
       .then((reviewsData) => {
-        console.log(reviewsData)
+        console.log(reviewsData);
         setReviews(reviewsData);
       })
       .catch((err) => console.error("Fetch error:", err));
   }, [id]);
 
-  if (!scholarship) {
+  if (!scholarship)
     return (
-      <div className="h-screen flex items-center justify-center">
-        Loading scholarship details...
+      <div className="flex justify-center mt-20">
+        <span className="loading loading-spinner text-info"></span>
       </div>
     );
-  }
 
   return (
     <div className="min-h-screen relative overflow-hidden px-4 py-24">
@@ -80,7 +79,8 @@ const ScholarshipDetails = () => {
             </div>
             <div className="px-3 py-2 rounded-full border border-zinc-300 text-sm">
               <h1>
-                <span className="text-zinc-500">Degree :</span> {scholarship.degree}
+                <span className="text-zinc-500">Degree :</span>{" "}
+                {scholarship.degree}
               </h1>
             </div>
             <div className="px-3 py-2 rounded-full border border-zinc-300 text-sm">
@@ -93,12 +93,25 @@ const ScholarshipDetails = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
             <Info label="University City" value={scholarship.universityCity} />
-            <Info label="World Rank" value={`#${scholarship.universityWorldRank}`} />
-            <Info label="Application Fee" value={`$${scholarship.applicationFees}`} />
-            <Info label="Service Charge" value={`$${scholarship.serviceCharge}`} />
+            <Info
+              label="World Rank"
+              value={`#${scholarship.universityWorldRank}`}
+            />
+            <Info
+              label="Application Fee"
+              value={`$${scholarship.applicationFees}`}
+            />
+            <Info
+              label="Service Charge"
+              value={`$${scholarship.serviceCharge}`}
+            />
             <Info
               label="Tuition Fees"
-              value={scholarship.tuitionFees ? `$${scholarship.tuitionFees}` : "Fully Funded"}
+              value={
+                scholarship.tuitionFees
+                  ? `$${scholarship.tuitionFees}`
+                  : "Fully Funded"
+              }
             />
             <Info label="Deadline" value={scholarship.applicationDeadline} />
           </div>

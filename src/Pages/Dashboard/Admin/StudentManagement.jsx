@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import useAuth from "../../Hooks/useAuth";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { FaUserShield, FaUserSlash } from "react-icons/fa6";
 import Swal from "sweetalert2";
@@ -13,6 +12,7 @@ const StudentManagement = () => {
   const {
     refetch,
     data: users = [],
+    isLoading
   } = useQuery({
     queryKey: ["Users", searchText],
     queryFn: async () => {
@@ -77,6 +77,13 @@ const StudentManagement = () => {
       }
     });
   };
+  
+  if (isLoading)
+    return (
+      <div className="flex justify-center mt-20">
+        <span className="loading loading-spinner text-info"></span>
+      </div>
+    );
 
   return (
     <div className="px-6 py-4">

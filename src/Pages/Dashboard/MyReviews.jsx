@@ -4,6 +4,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const MyReviews = () => {
   const { user } = useAuth();
@@ -23,20 +24,45 @@ const MyReviews = () => {
   });
 
   const handleDelete = async (reviewId) => {
-    if (!window.confirm("Are you sure you want to delete this review?")) return;
+    const result = await Swal.fire({
+      title: "Delete this Review?",
+      text: "This action cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc2626",
+      confirmButtonText: "Yes, delete",
+    });
+
+    if (!result.isConfirmed) return;
     try {
       await axiosSecure.delete(`/reviews/${reviewId}`);
       queryClient.invalidateQueries(["myReviews", user.email]);
-      alert("Review deleted successfully");
+      Swal.fire({
+        icon: "success",
+        title: "Deleted!",
+        text: "Your review has been removed.",
+        timer: 1500,
+        showConfirmButton: false,
+      });
     } catch (err) {
       console.error(err);
-      alert("Failed to delete review");
+      Swal.fire({
+        icon: "error",
+        title: "Review Delete Failed!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
     }
   };
 
   const handleUpdate = async () => {
     if (updatedComment.trim() === "" || updatedRating === 0) {
-      alert("Please provide rating and comment!");
+      Swal.fire({
+        icon: "error",
+        title: "Please provide rating and comment!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
       return;
     }
     try {
@@ -46,14 +72,29 @@ const MyReviews = () => {
       });
       queryClient.invalidateQueries(["myReviews", user.email]);
       document.getElementById("edit_review_modal").close();
-      alert("Review updated successfully");
+      Swal.fire({
+        icon: "success",
+        title: "Review updated successfully",
+        timer: 1500,
+        showConfirmButton: false,
+      });
     } catch (err) {
       console.error(err);
-      alert("Failed to update review");
+      Swal.fire({
+        icon: "error",
+        title: "Failed to update review",
+        timer: 1500,
+        showConfirmButton: false,
+      });
     }
   };
 
-  if (isLoading) return <div>Loading reviews...</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center mt-20">
+        <span className="loading loading-spinner text-info"></span>
+      </div>
+    );
 
   return (
     <div className="p-6">
@@ -62,9 +103,7 @@ const MyReviews = () => {
       </h1>
 
       {reviews.length === 0 ? (
-        <div className="text-center text-gray-500 py-10">
-          No Reviews found.
-        </div>
+        <div className="text-center text-gray-500 py-10">No Reviews found.</div>
       ) : (
         <div className="overflow-x-auto rounded-2xl">
           <table className="table table-zebra w-full">

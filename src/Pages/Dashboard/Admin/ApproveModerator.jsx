@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { useQuery} from "@tanstack/react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FaCheckCircle, FaRegTrashAlt, FaTimesCircle } from "react-icons/fa";
 import { BiDetail } from "react-icons/bi";
 import Swal from "sweetalert2";
@@ -69,7 +69,11 @@ const ApproveModerator = () => {
   };
 
   if (isLoading)
-    return <div className="p-6">Loading Moderator applications...</div>;
+    return (
+      <div className="flex justify-center mt-20">
+        <span className="loading loading-spinner text-info"></span>
+      </div>
+    );
 
   return (
     <div className="p-6">

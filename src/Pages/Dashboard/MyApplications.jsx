@@ -45,13 +45,25 @@ const MyApplications = () => {
       });
 
       if (res.data.modifiedCount > 0) {
-        alert("Application updated!");
+        Swal.fire({
+          icon: "success",
+          title: "Application Updated!",
+          text: "Your application has been updated successfully.",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+        ("Application updated!");
         document.getElementById("edit_modal").close();
         queryClient.invalidateQueries(["myApplications", user.email]);
       }
     } catch (error) {
       console.error(error);
-      alert("Update failed");
+      Swal.fire({
+        icon: "error",
+        title: "Update failed",
+        timer: 1500,
+        showConfirmButton: false,
+      });
     }
   };
 
@@ -79,14 +91,24 @@ const MyApplications = () => {
         queryClient.invalidateQueries(["myApplications", user.email]);
       } catch (error) {
         console.error(error);
-        alert("Failed to delete application");
+        Swal.fire({
+          icon: "error",
+          title: "Failed to delete application",
+          timer: 1500,
+          showConfirmButton: false,
+        });
       }
     });
   };
 
   const handleSubmitReview = async () => {
     if (reviewRating === 0 || reviewComment.trim() === "") {
-      alert("Please provide rating and comment!");
+      Swal.fire({
+        icon: "error",
+        title: "Please provide rating and comment!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
       return;
     }
 
@@ -106,23 +128,33 @@ const MyApplications = () => {
       console.log(response);
 
       if (response.data.success) {
-        alert("Review submitted!");
+        Swal.fire({
+          icon: "success",
+          title: "Review submitted!",
+          timer: 1500,
+          showConfirmButton: false,
+        });
         document.getElementById("my_review_modal").close();
         setReviewRating(0);
         setReviewComment("");
         queryClient.invalidateQueries(["myApplications", user.email]);
       }
     } catch (error) {
-      if (error.response?.status === 409) {
-        alert("You already submitted a review for this application.");
-      } else {
-        console.error(error);
-        alert("Failed to submit review. Try again later.");
-      }
+      Swal.fire({
+        icon: "error",
+        title: "Review submission failed",
+        timer: 1500,
+        showConfirmButton: false,
+      });
     }
   };
 
-  if (isLoading) return <div className="p-6">Loading applications...</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center mt-20">
+        <span className="loading loading-spinner text-info"></span>
+      </div>
+    );
 
   return (
     <div className="p-6 ">
@@ -214,7 +246,7 @@ const MyApplications = () => {
                         {app.paymentStatus === "unpaid" && (
                           <Link to={`/dashboard/payment/${app._id}`}>
                             <button
-                              className="btn text-lg hover:btn-primary tooltip tooltip-top "
+                              className="btn text-lg hover:btn-primary tooltip tooltip-top"
                               data-tip="Payment"
                             >
                               <MdPayment />

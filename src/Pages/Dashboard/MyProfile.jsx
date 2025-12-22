@@ -7,25 +7,6 @@ const MyProfile = () => {
   const { user, setUser } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  // const handleUpdateProfile = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const updatedUser = { displayName: name, photoURL };
-  //     const res = await axiosSecure.put(`/users/${user.email}`, updatedUser);
-
-  //     if (res.data.success) {
-  //       alert("Profile updated successfully!");
-  //       setUser({ ...user, ...updatedUser });
-  //     } else {
-  //       alert("Failed to update profile.");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert("Something went wrong. Try again.");
-  //   }
-  //   setLoading(false);
-  // };
-
   const { data: scholarUser = {}, isLoading } = useQuery({
     queryKey: ["user-profile", user?.email],
     queryFn: async () => {

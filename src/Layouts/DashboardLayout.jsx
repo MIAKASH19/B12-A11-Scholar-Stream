@@ -12,7 +12,7 @@ import { SiJirasoftware } from "react-icons/si";
 import { Link, Outlet } from "react-router";
 import useRole from "../Hooks/useRole";
 import { LuFileStack } from "react-icons/lu";
-import { RiGraduationCapLine } from "react-icons/ri";
+import { RiGraduationCapLine, RiStickyNoteAddLine } from "react-icons/ri";
 
 const DashboardLayout = () => {
   const { role } = useRole();
@@ -158,9 +158,21 @@ const DashboardLayout = () => {
                     data-tip="Add Scholarships"
                     to="/dashboard/add-scholarships"
                   >
-                    <RiGraduationCapLine className="text-xl" />
+                    <RiStickyNoteAddLine className="text-xl"/>
                     <span className="is-drawer-close:hidden">
                       Add Scholarships
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Manage Scholarships"
+                    to="/dashboard/manage-scholarships"
+                  >
+                    <RiGraduationCapLine className="text-xl" />
+                    <span className="is-drawer-close:hidden">
+                      Manage Scholarships
                     </span>
                   </Link>
                 </li>

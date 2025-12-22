@@ -5,10 +5,10 @@ import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { GoSearch } from "react-icons/go";
 
 const AllScholarships = () => {
-  const [scholarships, setScholarships] = useState([]);
   const axiosSecure = useAxiosSecure();
   const [countries, setCountries] = useState([]);
   const [totalScholarships, setTotalScholarships] = useState(0);
+  const [scholarships, setScholarships] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [category, setCategory] = useState("");

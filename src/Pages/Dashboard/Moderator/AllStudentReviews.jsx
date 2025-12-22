@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { FaTrash, FaStar, FaEye } from "react-icons/fa";
 
@@ -114,8 +114,7 @@ const AllStudentReviews = () => {
 
                   <td className="flex justify-center gap-3">
                     <button
-                      className="btn btn-sm btn-outline border-gray-300 text-gray-600 
-               hover:bg-gray-100 hover:border-gray-400 tooltip"
+                      className="btn text-lg hover:btn-info tooltip tooltip-top"
                       data-tip="View Review"
                       onClick={() => handleView(review)}
                     >
@@ -123,8 +122,7 @@ const AllStudentReviews = () => {
                     </button>
 
                     <button
-                      className="btn btn-sm btn-outline border-red-300 text-red-500 
-               hover:bg-red-50 hover:border-red-500 tooltip"
+                      className="btn text-lg hover:btn-error tooltip tooltip-top"
                       data-tip="Delete Review"
                       onClick={() => handleDelete(review._id)}
                     >

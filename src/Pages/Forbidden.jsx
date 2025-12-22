@@ -8,7 +8,6 @@ const Forbidden = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6 py-20">
       <div className="max-w-md w-full text-center">
-        {/* Illustration/Icon Area */}
         <div className="relative flex justify-center mb-8">
           <div className="absolute inset-0 bg-red-100 rounded-full blur-3xl opacity-50 scale-150"></div>
           <div className="relative bg-white p-6 rounded-2xl shadow-xl border border-red-50">

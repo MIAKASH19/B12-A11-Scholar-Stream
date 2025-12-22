@@ -29,7 +29,12 @@ const ApplyScholarship = () => {
     const form = e.target;
 
     if (!form.name || !form.university || !form.category || !form.degree) {
-      alert("Name missing in form field.");
+      Swal.fire({
+        icon: "error",
+        title: "Name missing in form field.",
+        timer: 1500,
+        showConfirmButton: false,
+      });
       return;
     }
 
@@ -108,10 +113,13 @@ const ApplyScholarship = () => {
     });
   };
 
-  if (loading || !scholarship) {
-    return <p className="text-center mt-20">Loading scholarship...</p>;
-  }
-
+  if (isLoading)
+    return (
+      <div className="flex justify-center mt-20">
+        <span className="loading loading-spinner text-info"></span>
+      </div>
+    );
+    
   return (
     <div className="max-w-5xl mx-auto px-4 py-20">
       <div className="bg-white shadow rounded-lg p-6 mb-8">
@@ -249,7 +257,10 @@ const ApplyScholarship = () => {
           </p>
         </div>
 
-        <button type="submit" className="btn bg-blue-600 text-white rounded-full w-full">
+        <button
+          type="submit"
+          className="btn bg-blue-600 text-white rounded-full w-full"
+        >
           Apply & Proceed to Payment
         </button>
       </form>
