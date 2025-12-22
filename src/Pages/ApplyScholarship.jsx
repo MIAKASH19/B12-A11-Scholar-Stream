@@ -7,20 +7,23 @@ import Swal from "sweetalert2";
 const ApplyScholarship = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, loading, setLoading } = useAuth();
+  const { user, loading} = useAuth();
   const axiosSecure = useAxiosSecure();
   const [scholarship, setScholarship] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
     axiosSecure
       .get(`http://localhost:3000/scholarship-details/${id}`)
       .then((res) => {
         setScholarship(res.data);
-        setLoading(false);
+        
       })
-      .catch(() => {
-        setLoading(false);
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Failed to load scholarship details. Please try again later.",
+        });
       });
   }, [id]);
 
@@ -57,7 +60,6 @@ const ApplyScholarship = () => {
       feedback: "",
     };
 
-    console.log(applicationData);
 
     Swal.fire({
       title: "Are you sure to Apply?",
@@ -81,7 +83,7 @@ const ApplyScholarship = () => {
                 ...applicationData,
                 applicationId: applicationId,
               };
-              console.log("Application Data with ID:", updatedApplicationData);
+              
               if (applicationId) {
                 navigate(`/dashboard/my-applications`);
               }

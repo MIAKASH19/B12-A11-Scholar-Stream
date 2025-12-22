@@ -15,8 +15,8 @@ const TopScholarships = () => {
   }, []);
 
   return (
-    <div className="min-h-screen p-10">
-      <h1 className="text-center text-6xl font-medium border-b border-zinc-300 pb-4">
+    <div className="min-h-screen md:p-10 p-7">
+      <h1 className="text-center text-4xl md:text-6xl md:font-medium font-semibold border-b border-zinc-300 pb-4">
        Top Scholarships
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">

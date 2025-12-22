@@ -1,6 +1,5 @@
 import React from "react";
 import Marquee from "react-fast-marquee";
-import hero from "../../public/men1.jpeg";
 import { Link } from "react-router";
 
 const cardData = [
@@ -29,17 +28,17 @@ const cardData = [
 
 const Banner = () => {
   return (
-    <div className="w-full min-h-screen relative flex flex-col gap-5 items-center justify-center pt-26 overflow-hidden pb-20">
+    <div className="w-full max-w-7xl min-h-screen relative flex flex-col gap-5 items-center justify-center pt-26 overflow-hidden pb-20">
       <div className="bg-blue-200 w-100 h-70 absolute top-80 left-0 blur-2xl scale-200 rounded-full" />
       <div className="bg-pink-100 w-100 h-70 absolute top-80 right-0 blur-2xl scale-200 rounded-full" />
 
-      <h1 className="text-6xl w-[70%] relative text-center font-medium">
+      <h1 className="md:text-6xl text-5xl md:w-[70%] w-[90%] relative text-center font-medium ">
         We Bring the Best
         <span className="text-blue-600"> Scholarships </span>
         Right to Your Door
       </h1>
 
-      <p className="text-sm w-1/2 text-center relative text-gray-600">
+      <p className="text-sm md:w-1/2 w-[90%] text-center relative text-gray-600">
         Discover verified local and international scholarships in one place.
         Search, compare, and apply with confidence, all from a single platform.
       </p>
@@ -52,11 +51,11 @@ const Banner = () => {
       </Link>
 
       <div className="w-full mt-10">
-        <Marquee speed={80} gradient={false} pauseOnHover className="h-[50vh] ">
+        <Marquee speed={80} gradient={false} pauseOnHover className="h-[50vh]">
           {cardData.map((item, i) => (
             <div
               key={i}
-              className="mx-3 h-[40vh] w-[430px] relative rounded-2xl overflow-hidden shadow-lg"
+              className="mx-3 h-[40vh] w-107.5 relative rounded-2xl overflow-hidden shadow-lg"
             >
               <img
                 src={item.image}

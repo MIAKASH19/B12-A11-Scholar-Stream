@@ -163,7 +163,7 @@ const AboutUs = () => {
           opportunities with ScholarStream.
         </p>
 
-        <button className="px-8 py-3 rounded-xl bg-white text-blue-600 font-medium hover:bg-gray-100 transition">
+        <button className="px-8 py-3 rounded-full bg-white text-blue-600 font-medium hover:bg-gray-100 transition">
           Explore Scholarships
         </button>
       </section>

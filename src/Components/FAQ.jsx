@@ -40,10 +40,10 @@ const FAQ = () => {
     <section className="w-full py-24 bg-linear-to-b from-slate-50 to-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-6xl font-medium">
+          <h2 className="md:text-6xl text-4xl md:font-medium font-semibold">
             Frequently Asked <span className="text-blue-600">Questions</span>
           </h2>
-          <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-sm">
+          <p className="mt-4 text-gray-600 max-w-3xl mx-auto text-sm">
             Everything you need to know about using ScholarStream and finding
             the right scholarship for you.
           </p>

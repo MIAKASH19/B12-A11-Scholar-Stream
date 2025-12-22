@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { FaUserShield, FaUserSlash } from "react-icons/fa6";
 import Swal from "sweetalert2";
 import { GoSearch } from "react-icons/go";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 const StudentManagement = () => {
   const axiosSecure = useAxiosSecure();
@@ -17,7 +18,7 @@ const StudentManagement = () => {
     queryKey: ["Users", searchText],
     queryFn: async () => {
       const res = await axiosSecure.get(`/users?searchText=${encodeURIComponent(searchText)}`);
-      console.log(res.data);
+      // console.log(res.data);
       return res.data;
     },
   });
@@ -34,7 +35,7 @@ const StudentManagement = () => {
       if (result.isConfirmed) {
         const roleinfo = { role: "admin" };
         axiosSecure.patch(`/users/${user._id}/role`, roleinfo).then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           if (res.data.modifiedCount > 0) {
             refetch();
             Swal.fire({
@@ -62,7 +63,7 @@ const StudentManagement = () => {
       if (result.isConfirmed) {
         const roleinfo = { role: "student" };
         axiosSecure.patch(`/users/${user._id}/role`, roleinfo).then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           if (res.data.modifiedCount > 0) {
             refetch();
             Swal.fire({
@@ -77,7 +78,29 @@ const StudentManagement = () => {
       }
     });
   };
-  
+
+  const handleDelete = (user) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/users/${user._id}`).then((res) => {
+          // console.log(res.data);
+          if (res.data.deletedCount > 0) {
+            refetch();
+            Swal.fire("Deleted!", "User has been deleted.", "success");
+          }
+        });
+      }
+    });
+  };
+
   if (isLoading)
     return (
       <div className="flex justify-center mt-20">
@@ -87,7 +110,7 @@ const StudentManagement = () => {
 
   return (
     <div className="px-6 py-4">
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex flex-col md:flex-row items-center justify-between mb-5">
         <h1 className="text-2xl font-semibold mb-6">
           Manage Students {users.length}
         </h1>
@@ -165,7 +188,13 @@ const StudentManagement = () => {
                   )}
                 </td>
                 <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
+                  <button
+                    onClick={() => handleDelete(user)}
+                    className="btn hover:bg-error tooltip tooltip-top "
+                    data-tip="Delete User"
+                  >
+                    <FaRegTrashAlt className="text-lg" />
+                  </button>
                 </th>
               </tr>
             ))}

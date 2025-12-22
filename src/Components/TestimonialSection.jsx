@@ -29,10 +29,10 @@ const Testimonials = () => {
     <section className="w-full py-24 bg-linear-to-b from-white to-slate-50">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-6xl font-medium">
+          <h2 className="md:text-6xl text-4xl font-semibold md:font-medium ">
             What Students <span className="text-blue-600">Say</span>
           </h2>
-          <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-sm">
+          <p className="mt-4 text-gray-600 max-w-3xl mx-auto text-sm">
             Real experiences from students who found and applied for
             scholarships using ScholarStream.
           </p>

@@ -30,7 +30,7 @@ const MyApplications = () => {
     queryKey: ["myApplications", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/applications?email=${user.email}`);
-      console.log(res.data);
+      // console.log(res.data);
       return res.data;
     },
   });
@@ -167,125 +167,205 @@ const MyApplications = () => {
           No Application found.
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-2xl">
-          <table className="table table-zebra w-full">
-            <thead className="bg-gray-100">
-              <tr>
-                <th>Sl</th>
-                <th>University</th>
-                <th>Address</th>
-                <th>Feedback</th>
-                <th>Category</th>
-                <th>App. Status</th>
-                <th>Pay. Status</th>
-                <th>Fees</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {applications.map((app, index) => (
-                <tr key={app._id}>
-                  <td>{index + 1}</td>
-                  <td className="font-medium text-xs">{app.universityName}</td>
-                  <td className="font-medium text-xs">
-                    {app.universityAddress}
-                  </td>
-                  <td className="font-medium text-xs">
-                    {app.feedback || "No feedback yet"}
-                  </td>
-                  <td className="font-medium text-xs">{app.subjectCategory}</td>
-                  <td>
-                    <span
-                      className={`badge font-semibold rounded-sm capitalize ${
-                        app.applicationStatus === "pending"
+        <>
+          <div className="overflow-x-auto hidden md:block rounded-2xl">
+            <table className="table table-zebra w-full">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th>Sl</th>
+                  <th>University</th>
+                  <th>Address</th>
+                  <th>Feedback</th>
+                  <th>Category</th>
+                  <th>App. Status</th>
+                  <th>Pay. Status</th>
+                  <th>Fees</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {applications.map((app, index) => (
+                  <tr key={app._id}>
+                    <td>{index + 1}</td>
+                    <td className="font-medium text-xs">{app.universityName}</td>
+                    <td className="font-medium text-xs">
+                      {app.universityAddress}
+                    </td>
+                    <td className="font-medium text-xs">
+                      {app.feedback || "No feedback yet"}
+                    </td>
+                    <td className="font-medium text-xs">{app.subjectCategory}</td>
+                    <td>
+                      <span
+                        className={`badge font-semibold rounded-sm capitalize ${app.applicationStatus === "pending"
                           ? "badge-warning"
                           : app.applicationStatus === "completed"
-                          ? "badge-success"
-                          : "badge-error"
-                      }`}
-                    >
-                      {app.applicationStatus}
-                    </span>
-                  </td>
-                  <td>
-                    {app.paymentStatus === "paid" ? (
-                      <span className="flex items-center gap-2 text-green-600 font-semibold">
-                        <FaCheckCircle /> Paid
+                            ? "badge-success"
+                            : "badge-error"
+                          }`}
+                      >
+                        {app.applicationStatus}
                       </span>
-                    ) : (
-                      <span className="flex items-center gap-2 text-yellow-500 font-semibold">
-                        <FaClock /> Unpaid
-                      </span>
-                    )}
-                  </td>
-                  <td className="font-semibold text-xs">${app.totalCost}</td>
-                  <td className="flex gap-2 flex-wrap">
-                    <button
-                      className="btn text-lg hover:btn-success tooltip tooltip-top"
-                      data-tip="Details"
-                      onClick={() => {
-                        setSelectedApp(app);
-                        document.getElementById("detail_modal").showModal();
-                      }}
-                    >
-                      <BiDetail />
-                    </button>
-                    {app.applicationStatus === "pending" && (
-                      <>
-                        <button
-                          className="btn text-lg hover:btn-warning tooltip tooltip-top"
-                          data-tip="Edit"
-                          onClick={() => {
-                            setEditApp(app);
-                            document.getElementById("edit_modal").showModal();
-                          }}
-                        >
-                          <FaEdit />
-                        </button>
-
-                        {app.paymentStatus === "unpaid" && (
-                          <Link to={`/dashboard/payment/${app._id}`}>
-                            <button
-                              className="btn text-lg hover:btn-primary tooltip tooltip-top"
-                              data-tip="Payment"
-                            >
-                              <MdPayment />
-                            </button>
-                          </Link>
-                        )}
-                        {app.applicationStatus === "pending" && (
-                          <button
-                            className="btn text-lg hover:btn-error tooltip tooltip-top"
-                            data-tip="Delete"
-                            onClick={() => handleDeleteApplication(app._id)}
-                          >
-                            <FaRegTrashAlt />
-                          </button>
-                        )}
-                      </>
-                    )}
-                    {app.applicationStatus === "completed" && (
+                    </td>
+                    <td>
+                      {app.paymentStatus === "paid" ? (
+                        <span className="flex items-center gap-2 text-green-600 font-semibold">
+                          <FaCheckCircle /> Paid
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-2 text-yellow-500 font-semibold">
+                          <FaClock /> Unpaid
+                        </span>
+                      )}
+                    </td>
+                    <td className="font-semibold text-xs">${app.totalCost}</td>
+                    <td className="flex gap-2 flex-wrap">
                       <button
-                        className="btn text-lg hover:btn-info tooltip tooltip-top "
-                        data-tip="Add Review"
+                        className="btn text-lg hover:btn-success tooltip tooltip-top"
+                        data-tip="Details"
                         onClick={() => {
                           setSelectedApp(app);
-                          setReviewComment("");
-                          setReviewRating(0);
-                          document
-                            .getElementById("my_review_modal")
-                            .showModal();
+                          document.getElementById("detail_modal").showModal();
                         }}
                       >
-                        <IoIosAddCircleOutline />
+                        <BiDetail />
                       </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                      {app.applicationStatus === "pending" && (
+                        <>
+                          <button
+                            className="btn text-lg hover:btn-warning tooltip tooltip-top"
+                            data-tip="Edit"
+                            onClick={() => {
+                              setEditApp(app);
+                              document.getElementById("edit_modal").showModal();
+                            }}
+                          >
+                            <FaEdit />
+                          </button>
+
+                          {app.paymentStatus === "unpaid" && (
+                            <Link to={`/dashboard/payment/${app._id}`}>
+                              <button
+                                className="btn text-lg hover:btn-primary tooltip tooltip-top"
+                                data-tip="Payment"
+                              >
+                                <MdPayment />
+                              </button>
+                            </Link>
+                          )}
+                          {app.applicationStatus === "pending" && (
+                            <button
+                              className="btn text-lg hover:btn-error tooltip tooltip-top"
+                              data-tip="Delete"
+                              onClick={() => handleDeleteApplication(app._id)}
+                            >
+                              <FaRegTrashAlt />
+                            </button>
+                          )}
+                        </>
+                      )}
+                      {app.applicationStatus === "completed" && (
+                        <button
+                          className="btn text-lg hover:btn-info tooltip tooltip-top "
+                          data-tip="Add Review"
+                          onClick={() => {
+                            setSelectedApp(app);
+                            setReviewComment("");
+                            setReviewRating(0);
+                            document
+                              .getElementById("my_review_modal")
+                              .showModal();
+                          }}
+                        >
+                          <IoIosAddCircleOutline />
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile Card  */}
+          <div className="md:hidden flex flex-col space-y-4">
+            {applications.map((app) => (
+              <div
+                key={app._id}
+                className="bg-white rounded-xl shadow border border-zinc-200 p-4 space-y-3"
+              >
+                <div>
+                  <h3 className="font-semibold text-base">{app.universityName}</h3>
+                  <p className="text-xs text-gray-500">{app.subjectCategory} • {app.degree}</p>
+                </div>
+
+                <div className="flex justify-between text-sm">
+                  <span>Status</span>
+                  <span
+                    className={`badge capitalize ${app.applicationStatus === "pending"
+                      ? "badge-warning"
+                      : "badge-success"
+                      }`}
+                  >
+                    {app.applicationStatus}
+                  </span>
+                </div>
+
+                <div className="flex justify-between text-sm">
+                  <span>Payment</span>
+                  {app.paymentStatus === "paid" ? (
+                    <span className="text-green-600 flex items-center gap-1">
+                      <FaCheckCircle /> Paid
+                    </span>
+                  ) : (
+                    <span className="text-yellow-500 flex items-center gap-1">
+                      <FaClock /> Unpaid
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex justify-between font-semibold">
+                  <span>Total</span>
+                  <span>${app.totalCost}</span>
+                </div>
+
+                <div className="flex gap-2 pt-2 flex-wrap">
+                  <button
+                    className="btn btn-sm btn-outline flex-1"
+                    onClick={() => {
+                      setSelectedApp(app);
+                      document.getElementById("detail_modal").showModal();
+                    }}
+                  >
+                    <BiDetail /> Details
+                  </button>
+                  {app.paymentStatus === "unpaid" && (
+                    <Link to={`/dashboard/payment/${app._id}`}>
+                      <button
+                        className="btn text-xs text-white w-full bg-primary tooltip tooltip-top"
+                        data-tip="Payment"
+                      >
+                        Payment
+                      </button>
+                    </Link>
+                  )}
+
+                  {app.applicationStatus === "pending" && (
+                    <button
+                      className="btn btn-sm btn-warning flex-1"
+                      onClick={() => {
+                        setEditApp(app);
+                        document.getElementById("edit_modal").showModal();
+                      }}
+                    >
+                      <FaEdit /> Edit
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
 
       {/* Edit MOdal */}

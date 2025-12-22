@@ -17,7 +17,6 @@ const ModeratorApply = () => {
   } = useForm();
 
   const handleModeratorApply = (data) => {
-    console.log(data);
     axiosSecure.post("/moderators", data).then((res) => {
       if (res.data.insertedId) {
         Swal.fire({
@@ -34,7 +33,7 @@ const ModeratorApply = () => {
 
   return (
     <div className="w-full md:min-h-screen flex items-center justify-center h-fit md:px-10 px-4 my-20">
-      <div className="md:w-1/2 w-full flex items-center justify-center border border-zinc-200 shadow-2xl rounded-2xl">
+      <div className="md:w-1/2 w-full flex items-center justify-center border border-zinc-200 shadow-2xl rounded-2xl px-4">
         <div className="card md:w-4/5 w-full h-full py-6 pb-10">
           <h1 className="text-4xl font-semibold text-center">
             Apply for Moderator
@@ -127,7 +126,7 @@ const ModeratorApply = () => {
                 </p>
               )}
 
-              <button className="btn btn-neutral mt-4 w-full">
+              <button className="btn bg-blue-600 text-white mt-4 w-full">
                 Submit Application
               </button>
 

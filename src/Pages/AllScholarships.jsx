@@ -45,7 +45,7 @@ const AllScholarships = () => {
   }, []);
 
   return (
-    <div className="w-full relative mx-auto px-10 py-20 pt-30 overflow-hidden">
+    <div className="w-full relative mx-auto md:px-10 px-5 py-20 pt-30 overflow-hidden">
       <div className="bg-blue-200 w-100 h-70 absolute top-80 left-0 blur-2xl scale-200 rounded-full -z-1" />
       <div className="bg-pink-100 w-100 h-70 absolute top-80 right-0 blur-2xl scale-200 rounded-full -z-1" />
       <motion.div
@@ -90,7 +90,7 @@ const AllScholarships = () => {
                 setCurrentPage(0);
                 setCategory(e.target.value);
               }}
-              className="w-full md:w-[200px] rounded-xl border border-zinc-300 bg-white px-2 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
+              className="w-full md:w-50 rounded-xl border border-zinc-300 bg-white px-2 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
             >
               <option value="">Scholarship Category</option>
               <option value="Full Fund">Full Fund</option>
@@ -103,7 +103,7 @@ const AllScholarships = () => {
                 setCurrentPage(0);
                 setLocation(e.target.value);
               }}
-              className="w-full md:w-[200px] rounded-xl border border-zinc-300 bg-white px-2 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
+              className="w-full md:w-50 rounded-xl border border-zinc-300 bg-white px-2 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition"
             >
               <option value="">Location</option>
               {countries.map((country) => (

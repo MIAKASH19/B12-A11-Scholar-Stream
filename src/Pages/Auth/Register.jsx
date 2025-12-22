@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
-import SocialLogin from "./SocialLogin";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
@@ -157,8 +156,6 @@ const Register = () => {
               </div>
 
               <button className="btn bg-blue-600 text-white mt-4">Register</button>
-
-              <SocialLogin />
 
               {error && <p className="text-red-500 text-xs">{error}</p>}
             </fieldset>

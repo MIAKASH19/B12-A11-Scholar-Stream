@@ -23,7 +23,6 @@ const ScholarshipDetails = () => {
       })
       .then((res) => res.json())
       .then((reviewsData) => {
-        console.log(reviewsData);
         setReviews(reviewsData);
       })
       .catch((err) => console.error("Fetch error:", err));
@@ -61,7 +60,7 @@ const ScholarshipDetails = () => {
         transition={{ duration: 0.9 }}
         className="relative bg-white border border-zinc-200 rounded-3xl shadow-xl max-w-7xl mx-auto mt-16 overflow-hidden"
       >
-        <div className="h-[400px] w-full overflow-hidden">
+        <div className="h-100 w-full overflow-hidden">
           <img
             src={scholarship.universityImage}
             alt={scholarship.universityName}
@@ -69,7 +68,7 @@ const ScholarshipDetails = () => {
           />
         </div>
 
-        <div className="p-10">
+        <div className="md:p-10 p-5">
           <div className="flex gap-3 flex-wrap mb-8">
             <div className="px-3 py-2 rounded-full border border-zinc-300 text-sm">
               <h1>

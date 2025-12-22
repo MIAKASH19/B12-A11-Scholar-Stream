@@ -15,28 +15,28 @@ const Navbar = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(`/users/${user.email}/role`);
-      console.log(res.data);
+      // console.log(res.data);
       return res.data?.role || "student";
     },
   });
 
   const links = (
     <>
-      <Link to="/" className="text-black">
+      <Link to="/" className="text-black py-2 pl-3">
         Home
       </Link>
-      <Link to="/all-scholarships" className="text-black">
+      <Link to="/all-scholarships" className="text-black py-2 pl-3">
         All Scholarship
       </Link>
-      <Link to="/moderator-apply" className="text-black">
+      <Link to="/moderator-apply" className="text-black py-2 pl-3">
         Be a Moderator
       </Link>
       {user && (
-        <Link to="/dashboard/my-applications" className="text-black">
+        <Link to="/dashboard/my-applications" className="text-black py-2 pl-3">
           Dashboard
         </Link>
       )}
-      <Link to="/about-us" className="text-black">
+      <Link to="/about-us" className="text-black py-2 pl-3">
         About Us
       </Link>
     </>
@@ -77,15 +77,15 @@ const Navbar = () => {
 
 
   return (
-    <div className="navbar bg-white fixed top-0 left-0 shadow-sm px-10 z-99">
-      <div className="navbar-start">
+    <div className="navbar bg-white fixed top-0 left-0 shadow-sm px-10 sm:px-0 md:px-8 z-99">
+      <div className="navbar-start flex items-center w-66 md:w-fit -ml-7 sm:ml-0 md:ml-0">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="h-5 w-5 "
               fill="none"
-              viewBox="0 0 24 24"
+              viewBox="0 0 20 20"
               stroke="currentColor"
             >
               {" "}
@@ -104,15 +104,15 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <a className="font-semibold flex items-center gap-2 text-xl">
-          <FaGoogleScholar className="text-blue-600" />
+        <a className="font-semibold flex items-center gap-2 md:text-xl sm:text-sm text-xs">
+          <FaGoogleScholar className="text-blue-600 text-lg " />
           Scholar-Stream
         </a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 flex gap-5">{links}</ul>
       </div>
-      <div className="navbar-end gap-4 text-zinc-800 lg:flex md:pr-0 pr-5">
+      <div className="navbar-end gap-4 text-zinc-800 lg:flex md:pr-0 pr-5 -mr-5 md:mr-0">
         {user ? (
           <div className="dropdown dropdown-bottom dropdown-end">
             <div
@@ -146,7 +146,7 @@ const Navbar = () => {
               </div>
               <Link
                 to="/dashboard/my-profile"
-                className="px-3 py- rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors font-medium text-gray-700"
+                className="px-3 py-2 rounded-lg bg-zinc-100 hover:bg-indigo-50 hover:text-indigo-600 transition-colors font-medium text-gray-700"
               >
                 My Profile
               </Link>
