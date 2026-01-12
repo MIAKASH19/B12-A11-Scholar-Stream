@@ -1,19 +1,20 @@
-import React, { useContext, useState } from "react";
-import { FaEye } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { motion } from "framer-motion";
 
 const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
-
   const [show, setShow] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const { createUser, updateUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,142 +27,150 @@ const Register = () => {
       .then((result) => {
         const user = result.user;
 
-        const userProfile = {
-          displayName: name,
-          photoURL: photoUrl,
-        };
-
-        updateUser(userProfile)
+        updateUser({ displayName: name, photoURL: photoUrl })
           .then(() => {
-            const userInfo = {
-              email,
-              displayName: name,
-              photoURL: photoUrl,
-              uid: user.uid,
-            };
-
             axiosSecure
-              .post("/users", userInfo)
-              .then(() => {
-                navigate(location?.state || "/");
-              })
-              .catch((err) => {
-                console.log("Database error:", err);
-                setError("Failed to save user");
-              });
+              .post("/users", { email, displayName: name, photoURL: photoUrl, uid: user.uid })
+              .then(() => navigate(location?.state || "/"))
+              .catch((err) => setError("Failed to save user"));
           })
-          .catch((err) => {
-            console.log("Profile update error:", err);
-            setError(err.message);
-          });
+          .catch((err) => setError(err.message));
       })
-      .catch((err) => {
-        console.log("Register error:", err);
-        setError(err.message);
-      });
+      .catch((err) => setError(err.message));
+  };
+
+  // Quick admin registration
+  const handleAdminRegister = () => {
+    const adminData = {
+      name: "Admin",
+      photoUrl: "https://i.pravatar.cc/150?img=1",
+      email: "admin@scholarstream.com",
+      password: "Admin123!",
+    };
+    setValue("name", adminData.name);
+    setValue("photoUrl", adminData.photoUrl);
+    setValue("email", adminData.email);
+    setValue("password", adminData.password);
+    handleRegistration(adminData);
   };
 
   return (
-    <div className="w-full md:min-h-screen flex items-center justify-center h-fit md:px-10 px-4 py-20">
-      <div className="md:w-1/2 w-full h-full flex items-center justify-center border border-zinc-200 shadow-2xl rounded-2xl">
-        <div className="card md:w-4/5 w-full h-full py-6 pb-10">
-          <h1 className="text-5xl font-semibold text-center">
-            Create An Account
-          </h1>
-          <p className="text-zinc-500 mt-2 hidden lg:block text-sm text-center">
-            Access your saved scholarships, track your applications, and explore
-            new opportunities anytime, anywhere all in one streamlined
-            platform.
-          </p>
+    <div className="min-h-screen flex items-center justify-center px-4 py-20 bg-gray-50 dark:bg-gray-900 relative overflow-hidden">
+      {/* Background blobs */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-400/20 dark:bg-blue-500/30 rounded-full blur-3xl -translate-x-20 -translate-y-20"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-pink-300/20 dark:bg-pink-500/30 rounded-full blur-3xl translate-x-20 translate-y-20"></div>
 
-          <form onSubmit={handleSubmit(handleRegistration)}>
-            <fieldset className="fieldset">
-              <label className="mt-2 text-sm">Name</label>
-              <input
-                type="text"
-                className="input w-full rounded-sm border-[#e5e5e5]"
-                {...register("name", { required: true })}
-                placeholder="Name"
-              />
-              {errors.name && <p className="text-red-500">Name is required.</p>}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl shadow-2xl w-full max-w-xl p-10 space-y-6 transition-colors"
+      >
+        <h1 className="text-3xl font-bold text-center text-gray-900 dark:text-white">
+          Create An Account
+        </h1>
+        <p className="text-center text-gray-600 dark:text-gray-300 text-sm">
+          Access your saved scholarships, track applications, and explore opportunities.
+        </p>
 
-              <label className="mt-2 text-sm">Photo URL</label>
-              <input
-                type="text"
-                className="input w-full rounded-sm border-[#e5e5e5]"
-                {...register("photoUrl", { required: true })}
-                placeholder="Photo URL"
-              />
-              {errors.photoUrl && (
-                <p className="text-red-500">Photo URL is required.</p>
-              )}
+        <form onSubmit={handleSubmit(handleRegistration)} className="space-y-4">
+          {/* Name */}
+          <div className="space-y-1">
+            <label className="text-sm text-gray-700 dark:text-gray-300">Name</label>
+            <input
+              type="text"
+              placeholder="Your Name"
+              {...register("name", { required: true })}
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+            />
+            {errors.name && <p className="text-red-500 text-xs">Name is required</p>}
+          </div>
 
-              <label className="mt-2 text-sm">Email</label>
-              <input
-                type="email"
-                className="input w-full rounded-sm border-[#e5e5e5]"
-                {...register("email", { required: true })}
-                placeholder="Email"
-              />
-              {errors.email && (
-                <p className="text-red-500">Email is required.</p>
-              )}
+          {/* Photo URL */}
+          <div className="space-y-1">
+            <label className="text-sm text-gray-700 dark:text-gray-300">Photo URL</label>
+            <input
+              type="text"
+              placeholder="Photo URL"
+              {...register("photoUrl", { required: true })}
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+            />
+            {errors.photoUrl && <p className="text-red-500 text-xs">Photo URL is required</p>}
+          </div>
 
-              <div className="relative gap-2 flex flex-col">
-                <label className="mt-2 text-sm">Create Password</label>
-                <input
-                  type={show ? "text" : "password"}
-                  className="input w-full rounded-sm border-[#e5e5e5]"
-                  {...register("password", {
-                    required: true,
-                    minLength: 6,
-                    pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[^A-Za-z0-9]).{6,}$/,
-                  })}
-                  placeholder="Password"
-                />
-                {errors.password?.type === "required" && (
-                  <p className="text-red-500">Password is required.</p>
-                )}
+          {/* Email */}
+          <div className="space-y-1">
+            <label className="text-sm text-gray-700 dark:text-gray-300">Email</label>
+            <input
+              type="email"
+              placeholder="Your Email"
+              {...register("email", { required: true })}
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+            />
+            {errors.email && <p className="text-red-500 text-xs">Email is required</p>}
+          </div>
 
-                {errors.password?.type === "minLength" && (
-                  <p className="text-red-500">
-                    Password must be at least 6 characters.
-                  </p>
-                )}
+          {/* Password */}
+          <div className="relative space-y-1">
+            <label className="text-sm text-gray-700 dark:text-gray-300">Password</label>
+            <input
+              type={show ? "text" : "password"}
+              placeholder="Create Password"
+              {...register("password", {
+                required: true,
+                minLength: 6,
+                pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[^A-Za-z0-9]).{6,}$/,
+              })}
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+            />
+            <span
+              onClick={() => setShow(!show)}
+              className="absolute right-4 top-10 cursor-pointer text-gray-500 dark:text-gray-400"
+            >
+              {show ? <FaEyeSlash /> : <FaEye />}
+            </span>
+            {errors.password?.type === "required" && (
+              <p className="text-red-500 text-xs">Password is required</p>
+            )}
+            {errors.password?.type === "minLength" && (
+              <p className="text-red-500 text-xs">Password must be at least 6 characters</p>
+            )}
+            {errors.password?.type === "pattern" && (
+              <p className="text-red-500 text-xs">
+                Password must contain uppercase, lowercase, and a special character
+              </p>
+            )}
+          </div>
 
-                {errors.password?.type === "pattern" && (
-                  <p className="text-red-500">
-                    Password must contain at least 1 uppercase letter, 1
-                    lowercase letter, and 1 special character.
-                  </p>
-                )}
+          {/* Links */}
+          <div className="text-sm text-gray-600 dark:text-gray-300">
+            Already have an account?{" "}
+            <Link to="/login" state={location?.state || null} className="text-blue-500 dark:text-blue-400 underline">
+              Login
+            </Link>
+          </div>
 
-                <span
-                  onClick={() => setShow(!show)}
-                  className="absolute top-12 right-5 cursor-pointer"
-                >
-                  <FaEye className="text-lg" />
-                </span>
-              </div>
+          {/* Buttons */}
+          <div className="space-y-3">
+            <button
+              type="submit"
+              className="w-full py-3 rounded-xl bg-linear-to-r from-blue-500 to-indigo-500 text-white font-medium hover:scale-105 transition shadow-lg"
+            >
+              Register
+            </button>
 
-              <div className="mt-2">
-                Have an account?{" "}
-                <Link
-                  to="/login"
-                  state={location?.state || null}
-                  className="text-blue-800 hover:underline"
-                >
-                  Login
-                </Link>
-              </div>
+            <button
+              type="button"
+              onClick={handleAdminRegister}
+              className="w-full py-3 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white font-medium hover:scale-105 transition shadow-md"
+            >
+              Quick Admin Register
+            </button>
+          </div>
 
-              <button className="btn bg-blue-600 text-white mt-4">Register</button>
-
-              {error && <p className="text-red-500 text-xs">{error}</p>}
-            </fieldset>
-          </form>
-        </div>
-      </div>
+          {error && <p className="text-red-500 text-xs text-center mt-2">{error}</p>}
+        </form>
+      </motion.div>
     </div>
   );
 };

@@ -1,59 +1,86 @@
 import { motion } from "framer-motion";
-import React from "react";
 import { Link } from "react-router";
+import Button from "./Button";
 
 const ScholarCard = ({ scholarship, index }) => {
   return (
     <motion.div
-      key={scholarship._id?.$oid || scholarship._id}
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.6 }}
-      whileHover={{ boxShadow: "0px 15px 25px rgba(0,0,0,0.2)" }}
-      className="bg-white rounded-2xl overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-shadow duration-300"
+      transition={{ delay: index * 0.08, duration: 0.5, ease: "easeOut" }}
+      whileHover={{ y: -6 }}
+      className="group rounded-3xl overflow-hidden border shadow-sm
+        bg-white dark:bg-[#121826]
+        border-gray-100 dark:border-white/10
+        hover:scale-102 transition-all duration-300
+        dark:shadow-black/40"
     >
-      <div className="h-48 overflow-hidden">
+      {/* Image */}
+      <div className="relative h-52 overflow-hidden">
         <img
           src={
-            scholarship.universityImage || "https://via.placeholder.com/400x200"
+            scholarship.universityImage ||
+            "https://via.placeholder.com/400x200"
           }
           alt={scholarship.universityName}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+          className="w-full h-full object-cover
+            transition-transform duration-500 group-hover:scale-110"
         />
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0
+          bg-linear-to-t from-black/60 via-black/20 to-transparent" />
+
+        {/* Category Badge */}
+        <span className="absolute top-4 left-4 px-3 py-1 rounded-full
+          text-xs font-semibold text-white
+          bg-[#0CB3FA] shadow">
+          {scholarship.scholarshipCategory}
+        </span>
       </div>
 
-      <div className="p-5">
-        <h2 className="text-lg font-semibold mb-2 text-gray-800">
+      {/* Content */}
+      <div className="p-4">
+        <h2
+          className="text-lg font-semibold leading-snug mb-1 truncate
+            text-gray-900 dark:text-white"
+        >
           {scholarship.scholarshipName}
         </h2>
-        <p className="text-gray-600 mb-1 text-sm">
-          <span className="font-medium">University:</span>{" "}
-          {scholarship.universityName}
-        </p>
-        <p className="text-gray-600 mb-1 text-sm">
-          <span className="font-medium">Country:</span>{" "}
+
+        <p
+          className="text-sm mb-4 truncate
+            text-gray-500 dark:text-gray-400"
+        >
+          {scholarship.universityName},{" "}
           {scholarship.universityCountry}
         </p>
-        <p className="text-gray-600 mb-1 text-sm">
-          <span className="font-medium">Degree:</span> {scholarship.degree}
-        </p>
-        <p className="text-gray-600 mb-1 text-sm">
-          <span className="font-medium">Scholarship Type:</span>{" "}
-          {scholarship.scholarshipCategory}
-        </p>
-        <p className="text-gray-600 mb-4 text-sm">
-          <span className="font-medium">Deadline:</span>{" "}
-          {scholarship.applicationDeadline}
-        </p>
-        <div className="h-px w-full bg-zinc-200 mb-4"></div>
-        <Link
-          to={`/scholarship-details/${scholarship._id}`}
-          className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm w-full font-medium hover:bg-blue-700 transition-colors duration-300"
+
+        {/* Info Row */}
+        <div
+          className="flex justify-between text-sm mb-5
+            text-gray-600 dark:text-gray-400"
         >
-          View Details
+          <span>{scholarship.degree}</span>
+          <span>{scholarship.applicationDeadline}</span>
+        </div>
+
+        {/* Divider */}
+        <div className="h-px w-full mb-5
+          bg-gray-100 dark:bg-white/10" />
+
+        {/* CTA */}
+        <Link to={`/scholarship-details/${scholarship._id}`}>
+          <Button
+            text="View Details"
+            className="w-full rounded-full
+              bg-linear-to-r from-[#ff78e2] to-[#64c7f1]
+              text-white hover:opacity-90 transition-all"
+          />
         </Link>
       </div>
     </motion.div>
   );
 };
+
 export default ScholarCard;

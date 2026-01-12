@@ -35,6 +35,7 @@ const AllStudentReviews = () => {
     if (!result.isConfirmed) return;
 
     await axiosSecure.delete(`/reviews/${id}`);
+    queryClient.invalidateQueries(["all-reviews"]);
 
     Swal.fire({
       icon: "success",
@@ -43,29 +44,31 @@ const AllStudentReviews = () => {
       timer: 1500,
       showConfirmButton: false,
     });
-
-    queryClient.invalidateQueries(["all-reviews"]);
   };
 
   if (isLoading)
-    return (
-      <div className="flex justify-center mt-20">
-        <span className="loading loading-spinner text-info"></span>
-      </div>
-    );
+  return (
+    <div className="w-full flex items-center justify-center h-screen pt-10
+      bg-white dark:bg-[#0b0f19]">
+      <span className="loading loading-spinner text-info dark:text-blue-400"></span>
+    </div>
+  );
+
 
   return (
-    <div className="px-4 py-6 max-w-7xl mx-auto">
+    <div className="min-h-screen w-full px-4 py-8 bg-gray-50 dark:bg-[#0b0f19] text-gray-800 dark:text-gray-200">
       <h1 className="text-2xl font-semibold mb-6">
         All Student Reviews ({reviews.length})
       </h1>
 
       {reviews.length === 0 ? (
-        <div className="text-center text-gray-500 py-20">No reviews found.</div>
+        <div className="text-center py-24 text-gray-500 dark:text-gray-400">
+          No reviews found.
+        </div>
       ) : (
-        <div className="overflow-x-auto bg-white rounded-2xl shadow">
+        <div className="overflow-x-auto rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#111827] shadow">
           <table className="table w-full">
-            <thead className="bg-gray-100 text-gray-600 text-sm">
+            <thead className="bg-gray-100 dark:bg-[#15181f] text-gray-700 dark:text-gray-300">
               <tr>
                 <th>#</th>
                 <th>Student</th>
@@ -80,18 +83,25 @@ const AllStudentReviews = () => {
 
             <tbody>
               {reviews.map((review, idx) => (
-                <tr key={review._id} className="hover">
+                <tr
+                  key={review._id}
+                  className="hover:bg-gray-50 dark:hover:bg-[#1f2937] transition"
+                >
                   <td>{idx + 1}</td>
 
                   <td className="font-medium">
                     {review.userName || "Anonymous"}
                   </td>
 
-                  <td className="text-sm text-gray-500">{review.userEmail}</td>
+                  <td className="text-sm text-gray-500 dark:text-gray-400">
+                    {review.userEmail}
+                  </td>
 
                   <td>{review.universityName}</td>
 
-                  <td className="max-w-50 truncate">{review.reviewComment}</td>
+                  <td className="max-w-50 truncate">
+                    {review.reviewComment}
+                  </td>
 
                   <td>
                     <div className="flex">
@@ -101,7 +111,7 @@ const AllStudentReviews = () => {
                           size={14}
                           className="mr-1"
                           color={
-                            review.ratingPoint >= star ? "#facc15" : "#e5e7eb"
+                            review.ratingPoint >= star ? "#facc15" : "#4b5563"
                           }
                         />
                       ))}
@@ -114,19 +124,19 @@ const AllStudentReviews = () => {
 
                   <td className="flex justify-center gap-3">
                     <button
-                      className="btn text-lg hover:btn-info tooltip tooltip-top"
+                      className="btn btn-sm btn-ghost tooltip tooltip-top"
                       data-tip="View Review"
                       onClick={() => handleView(review)}
                     >
-                      <FaEye className="text-base" />
+                      <FaEye />
                     </button>
 
                     <button
-                      className="btn text-lg hover:btn-error tooltip tooltip-top"
+                      className="btn btn-sm btn-ghost text-red-500 hover:bg-red-500/10 tooltip tooltip-top"
                       data-tip="Delete Review"
                       onClick={() => handleDelete(review._id)}
                     >
-                      <FaTrash className="text-base" />
+                      <FaTrash />
                     </button>
                   </td>
                 </tr>
@@ -134,51 +144,51 @@ const AllStudentReviews = () => {
             </tbody>
           </table>
 
+          {/* Modal */}
           <dialog
             id="review_view_modal"
             className="modal modal-bottom sm:modal-middle"
           >
-            <div className="modal-box max-w-2xl p-6 sm:p-8 rounded-2xl">
+            <div className="modal-box max-w-2xl bg-white dark:bg-[#111827] text-gray-800 dark:text-gray-200 rounded-2xl">
               {selectedReview && (
                 <>
-                  <h3 className="text-xl font-semibold mb-4 text-center">
+                  <h3 className="text-xl font-semibold mb-5 text-center">
                     Student Review Details
                   </h3>
 
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-4 mb-5">
                     <img
                       src={
                         selectedReview.userImage ||
                         "https://i.ibb.co/4pDNDk1/avatar.png"
                       }
-                      alt="Student"
-                      className="w-14 h-14 rounded-full border object-cover"
+                      className="w-14 h-14 rounded-full border dark:border-gray-700 object-cover"
                     />
                     <div>
                       <p className="font-semibold">
                         {selectedReview.userName || "Anonymous"}
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         {selectedReview.userEmail}
                       </p>
                     </div>
                   </div>
 
-                  <div className="text-sm text-gray-600 space-y-1 mb-4">
+                  <div className="space-y-1 text-sm mb-4">
                     <p>
-                      <span className="font-medium text-gray-800">
-                        University:
-                      </span>{" "}
+                      <span className="font-medium">University:</span>{" "}
                       {selectedReview.universityName}
                     </p>
                     <p>
-                      <span className="font-medium text-gray-800">Date:</span>{" "}
-                      {new Date(selectedReview.reviewDate).toLocaleDateString()}
+                      <span className="font-medium">Date:</span>{" "}
+                      {new Date(
+                        selectedReview.reviewDate
+                      ).toLocaleDateString()}
                     </p>
                   </div>
 
                   <div className="mb-4">
-                    <p className="text-sm text-gray-500 mb-1">Rating</p>
+                    <p className="text-sm mb-1">Rating</p>
                     <div className="flex">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <FaStar
@@ -188,22 +198,24 @@ const AllStudentReviews = () => {
                           color={
                             selectedReview.ratingPoint >= star
                               ? "#facc15"
-                              : "#e5e7eb"
+                              : "#4b5563"
                           }
                         />
                       ))}
                     </div>
                   </div>
+
                   <div>
-                    <p className="text-sm text-gray-500 mb-1">Comment</p>
-                    <div className="bg-base-200 p-4 rounded-xl text-sm leading-relaxed">
-                      {selectedReview.reviewComment || "No comment provided"}
+                    <p className="text-sm mb-1">Comment</p>
+                    <div className="bg-gray-100 dark:bg-[#1f2937] p-4 rounded-xl text-sm">
+                      {selectedReview.reviewComment ||
+                        "No comment provided"}
                     </div>
                   </div>
                 </>
               )}
 
-              <div className="modal-action mt-6">
+              <div className="modal-action">
                 <button
                   className="btn btn-outline"
                   onClick={() =>

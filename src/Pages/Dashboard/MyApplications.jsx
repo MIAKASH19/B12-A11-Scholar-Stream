@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
@@ -150,14 +150,16 @@ const MyApplications = () => {
   };
 
   if (isLoading)
-    return (
-      <div className="flex justify-center mt-20">
-        <span className="loading loading-spinner text-info"></span>
-      </div>
-    );
+  return (
+    <div className="w-full flex items-center justify-center h-screen pt-10
+      bg-white dark:bg-[#0b0f19]">
+      <span className="loading loading-spinner text-info dark:text-blue-400"></span>
+    </div>
+  );
+
 
   return (
-    <div className="p-6 ">
+    <div className="p-6 bg-white dark:bg-[#0b0f19] text-zinc-900 dark:text-zinc-300 min-h-screen">
       <h1 className="text-2xl font-semibold mb-6">
         My Applications ({applications.length})
       </h1>
@@ -169,13 +171,12 @@ const MyApplications = () => {
       ) : (
         <>
           <div className="overflow-x-auto hidden md:block rounded-2xl">
-            <table className="table table-zebra w-full">
-              <thead className="bg-gray-100">
+            <table className="table  w-full">
+              <thead className="bg-gray-100 dark:bg-[#15181f] text-zinc-700 dark:text-zinc-300">
                 <tr>
                   <th>Sl</th>
                   <th>University</th>
                   <th>Address</th>
-                  <th>Feedback</th>
                   <th>Category</th>
                   <th>App. Status</th>
                   <th>Pay. Status</th>
@@ -185,14 +186,11 @@ const MyApplications = () => {
               </thead>
               <tbody>
                 {applications.map((app, index) => (
-                  <tr key={app._id}>
+                  <tr key={app._id} className="border border-blue-800">
                     <td>{index + 1}</td>
-                    <td className="font-medium text-xs">{app.universityName}</td>
+                    <td className="font-medium text-xs ">{app.universityName}</td>
                     <td className="font-medium text-xs">
                       {app.universityAddress}
-                    </td>
-                    <td className="font-medium text-xs">
-                      {app.feedback || "No feedback yet"}
                     </td>
                     <td className="font-medium text-xs">{app.subjectCategory}</td>
                     <td>
@@ -221,7 +219,7 @@ const MyApplications = () => {
                     <td className="font-semibold text-xs">${app.totalCost}</td>
                     <td className="flex gap-2 flex-wrap">
                       <button
-                        className="btn text-lg hover:btn-success tooltip tooltip-top"
+                        className="btn text-lg dark:bg-[#121b33] dark:text-white shadow-none hover:btn-success tooltip tooltip-top"
                         data-tip="Details"
                         onClick={() => {
                           setSelectedApp(app);
@@ -233,7 +231,7 @@ const MyApplications = () => {
                       {app.applicationStatus === "pending" && (
                         <>
                           <button
-                            className="btn text-lg hover:btn-warning tooltip tooltip-top"
+                            className="btn text-lg dark:bg-[#121b33] dark:text-white shadow-none hover:btn-warning tooltip tooltip-top"
                             data-tip="Edit"
                             onClick={() => {
                               setEditApp(app);
@@ -246,7 +244,7 @@ const MyApplications = () => {
                           {app.paymentStatus === "unpaid" && (
                             <Link to={`/dashboard/payment/${app._id}`}>
                               <button
-                                className="btn text-lg hover:btn-primary tooltip tooltip-top"
+                                className="btn text-lg dark:bg-[#121b33] dark:text-white shadow-none hover:btn-primary tooltip tooltip-top"
                                 data-tip="Payment"
                               >
                                 <MdPayment />
@@ -255,7 +253,7 @@ const MyApplications = () => {
                           )}
                           {app.applicationStatus === "pending" && (
                             <button
-                              className="btn text-lg hover:btn-error tooltip tooltip-top"
+                              className="btn text-lg dark:bg-[#121b33] dark:text-white shadow-none hover:btn-error tooltip tooltip-top"
                               data-tip="Delete"
                               onClick={() => handleDeleteApplication(app._id)}
                             >
@@ -266,7 +264,7 @@ const MyApplications = () => {
                       )}
                       {app.applicationStatus === "completed" && (
                         <button
-                          className="btn text-lg hover:btn-info tooltip tooltip-top "
+                          className="btn text-lg dark:bg-[#121b33] dark:text-white shadow-none hover:btn-info tooltip tooltip-top "
                           data-tip="Add Review"
                           onClick={() => {
                             setSelectedApp(app);
@@ -292,15 +290,19 @@ const MyApplications = () => {
             {applications.map((app) => (
               <div
                 key={app._id}
-                className="bg-white rounded-xl shadow border border-zinc-200 p-4 space-y-3"
+                className="bg-white dark:bg-zinc-900 rounded-xl shadow border border-zinc-200 dark:border-zinc-700 p-4 space-y-3"
               >
                 <div>
-                  <h3 className="font-semibold text-base">{app.universityName}</h3>
-                  <p className="text-xs text-gray-500">{app.subjectCategory} • {app.degree}</p>
+                  <h3 className="font-semibold text-base text-gray-800 dark:text-gray-100">
+                    {app.universityName}
+                  </h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {app.subjectCategory} • {app.degree}
+                  </p>
                 </div>
 
                 <div className="flex justify-between text-sm">
-                  <span>Status</span>
+                  <span className="text-gray-700 dark:text-gray-200">Status</span>
                   <span
                     className={`badge capitalize ${app.applicationStatus === "pending"
                       ? "badge-warning"
@@ -312,7 +314,7 @@ const MyApplications = () => {
                 </div>
 
                 <div className="flex justify-between text-sm">
-                  <span>Payment</span>
+                  <span className="text-gray-700 dark:text-gray-200">Payment</span>
                   {app.paymentStatus === "paid" ? (
                     <span className="text-green-600 flex items-center gap-1">
                       <FaCheckCircle /> Paid
@@ -324,14 +326,14 @@ const MyApplications = () => {
                   )}
                 </div>
 
-                <div className="flex justify-between font-semibold">
+                <div className="flex justify-between font-semibold text-gray-800 dark:text-gray-200">
                   <span>Total</span>
                   <span>${app.totalCost}</span>
                 </div>
 
                 <div className="flex gap-2 pt-2 flex-wrap">
                   <button
-                    className="btn btn-sm btn-outline flex-1"
+                    className="btn btn-sm btn-outline flex-1 dark:border-zinc-600 dark:text-gray-200"
                     onClick={() => {
                       setSelectedApp(app);
                       document.getElementById("detail_modal").showModal();
@@ -339,6 +341,7 @@ const MyApplications = () => {
                   >
                     <BiDetail /> Details
                   </button>
+
                   {app.paymentStatus === "unpaid" && (
                     <Link to={`/dashboard/payment/${app._id}`}>
                       <button
@@ -365,20 +368,29 @@ const MyApplications = () => {
               </div>
             ))}
           </div>
+
         </>
       )}
 
       {/* Edit MOdal */}
       <dialog id="edit_modal" className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box max-w-xl">
+        <div className="modal-box max-w-xl bg-base-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700">
           {editApp && (
             <>
-              <h3 className="text-xl font-semibold mb-4">Edit Application</h3>
+              <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
+                Edit Application
+              </h3>
 
-              <label className="block mb-2">University Name</label>
+              <label className="block mb-2 text-sm text-gray-600 dark:text-gray-400">
+                University Name
+              </label>
               <input
                 type="text"
-                className="input input-bordered w-full mb-4"
+                className="input input-bordered rounded-full w-full mb-4
+                     bg-white dark:bg-zinc-800
+                     text-gray-800 dark:text-gray-100
+                     border-zinc-300 dark:border-zinc-600
+                     focus:outline-none focus:ring-2 focus:ring-primary"
                 value={editApp.universityName}
                 onChange={(e) =>
                   setEditApp({
@@ -388,10 +400,16 @@ const MyApplications = () => {
                 }
               />
 
-              <label className="block mb-2">Subject Category</label>
+              <label className="block mb-2 text-sm text-gray-600 dark:text-gray-400">
+                Subject Category
+              </label>
               <input
                 type="text"
-                className="input input-bordered w-full mb-4"
+                className="input input-bordered rounded-full w-full mb-4
+                     bg-white dark:bg-zinc-800
+                     text-gray-800 dark:text-gray-100
+                     border-zinc-300 dark:border-zinc-600
+                     focus:outline-none focus:ring-2 focus:ring-primary"
                 value={editApp.subjectCategory}
                 onChange={(e) =>
                   setEditApp({
@@ -403,15 +421,12 @@ const MyApplications = () => {
 
               <div className="modal-action">
                 <button
-                  className="btn btn-outline"
+                  className="btn btn-outline rounded-full dark:hover:bg-[#0CB3FA]/10 shadow-none dark:border-zinc-600 dark:text-gray-200"
                   onClick={() => document.getElementById("edit_modal").close()}
                 >
                   Cancel
                 </button>
-                <button
-                  className="btn btn-primary"
-                  onClick={handleUpdateApplication}
-                >
+                <button className="btn bg-[#0CB3FA] border-none rounded-full" onClick={handleUpdateApplication}>
                   Update
                 </button>
               </div>
@@ -420,24 +435,26 @@ const MyApplications = () => {
         </div>
       </dialog>
 
+
       {/* Detail Modal */}
       <dialog id="detail_modal" className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box max-w-3xl p-6 sm:p-8">
+        <div className="modal-box max-w-3xl p-6 sm:p-8 
+                  bg-base-100 dark:bg-zinc-900 
+                  border border-zinc-200 dark:border-zinc-700">
           {selectedApp && (
             <>
-              <h3 className="text-xl font-semibold mb-3">
+              <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-100">
                 {selectedApp.universityName}
               </h3>
-              <p className="text-sm text-gray-500 mb-2">
+
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                 {selectedApp.universityAddress}
               </p>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Info label="Subject" value={selectedApp.subjectCategory} />
                 <Info label="Degree" value={selectedApp.degree} />
-                <Info
-                  label="Applied Date"
-                  value={selectedApp.applicationDate}
-                />
+                <Info label="Applied Date" value={selectedApp.applicationDate} />
                 <Info label="Status" value={selectedApp.applicationStatus} />
                 <Info label="Payment" value={selectedApp.paymentStatus} />
                 <Info
@@ -445,17 +462,23 @@ const MyApplications = () => {
                   value={`$${selectedApp.applicationFees}`}
                 />
               </div>
-              <div className="mt-4">
-                <p className="font-medium mb-1">Moderator Feedback:</p>
-                <div className="bg-base-200 p-3 rounded">
+
+              <div className="mt-5">
+                <p className="font-medium mb-2 text-gray-700 dark:text-gray-200">
+                  Moderator Feedback
+                </p>
+                <div className="bg-base-200 dark:bg-zinc-800 
+                          p-3 rounded-lg 
+                          text-gray-700 dark:text-gray-200">
                   {selectedApp.feedback || "No feedback yet"}
                 </div>
               </div>
             </>
           )}
+
           <div className="modal-action">
             <button
-              className="btn btn-outline"
+              className="btn btn-outline dark:border-zinc-600 dark:text-gray-200"
               onClick={() => document.getElementById("detail_modal").close()}
             >
               Close
@@ -464,12 +487,13 @@ const MyApplications = () => {
         </div>
       </dialog>
 
+
       {/* Add Review Modal */}
       <dialog
         id="my_review_modal"
         className="modal modal-bottom sm:modal-middle"
       >
-        <div className="modal-box max-w-3xl p-6 sm:p-8">
+        <div className="modal-box max-w-3xl p-6 sm:p-8 bg-white dark:bg-[#1a1e2a] text-gray-800 dark:text-gray-100">
           {selectedApp && (
             <>
               <h3 className="text-xl font-semibold mb-4 text-center">
@@ -482,32 +506,28 @@ const MyApplications = () => {
                     key={star}
                     size={28}
                     className="cursor-pointer mx-1 transition-colors"
-                    color={reviewRating >= star ? "#facc15" : "#d1d5db"}
+                    color={reviewRating >= star ? "#facc15" : "#9ca3af"} // darker gray for dark mode
                     onClick={() => setReviewRating(star)}
                   />
                 ))}
               </div>
+
               <textarea
                 rows={4}
                 placeholder="Write your comment..."
-                className="w-full border rounded-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg p-3 mb-4 bg-gray-50 dark:bg-[#0b0f19] text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:focus:ring-indigo-500 resize-none"
                 value={reviewComment}
                 onChange={(e) => setReviewComment(e.target.value)}
               />
 
               <div className="flex justify-end gap-3">
                 <button
-                  className="btn btn-outline"
-                  onClick={() =>
-                    document.getElementById("my_review_modal").close()
-                  }
+                  className="btn btn-outline hover:bg-[#0CB3FA]/20 shadow-none rounded-full"
+                  onClick={() => document.getElementById("my_review_modal").close()}
                 >
                   Cancel
                 </button>
-                <button
-                  className="btn btn-primary"
-                  onClick={handleSubmitReview}
-                >
+                <button className="btn bg-[#0CB3FA] hover:bg-[#0CB3FA]/70 border-none rounded-full text-white" onClick={handleSubmitReview}>
                   Submit
                 </button>
               </div>
@@ -515,14 +535,15 @@ const MyApplications = () => {
           )}
         </div>
       </dialog>
+
     </div>
   );
 };
 
 const Info = ({ label, value }) => (
-  <div className="bg-base-100 border border-zinc-300 rounded-xl p-3">
-    <p className="text-sm text-gray-500">{label}</p>
-    <p className="font-medium">{value}</p>
+  <div className="bg-base-100 dark:bg-zinc-800  border border-zinc-300 rounded-xl p-3">
+    <p className="text-sm text-gray-500 ">{label}</p>
+    <p className="font-medium dark:text-zinc-200">{value}</p>
   </div>
 );
 

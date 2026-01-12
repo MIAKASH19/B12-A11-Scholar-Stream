@@ -25,35 +25,44 @@ const PaymentSuccess = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-gray-500">Loading payment details...</p>
+      <div className="flex items-center justify-center min-h-screen
+        bg-white dark:bg-[#0b0f19]">
+        <p className="text-gray-500 dark:text-gray-400">
+          Loading payment details...
+        </p>
       </div>
     );
   }
 
   if (!paymentInfo) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-red-500">Payment information not found.</p>
+      <div className="flex items-center justify-center min-h-screen
+        bg-white dark:bg-[#0b0f19]">
+        <p className="text-red-500 dark:text-red-400">
+          Payment information not found.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
-      <div className="bg-white shadow-xl rounded-3xl p-10 max-w-xl w-full text-center">
+    <div className="flex items-center justify-center min-h-screen
+      bg-gray-50 dark:bg-[#0b0f19] px-4">
+      <div className="bg-white dark:bg-zinc-900 shadow-xl rounded-3xl p-10 max-w-xl w-full text-center
+        border border-zinc-200 dark:border-zinc-700">
         <div className="flex justify-center mb-6">
           <CheckCircle className="text-green-500 w-24 h-24 animate-bounce" />
         </div>
 
-        <h1 className="text-3xl font-bold text-gray-800 mb-3">
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-3">
           Payment Successful 🎉
         </h1>
 
-        <p className="text-gray-500 mb-6">
+        <p className="text-gray-500 dark:text-gray-400 mb-6">
           Your scholarship application has been successfully submitted.
         </p>
-        <div className="bg-gray-100 p-6 rounded-xl mb-6 text-left space-y-3">
+
+        <div className="bg-gray-100 dark:bg-zinc-800 p-6 rounded-xl mb-6 text-left space-y-3 border border-zinc-200 dark:border-zinc-700">
           <Detail label="Scholarship" value={paymentInfo.scholarshipName} />
           <Detail label="University" value={paymentInfo.universityName} />
           <Detail label="Amount Paid" value={`$${paymentInfo.amount}`} />
@@ -64,13 +73,16 @@ const PaymentSuccess = () => {
         <div className="flex flex-col gap-3">
           <Link
             to="/dashboard/my-applications"
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-green-600 transition"
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium 
+              hover:bg-green-600 transition"
           >
             Go to Dashboard
           </Link>
           <Link
             to="/"
-            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition"
+            className="px-6 py-3 border border-gray-300 dark:border-zinc-600
+              text-gray-700 dark:text-gray-200 rounded-lg 
+              hover:bg-gray-100 dark:hover:bg-[#121b33] transition"
           >
             Back to Home
           </Link>
@@ -82,8 +94,8 @@ const PaymentSuccess = () => {
 
 const Detail = ({ label, value }) => (
   <div className="flex justify-between text-sm">
-    <span className="text-gray-600 font-medium">{label}</span>
-    <span className="text-gray-800 font-semibold">{value}</span>
+    <span className="text-gray-600 dark:text-gray-400 font-medium">{label}</span>
+    <span className="text-gray-800 dark:text-gray-200 font-semibold">{value}</span>
   </div>
 );
 

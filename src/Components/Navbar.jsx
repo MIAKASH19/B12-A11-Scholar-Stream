@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import { AuthContext } from "../Contexts/AuthContext";
 import { FaGoogleScholar } from "react-icons/fa6";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "./../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import Button from "./Button";
+import DarkModeToggle from "./DarkModeToggle";
 
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
@@ -15,162 +17,169 @@ const Navbar = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(`/users/${user.email}/role`);
-      // console.log(res.data);
       return res.data?.role || "student";
     },
   });
 
+  const navClass = ({ isActive }) =>
+    `py-2 pl-3 font-medium transition-colors duration-300
+     ${isActive
+      ? "text-[#0CB3FA]"
+      : "text-gray-800 dark:text-gray-300 hover:text-[#0CB3FA]"
+    }`;
+
   const links = (
     <>
-      <Link to="/" className="text-black py-2 pl-3">
-        Home
-      </Link>
-      <Link to="/all-scholarships" className="text-black py-2 pl-3">
-        All Scholarship
-      </Link>
-      <Link to="/moderator-apply" className="text-black py-2 pl-3">
-        Be a Moderator
-      </Link>
+      <NavLink to="/" className={navClass}>Home</NavLink>
+      <NavLink to="/all-scholarships" className={navClass}>All Scholarships</NavLink>
+      <NavLink to="/moderator-apply" className={navClass}>Apply as Moderator</NavLink>
+
       {user && (
-        <Link to="/dashboard/my-applications" className="text-black py-2 pl-3">
-          Dashboard
-        </Link>
+        <NavLink to="/dashboard/my-applications" className={navClass}>
+          My Dashboard
+        </NavLink>
       )}
-      <Link to="/about-us" className="text-black py-2 pl-3">
-        About Us
-      </Link>
+
+      <NavLink to="/about-us" className={navClass}>About Us</NavLink>
+      <NavLink to="/contact-us" className={navClass}>Contact Us</NavLink>
     </>
   );
 
   const handleSignOut = async () => {
-  const result = await Swal.fire({
-    title: "Are you sure?",
-    text: "You will be logged out from this account.",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#155DFC",
-    cancelButtonColor: "#E7000B",
-    confirmButtonText: "Log Out",
-    cancelButtonText: "Cancel",
-  });
-
-  if (!result.isConfirmed) return;
-
-  try {
-    await signOutUser();
-    Swal.fire({
-      icon: "success",
-      title: "Logged Out",
-      text: "You have been logged out successfully.",
-      timer: 1500,
-      showConfirmButton: false,
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out from this account.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#155DFC",
+      cancelButtonColor: "#E7000B",
+      confirmButtonText: "Log Out",
+      cancelButtonText: "Cancel",
     });
-  } catch (error) {
-    console.error(error);
-    Swal.fire({
-      icon: "error",
-      title: "Failed",
-      text: "Logout failed. Please try again.",
-    });
-  }
-};
 
+    if (!result.isConfirmed) return;
+
+    try {
+      await signOutUser();
+      Swal.fire({
+        icon: "success",
+        title: "Logged Out",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Failed",
+        text: "Logout failed. Please try again.",
+      });
+    }
+  };
 
   return (
-    <div className="navbar bg-white flex items-center justify-between fixed top-0 left-0 shadow-sm px-10 sm:px-0 md:px-8 z-99">
-      <div className="navbar-start flex items-center -ml-7 sm:ml-0 md:ml-0">
+    <div className="navbar fixed top-0 left-0 z-99 w-full flex items-center justify-between
+      bg-white dark:bg-[#0b0f19]
+      border-b border-gray-100 dark:border-white/10
+      shadow-sm dark:shadow-black/40
+      px-10 sm:px-0 md:px-8 transition-colors">
+
+      {/* Left */}
+      <div className="navbar-start flex items-center -ml-10 sm:ml-0">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 "
-              fill="none"
-              viewBox="0 0 20 20"
-              stroke="currentColor"
-            >
-              {" "}
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />{" "}
+          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden text-gray-800 dark:text-gray-200">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
+              viewBox="0 0 20 20" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                d="M4 6h16M4 12h8m-8 6h16" />
             </svg>
           </div>
+
           <ul
             tabIndex="-1"
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content mt-3 w-52 p-2 rounded-box shadow-xl
+              bg-white dark:bg-[#121826] border dark:border-white/10"
           >
             {links}
           </ul>
         </div>
-        <Link to="/" className="font-semibold flex items-center gap-2 md:text-xl sm:text-sm text-xs">
-          <FaGoogleScholar className="text-blue-600 text-lg " />
+
+        <Link to="/" className="font-semibold flex items-center gap-2 md:text-xl text-sm text-gray-900 dark:text-white">
+          <FaGoogleScholar className="text-[#0CB3FA] text-lg" />
           Scholar_Stream
         </Link>
       </div>
+
+      {/* Center */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 flex gap-5">{links}</ul>
+        <ul className="menu menu-horizontal gap-5">{links}</ul>
       </div>
-      <div className="navbar-end gap-4 text-zinc-800 lg:flex md:pr-0 pr-5 -mr-5 md:mr-0">
+
+      {/* Right */}
+      <div className="navbar-end gap-4 -pr-10 text-gray-800 dark:text-gray-200">
+        <DarkModeToggle />
+
         {user ? (
-          <div className="dropdown dropdown-bottom dropdown-end">
+          <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
-              role="button"
-              className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-indigo-400 hover:ring-indigo-500 transition-all duration-200 cursor-pointer"
+              className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-[#0CB3FA] cursor-pointer"
             >
               <img
                 src={user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
                 className="w-full h-full object-cover"
-                alt="User Avatar"
               />
             </div>
 
             <div
               tabIndex="-1"
-              className="dropdown-content w-50 bg-white rounded-xl shadow-2xl border border-gray-200 mt-2 p-4 flex flex-col gap-3"
+              className="dropdown-content mt-2 w-56 p-4 rounded-xl shadow-2xl
+                bg-white dark:bg-[#121826]
+                border border-gray-200 dark:border-white/10
+                flex flex-col gap-3"
             >
-              <div className="flex items-center gap-3 pb-2 border-b border-gray-100">
+              <div className="flex items-center gap-3 pb-2 border-b border-gray-100 dark:border-white/10">
                 <img
                   src={user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
-                  className="w-10 h-10 rounded-full object-cover"
-                  alt="User Avatar"
+                  className="w-10 h-10 rounded-full"
                 />
                 <div>
-                  <p className="font-semibold text-gray-800">
+                  <p className="font-semibold text-gray-800 dark:text-white">
                     {user.displayName}
                   </p>
-                  <p className="text-xs text-gray-500 capitalize">{role}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">
+                    {role}
+                  </p>
                 </div>
               </div>
+
               <Link
-                to="/dashboard/my-profile"
-                className="px-3 py-2 rounded-lg bg-zinc-100 hover:bg-indigo-50 hover:text-indigo-600 transition-colors font-medium text-gray-700"
-              >
-                My Profile
+                to="/dashboard/my-applications"
+                className="px-3 py-2 rounded-lg font-medium
+                  text-gray-700 dark:text-gray-300
+                  hover:bg-indigo-50 dark:hover:bg-white/10">
+                My Dashboard
               </Link>
 
-              <button
-                onClick={handleSignOut}
-                className=" px-3 py-2 bg-blue-600 rounded-full text-white font-medium  hover:bg-red-600 transition-colors duration-400 ease-in-out"
-              >
-                Log Out
-              </button>
+              <Button text="Log Out" onClick={handleSignOut} />
             </div>
           </div>
         ) : (
-          <div className="flex gap-4">
+          <div className="flex gap-2">
             <Link
-              to={"/register"}
-              className="bg-blue-600 rounded-full text-sm text-white hover:bg-white hover:text-blue-600 transition-all border hover:border-blue-600 duration-300 px-5 py-2"
-            >
+              to="/register"
+              className="md:px-5 px-2 text-xs py-2 rounded-full md:text-sm
+                bg-blue-600 text-white
+                hover:bg-transparent hover:text-blue-600
+                border border-blue-600 transition">
               Register
             </Link>
             <Link
-              to={"/login"}
-              className="bg-white border border-blue-600 rounded-full text-sm text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 px-5 py-2"
-            >
+              to="/login"
+              className="px-5 py-2 rounded-full hidden md:block text-sm
+                bg-white dark:bg-transparent
+                text-blue-600
+                border border-blue-600
+                hover:bg-blue-600 hover:text-white transition">
               Login
             </Link>
           </div>

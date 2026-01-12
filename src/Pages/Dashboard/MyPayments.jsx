@@ -16,26 +16,28 @@ const MyPayments = () => {
   });
 
   if (isLoading)
-    return (
-      <div className="flex justify-center mt-20">
-        <span className="loading loading-spinner text-info"></span>
-      </div>
-    );
+  return (
+    <div className="w-full flex items-center justify-center h-screen pt-10
+      bg-white dark:bg-[#0b0f19]">
+      <span className="loading loading-spinner text-info dark:text-blue-400"></span>
+    </div>
+  );
+
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-white dark:bg-[#0b0f19] text-zinc-900 dark:text-zinc-300 min-h-screen">
       <h1 className="text-2xl font-semibold mb-6">
         My Payments ({payments.length})
       </h1>
 
       {payments.length === 0 ? (
-        <div className="text-center text-gray-500 py-10">
+        <div className="text-center text-gray-500 dark:text-gray-400 py-10">
           No payment records found.
         </div>
       ) : (
         <div className="overflow-x-auto rounded-2xl shadow">
-          <table className="table table-zebra w-full">
-            <thead className="bg-gray-100">
+          <table className="table  w-full border dark:border-zinc-700 border-zinc-300">
+            <thead className="bg-gray-100 dark:bg-[#15181f] text-zinc-700 dark:text-zinc-300">
               <tr>
                 <th>Sl</th>
                 <th>Scholarship</th>
@@ -50,18 +52,17 @@ const MyPayments = () => {
 
             <tbody>
               {payments.map((payment, idx) => (
-                <tr key={payment._id}>
+                <tr
+                  key={payment._id}
+                  className="border border-zinc-700 dark:border-zinc-600"
+                >
                   <td>{idx + 1}</td>
 
-                  <td className="font-medium">
-                    {payment.scholarshipName || "N/A"}
-                  </td>
+                  <td className="font-medium text-xs">{payment.scholarshipName || "N/A"}</td>
 
-                  <td>{payment.universityName || "N/A"}</td>
+                  <td className="text-xs">{payment.universityName || "N/A"}</td>
 
-                  <td className="font-semibold">
-                    ${payment.amount}
-                  </td>
+                  <td className="font-semibold text-xs">${payment.amount}</td>
 
                   <td>
                     {payment.paymentStatus === "paid" ? (
@@ -75,17 +76,11 @@ const MyPayments = () => {
                     )}
                   </td>
 
-                  <td className="text-xs font-mono">
-                    {payment.trackingId || "—"}
-                  </td>
+                  <td className="text-xs font-mono">{payment.trackingId || "—"}</td>
 
-                  <td className="text-xs font-mono">
-                    {payment.transactionId || "—"}
-                  </td>
+                  <td className="text-xs font-mono">{payment.transactionId || "—"}</td>
 
-                  <td>
-                    {new Date(payment.paidAt).toLocaleDateString()}
-                  </td>
+                  <td className="text-xs">{new Date(payment.paidAt).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>

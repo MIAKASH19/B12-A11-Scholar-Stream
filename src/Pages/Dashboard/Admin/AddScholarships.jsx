@@ -5,7 +5,7 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 
 const AddScholarship = () => {
-  const {user } = useAuth()
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   const {
@@ -19,8 +19,8 @@ const AddScholarship = () => {
     try {
       const postData = {
         ...data,
-        scholarshipPostDate: new Date().toISOString(), 
-        postedUserEmail: user?.email || "unknown", 
+        scholarshipPostDate: new Date().toISOString(),
+        postedUserEmail: user?.email || "unknown",
       };
       const response = await axiosSecure.post("/scholarships", postData);
       if (response.data) {
@@ -44,212 +44,49 @@ const AddScholarship = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <h1 className="text-2xl font-semibold mb-6 text-gray-800">
+    <div className="w-full dark:bg-[#0b0f19] bg-white mx-auto p-6">
+      <h1 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-100">
         Add New Scholarship
       </h1>
 
       <form
         onSubmit={handleSubmit(addScholarship)}
-        className="bg-white shadow-xl border border-zinc-300 rounded-2xl p-6 grid grid-cols-1 md:grid-cols-2 gap-6"
+        className="bg-white dark:bg-[#111622] max-w-6xl mx-auto shadow-xl border border-zinc-300 dark:border-zinc-700 rounded-2xl p-6 grid grid-cols-1 md:grid-cols-2 gap-6"
       >
-        <div>
-          <label className="block mb-2 text-gray-600 font-medium">
-            Scholarship Name
-          </label>
-          <input
-            type="text"
-            {...register("scholarshipName", { required: true })}
-            className="input input-bordered w-full"
-            placeholder="Enter scholarship name"
-          />
-          {errors.scholarshipName && (
-            <p className="text-red-500 text-sm mt-1">This field is required</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block mb-2 text-gray-600 font-medium">
-            University Name
-          </label>
-          <input
-            type="text"
-            {...register("universityName", { required: true })}
-            className="input input-bordered w-full"
-            placeholder="Enter university name"
-          />
-          {errors.universityName && (
-            <p className="text-red-500 text-sm mt-1">This field is required</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block mb-2 text-gray-600 font-medium">
-            University Image URL
-          </label>
-          <input
-            type="url"
-            {...register("universityImage", { required: true })}
-            className="input input-bordered w-full"
-            placeholder="Paste image URL"
-          />
-          {errors.universityImage && (
-            <p className="text-red-500 text-sm mt-1">This field is required</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block mb-2 text-gray-600 font-medium">
-            Country
-          </label>
-          <input
-            type="text"
-            {...register("universityCountry", { required: true })}
-            className="input input-bordered w-full"
-            placeholder="Country"
-          />
-          {errors.universityCountry && (
-            <p className="text-red-500 text-sm mt-1">This field is required</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block mb-2 text-gray-600 font-medium">City</label>
-          <input
-            type="text"
-            {...register("universityCity", { required: true })}
-            className="input input-bordered w-full"
-            placeholder="City"
-          />
-          {errors.universityCity && (
-            <p className="text-red-500 text-sm mt-1">This field is required</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block mb-2 text-gray-600 font-medium">
-            World Rank
-          </label>
-          <input
-            type="number"
-            {...register("universityWorldRank", { required: true })}
-            className="input input-bordered w-full"
-            placeholder="University world rank"
-          />
-          {errors.universityWorldRank && (
-            <p className="text-red-500 text-sm mt-1">This field is required</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block mb-2 text-gray-600 font-medium">
-            Subject Category
-          </label>
-          <input
-            type="text"
-            {...register("subjectCategory", { required: true })}
-            className="input input-bordered w-full"
-            placeholder="Subject Category"
-          />
-          {errors.subjectCategory && (
-            <p className="text-red-500 text-sm mt-1">This field is required</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block mb-2 text-gray-600 font-medium">
-            Scholarship Category
-          </label>
-          <select
-            {...register("scholarshipCategory", { required: true })}
-            className="input input-bordered w-full"
-          >
-            <option value="">Select Category</option>
-            <option value="Full Fund">Full Fund</option>
-            <option value="Partial Fund">Partial Fund</option>
-            <option value="Merit Based">Merit Based</option>
-          </select>
-          {errors.scholarshipCategory && (
-            <p className="text-red-500 text-sm mt-1">This field is required</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block mb-2 text-gray-600 font-medium">Degree</label>
-          <input
-            type="text"
-            {...register("degree", { required: true })}
-            className="input input-bordered w-full"
-            placeholder="Degree (e.g., Masters, Bachelors)"
-          />
-          {errors.degree && (
-            <p className="text-red-500 text-sm mt-1">This field is required</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block mb-2 text-gray-600 font-medium">
-            Tuition Fees
-          </label>
-          <input
-            type="number"
-            {...register("tuitionFees", { required: true })}
-            className="input input-bordered w-full"
-            placeholder="Tuition Fees"
-          />
-          {errors.tuitionFees && (
-            <p className="text-red-500 text-sm mt-1">This field is required</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block mb-2 text-gray-600 font-medium">
-            Application Fees
-          </label>
-          <input
-            type="number"
-            {...register("applicationFees", { required: true })}
-            className="input input-bordered w-full"
-            placeholder="Application Fees"
-          />
-          {errors.applicationFees && (
-            <p className="text-red-500 text-sm mt-1">This field is required</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block mb-2 text-gray-600 font-medium">
-            Service Charge
-          </label>
-          <input
-            type="number"
-            {...register("serviceCharge", { required: true })}
-            className="input input-bordered w-full"
-            placeholder="Service Charge"
-          />
-          {errors.serviceCharge && (
-            <p className="text-red-500 text-sm mt-1">This field is required</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block mb-2 text-gray-600 font-medium">
-            Application Deadline
-          </label>
-          <input
-            type="date"
-            {...register("applicationDeadline", { required: true })}
-            className="input input-bordered w-full"
-          />
-          {errors.applicationDeadline && (
-            <p className="text-red-500 text-sm mt-1">This field is required</p>
-          )}
-        </div>
+        {[
+          { label: "Scholarship Name", name: "scholarshipName", type: "text" },
+          { label: "University Name", name: "universityName", type: "text" },
+          { label: "University Image URL", name: "universityImage", type: "url" },
+          { label: "Country", name: "universityCountry", type: "text" },
+          { label: "City", name: "universityCity", type: "text" },
+          { label: "World Rank", name: "universityWorldRank", type: "number" },
+          { label: "Subject Category", name: "subjectCategory", type: "text" },
+          { label: "Degree", name: "degree", type: "text" },
+          { label: "Tuition Fees", name: "tuitionFees", type: "number" },
+          { label: "Application Fees", name: "applicationFees", type: "number" },
+          { label: "Service Charge", name: "serviceCharge", type: "number" },
+          { label: "Application Deadline", name: "applicationDeadline", type: "date" },
+        ].map((field, idx) => (
+          <div key={idx}>
+            <label className="block mb-2 text-gray-600 dark:text-gray-300 font-medium">
+              {field.label}
+            </label>
+            <input
+              type={field.type}
+              {...register(field.name, { required: true })}
+              className="input input-bordered w-full dark:bg-[#1a1e2a] dark:text-gray-100 dark:border-zinc-700"
+              placeholder={field.label}
+            />
+            {errors[field.name] && (
+              <p className="text-red-500 text-sm mt-1">This field is required</p>
+            )}
+          </div>
+        ))}
 
         <div className="md:col-span-2 flex justify-end mt-4">
           <button
             type="submit"
-            className="px-6 py-2 bg-blue-600 text-white font-medium rounded-xl cursor-pointer transition-all"
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl cursor-pointer transition-all"
           >
             Add Scholarship
           </button>

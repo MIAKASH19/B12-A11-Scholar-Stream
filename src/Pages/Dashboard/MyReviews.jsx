@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import { FaStar } from "react-icons/fa";
+import { FaEdit, FaTrash, FaStar } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 const MyReviews = () => {
@@ -34,6 +33,7 @@ const MyReviews = () => {
     });
 
     if (!result.isConfirmed) return;
+
     try {
       await axiosSecure.delete(`/reviews/${reviewId}`);
       queryClient.invalidateQueries(["myReviews", user.email]);
@@ -91,23 +91,27 @@ const MyReviews = () => {
 
   if (isLoading)
     return (
-      <div className="flex justify-center mt-20">
-        <span className="loading loading-spinner text-info"></span>
+      <div className="w-full flex items-center justify-center h-screen pt-10
+      bg-white dark:bg-[#0b0f19]">
+        <span className="loading loading-spinner text-info dark:text-blue-400"></span>
       </div>
     );
 
+
   return (
-    <div className="p-6">
+    <div className="p-6 bg-white dark:bg-[#0b0f19] text-zinc-900 dark:text-zinc-300 min-h-screen">
       <h1 className="text-2xl font-semibold mb-6">
         My Reviews ({reviews.length})
       </h1>
 
       {reviews.length === 0 ? (
-        <div className="text-center text-gray-500 py-10">No Reviews found.</div>
+        <div className="text-center text-gray-500 dark:text-gray-400 py-10">
+          No Reviews found.
+        </div>
       ) : (
         <div className="overflow-x-auto rounded-2xl">
-          <table className="table table-zebra w-full">
-            <thead className="bg-gray-100">
+          <table className="table table-zebra w-full border border-zinc-700">
+            <thead className="bg-gray-100 dark:bg-[#15181f] text-zinc-700 dark:text-zinc-300">
               <tr>
                 <th>Sl</th>
                 <th>Scholarship Name</th>
@@ -120,42 +124,39 @@ const MyReviews = () => {
             </thead>
             <tbody>
               {reviews.map((review, idx) => (
-                <tr key={review._id}>
+                <tr
+                  key={review._id}
+                  className="border border-zinc-700 dark:border-zinc-600"
+                >
                   <td>{idx + 1}</td>
-                  <td className="font-medium">
-                    {review.scholarshipName || "N/A"}
-                  </td>
-                  <td>{review.universityName}</td>
-                  <td>{review.reviewComment}</td>
+                  <td className="font-medium text-xs">{review.scholarshipName || "N/A"}</td>
+                  <td className="text-xs">{review.universityName}</td>
+                  <td className="text-xs">{review.reviewComment}</td>
                   <td className="flex items-center">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <FaStar
                         key={star}
                         className="mr-1"
-                        color={
-                          review.ratingPoint >= star ? "#facc15" : "#d1d5db"
-                        }
+                        color={review.ratingPoint >= star ? "#facc15" : "#9ca3af"}
                       />
                     ))}
                   </td>
-                  <td>{new Date(review.reviewDate).toLocaleDateString()}</td>
-                  <td className="flex gap-2">
+                  <td className="text-xs">{new Date(review.reviewDate).toLocaleDateString()}</td>
+                  <td className="flex gap-2 flex-wrap">
                     <button
-                      className="btn text-lg hover:btn-info gap-2 tooltip tooltip-top "
+                      className="btn text-lg dark:bg-[#121b33] dark:text-white shadow-none hover:btn-info gap-2 tooltip tooltip-top"
                       data-tip="Edit Review"
                       onClick={() => {
                         setSelectedReview(review);
                         setUpdatedComment(review.reviewComment);
                         setUpdatedRating(review.ratingPoint);
-                        document
-                          .getElementById("edit_review_modal")
-                          .showModal();
+                        document.getElementById("edit_review_modal").showModal();
                       }}
                     >
                       <FaEdit />
                     </button>
                     <button
-                      className="btn text-lg tooltip tooltip-top hover:btn-error gap-2"
+                      className="btn text-lg dark:bg-[#121b33] dark:text-white shadow-none hover:btn-error gap-2 tooltip tooltip-top"
                       data-tip="Delete Review"
                       onClick={() => handleDelete(review._id)}
                     >
@@ -169,11 +170,12 @@ const MyReviews = () => {
         </div>
       )}
 
+      {/* Edit Review Modal */}
       <dialog
         id="edit_review_modal"
         className="modal modal-bottom sm:modal-middle"
       >
-        <div className="modal-box max-w-3xl p-6">
+        <div className="modal-box max-w-3xl p-6 bg-white dark:bg-[#1a1e2a] text-gray-800 dark:text-gray-100 border border-zinc-700 rounded-2xl">
           <h3 className="text-xl font-semibold mb-4 text-center">
             Edit Review for {selectedReview?.universityName}
           </h3>
@@ -184,7 +186,7 @@ const MyReviews = () => {
                 key={star}
                 size={28}
                 className="cursor-pointer transition-colors mx-1"
-                color={updatedRating >= star ? "#facc15" : "#d1d5db"}
+                color={updatedRating >= star ? "#facc15" : "#9ca3af"}
                 onClick={() => setUpdatedRating(star)}
               />
             ))}
@@ -192,21 +194,24 @@ const MyReviews = () => {
 
           <textarea
             rows={4}
-            className="w-full border rounded-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none"
+            className="w-full border border-gray-300 dark:border-gray-600 rounded-lg p-3 mb-4 bg-gray-50 dark:bg-[#0b0f19] text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:focus:ring-indigo-500 resize-none"
             value={updatedComment}
             onChange={(e) => setUpdatedComment(e.target.value)}
           />
 
           <div className="flex justify-end gap-3">
             <button
-              className="btn btn-outline"
+              className="btn btn-outline dark:border-zinc-600 hover:bg-[#0CB3FA]/20 shadow-none rounded-full dark:text-gray-200"
               onClick={() =>
                 document.getElementById("edit_review_modal").close()
               }
             >
               Cancel
             </button>
-            <button className="btn btn-primary" onClick={handleUpdate}>
+            <button
+              className="btn bg-[#0CB3FA] hover:bg-[#0CB3FA]/70 border-none rounded-full"
+              onClick={handleUpdate}
+            >
               Update
             </button>
           </div>

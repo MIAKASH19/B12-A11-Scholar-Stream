@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const Star = ({ filled }) => (
   <svg
-    className={`w-4 h-4 ${filled ? "text-yellow-400" : "text-gray-300"}`}
+    className={`w-4 h-4 ${filled ? "text-yellow-400" : "text-gray-300 dark:text-gray-600"}`}
     fill="currentColor"
     viewBox="0 0 20 20"
   >
@@ -14,7 +14,7 @@ const Star = ({ filled }) => (
 const ReviewCard = ({ review }) => (
   <motion.div
     whileHover={{ scale: 1.03 }}
-    className="bg-white border border-gray-200 rounded-2xl p-6 shadow-lg flex flex-col gap-4"
+    className="bg-white dark:bg-[#151a27] border border-gray-200 dark:border-zinc-700 rounded-2xl p-6 shadow-lg dark:shadow-black/40 flex flex-col gap-4 transition-colors"
   >
     <div className="flex items-center gap-4">
       <img
@@ -23,8 +23,8 @@ const ReviewCard = ({ review }) => (
         className="w-12 h-12 rounded-full object-cover"
       />
       <div>
-        <p className="font-semibold">{review.userName}</p>
-        <p className="text-xs text-gray-500">{review.reviewDate}</p>
+        <p className="font-semibold text-gray-800 dark:text-white">{review.userName}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">{review.reviewDate}</p>
       </div>
     </div>
 
@@ -32,21 +32,21 @@ const ReviewCard = ({ review }) => (
       {[1, 2, 3, 4, 5].map((i) => (
         <Star key={i} filled={i <= Math.round(review.ratingPoint)} />
       ))}
-      <span className="text-sm text-gray-500 ml-2">
+      <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">
         {review.ratingPoint.toFixed(1)}
       </span>
     </div>
 
-    <p className="text-gray-700 text-sm">{review.reviewComment}</p>
+    <p className="text-gray-700 dark:text-gray-300 text-sm">{review.reviewComment}</p>
   </motion.div>
 );
 
-const ReviewsSection = ({ reviews=[] }) => {
+const ReviewsSection = ({ reviews = [] }) => {
   if (!reviews || reviews.length === 0) return null;
 
   return (
     <section className="max-w-7xl mx-auto mt-20 px-4">
-      <h2 className="text-3xl font-semibold mb-8 text-center">
+      <h2 className="text-3xl font-semibold mb-8 text-center text-gray-900 dark:text-white">
         Student Reviews
       </h2>
 

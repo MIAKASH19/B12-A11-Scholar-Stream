@@ -30,7 +30,6 @@ const ManageScholarships = () => {
   const totalScholarships = data.total || 0;
   const totalPages = Math.ceil(totalScholarships / limit);
 
-  // delete scholarships
   const handleDelete = async (id) => {
     const result = await Swal.fire({
       title: "Delete this scholarship?",
@@ -44,6 +43,7 @@ const ManageScholarships = () => {
     if (!result.isConfirmed) return;
 
     await axiosSecure.delete(`/scholarships/${id}`);
+    queryClient.invalidateQueries(["all-scholarships"]);
 
     Swal.fire({
       icon: "success",
@@ -52,11 +52,8 @@ const ManageScholarships = () => {
       timer: 1500,
       showConfirmButton: false,
     });
-
-    queryClient.invalidateQueries(["all-scholarships"]);
   };
 
-  // update scholarships
   const handleUpdateScholarship = async (data) => {
     try {
       const payload = {
@@ -66,6 +63,7 @@ const ManageScholarships = () => {
         serviceCharge: Number(data.serviceCharge),
         universityWorldRank: Number(data.universityWorldRank),
       };
+
       await axiosSecure.patch(
         `/scholarships/${selectedScholarship._id}`,
         payload
@@ -79,29 +77,32 @@ const ManageScholarships = () => {
         timer: 1500,
         showConfirmButton: false,
       });
+
       document.getElementById("edit_scholarship_modal").close();
       setSelectedScholarship(null);
-    } catch (error) {
+    } catch {
       Swal.fire("Error", "Update failed", "error");
     }
   };
 
   if (isLoading)
-    return (
-      <div className="flex justify-center mt-20">
-        <span className="loading loading-spinner text-info"></span>
-      </div>
-    );
+  return (
+    <div className="w-full flex items-center justify-center h-screen pt-10
+      bg-white dark:bg-[#0b0f19]">
+      <span className="loading loading-spinner text-info dark:text-blue-400"></span>
+    </div>
+  );
+
 
   return (
-    <div className="p-6">
+    <div className="min-h-screen p-6 bg-gray-50 dark:bg-[#0b0f19] text-gray-800 dark:text-gray-200">
       <h2 className="text-2xl font-semibold mb-6">
         Manage Scholarships ({totalScholarships})
       </h2>
 
-      <div className="overflow-x-auto bg-white rounded-xl shadow border border-zinc-200">
-        <table className="table">
-          <thead className="bg-gray-100">
+      <div className="overflow-x-auto bg-white dark:bg-[#111827] rounded-2xl shadow border border-gray-200 dark:border-gray-800">
+        <table className="table w-full">
+          <thead className="bg-gray-100 dark:bg-[#15181f] text-gray-700 dark:text-gray-300">
             <tr>
               <th>#</th>
               <th>Scholarship</th>
@@ -115,25 +116,30 @@ const ManageScholarships = () => {
 
           <tbody>
             {scholarships.map((item, index) => (
-              <tr key={item._id}>
+              <tr
+                key={item._id}
+                className="hover:bg-gray-50 dark:hover:bg-[#1f2937] transition"
+              >
                 <td>{currentPage * limit + index + 1}</td>
 
                 <td>
                   <p className="font-medium">{item.scholarshipName}</p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
                     {item.subjectCategory}
                   </p>
                 </td>
 
                 <td>
                   <p>{item.universityName}</p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
                     {item.universityCountry}
                   </p>
                 </td>
 
                 <td>
-                  <span className="badge">{item.scholarshipCategory}</span>
+                  <span className="badge badge-outline">
+                    {item.scholarshipCategory}
+                  </span>
                 </td>
 
                 <td>{item.degree}</td>
@@ -142,10 +148,11 @@ const ManageScholarships = () => {
                 <td className="text-center">
                   <div className="flex justify-center gap-2">
                     <button
-                      className="btn text-lg hover:btn-info tooltip tooltip-top"
+                      className="btn btn-sm btn-ghost tooltip tooltip-top"
+                      data-tip="Edit"
                       onClick={() => {
                         setSelectedScholarship(item);
-                        reset(item); 
+                        reset(item);
                         document
                           .getElementById("edit_scholarship_modal")
                           .showModal();
@@ -156,7 +163,8 @@ const ManageScholarships = () => {
 
                     <button
                       onClick={() => handleDelete(item._id)}
-                      className="btn text-lg hover:btn-error tooltip tooltip-top"
+                      className="btn btn-sm btn-ghost text-red-500 hover:bg-red-500/10 tooltip tooltip-top"
+                      data-tip="Delete"
                     >
                       <FaRegTrashAlt />
                     </button>
@@ -167,7 +175,10 @@ const ManageScholarships = () => {
 
             {scholarships.length === 0 && (
               <tr>
-                <td colSpan="7" className="text-center py-10 text-gray-500">
+                <td
+                  colSpan="7"
+                  className="text-center py-16 text-gray-500 dark:text-gray-400"
+                >
                   No scholarships found
                 </td>
               </tr>
@@ -176,9 +187,13 @@ const ManageScholarships = () => {
         </table>
       </div>
 
-      <div className="mt-10 flex justify-center gap-2">
+      {/* Pagination */}
+      <div className="mt-10 flex justify-center gap-2 flex-wrap">
         {currentPage > 0 && (
-          <button onClick={() => setCurrentPage((p) => p - 1)} className="btn">
+          <button
+            onClick={() => setCurrentPage((p) => p - 1)}
+            className="btn btn-outline"
+          >
             Prev
           </button>
         )}
@@ -188,7 +203,7 @@ const ManageScholarships = () => {
             key={page}
             onClick={() => setCurrentPage(page)}
             className={`btn ${
-              currentPage === page ? "btn-info text-white" : ""
+              currentPage === page ? "btn-info text-white" : "btn-outline"
             }`}
           >
             {page + 1}
@@ -196,136 +211,51 @@ const ManageScholarships = () => {
         ))}
 
         {currentPage < totalPages - 1 && (
-          <button onClick={() => setCurrentPage((p) => p + 1)} className="btn">
+          <button
+            onClick={() => setCurrentPage((p) => p + 1)}
+            className="btn btn-outline"
+          >
             Next
           </button>
         )}
       </div>
 
+      {/* Edit Modal */}
       <dialog id="edit_scholarship_modal" className="modal">
-        <div className="modal-box max-w-2xl">
-          <h3 className="font-semibold text-xl mb-4">Update Scholarship</h3>
+        <div className="modal-box max-w-2xl bg-white dark:bg-[#111827] text-gray-800 dark:text-gray-200">
+          <h3 className="font-semibold text-xl mb-4">
+            Update Scholarship
+          </h3>
 
           <form
             onSubmit={handleSubmit(handleUpdateScholarship)}
             className="space-y-4"
           >
-            <div>
-              <label className="label">Scholarship Name</label>
-              <input
-                {...register("scholarshipName", { required: true })}
-                className="input input-bordered w-full"
-              />
-            </div>
-            <div>
-              <label className="label">University Name</label>
-              <input
-                {...register("universityName", { required: true })}
-                className="input input-bordered w-full"
-              />
-            </div>
-
-            <div>
-              <label className="label">University Image URL</label>
-              <input
-                {...register("universityImage")}
-                className="input input-bordered w-full"
-              />
-            </div>
+            {[
+              ["Scholarship Name", "scholarshipName"],
+              ["University Name", "universityName"],
+              ["University Image URL", "universityImage"],
+              ["Subject Category", "subjectCategory"],
+            ].map(([label, name]) => (
+              <div key={name}>
+                <label className="label">{label}</label>
+                <input
+                  {...register(name)}
+                  className="input input-bordered w-full dark:bg-[#1f2937]"
+                />
+              </div>
+            ))}
 
             <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="label">Country</label>
-                <input
-                  {...register("universityCountry")}
-                  className="input input-bordered w-full"
-                />
-              </div>
-
-              <div>
-                <label className="label">City</label>
-                <input
-                  {...register("universityCity")}
-                  className="input input-bordered w-full"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="label">University World Rank</label>
               <input
-                type="number"
-                {...register("universityWorldRank")}
-                className="input input-bordered w-full"
+                {...register("universityCountry")}
+                placeholder="Country"
+                className="input input-bordered dark:bg-[#1f2937]"
               />
-            </div>
-
-            <div>
-              <label className="label">Subject Category</label>
               <input
-                {...register("subjectCategory")}
-                className="input input-bordered w-full"
-              />
-            </div>
-
-            <div>
-              <label className="label">Scholarship Category</label>
-              <select
-                {...register("scholarshipCategory")}
-                className="select select-bordered w-full"
-              >
-                <option value="Full Fund">Full Fund</option>
-                <option value="Partial Fund">Partial Fund</option>
-                <option value="Self Fund">Self Fund</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="label">Degree</label>
-              <select
-                {...register("degree")}
-                className="select select-bordered w-full"
-              >
-                <option value="Bachelors">Bachelors</option>
-                <option value="Masters">Masters</option>
-                <option value="PhD">PhD</option>
-              </select>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <label className="label">Tuition Fees</label>
-                <input
-                  type="number"
-                  {...register("tuitionFees")}
-                  className="input input-bordered w-full"
-                />
-              </div>
-
-              <div>
-                <label className="label">Application Fees</label>
-                <input
-                  type="number"
-                  {...register("applicationFees")}
-                  className="input input-bordered w-full"
-                />
-              </div>
-
-              <div>
-                <label className="label">Service Charge</label>
-                <input
-                  type="number"
-                  {...register("serviceCharge")}
-                  className="input input-bordered w-full"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="label">Application Deadline</label>
-              <input
-                type="date"
-                {...register("applicationDeadline", { required: true })}
-                className="input input-bordered w-full"
+                {...register("universityCity")}
+                placeholder="City"
+                className="input input-bordered dark:bg-[#1f2937]"
               />
             </div>
 
@@ -340,7 +270,7 @@ const ManageScholarships = () => {
                 Cancel
               </button>
               <button type="submit" className="btn btn-info">
-                Update Scholarship
+                Update
               </button>
             </div>
           </form>

@@ -25,13 +25,14 @@ const Analytics = () => {
     },
   });
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center mt-20">
-        <span className="loading loading-spinner text-info"></span>
-      </div>
-    );
-  }
+  if (isLoading)
+  return (
+    <div className="w-full flex items-center justify-center h-screen pt-10
+      bg-white dark:bg-[#0b0f19]">
+      <span className="loading loading-spinner text-info dark:text-blue-400"></span>
+    </div>
+  );
+
 
   const {
     totalUsers,
@@ -41,44 +42,61 @@ const Analytics = () => {
   } = data;
 
   return (
-    <div className="p-6 space-y-10">
-      <h2 className="text-2xl font-semibold">Analytics Dashboard</h2>
+    <div className="p-6 space-y-10 min-h-screen
+      bg-white dark:bg-[#0b0f19]
+      text-zinc-900 dark:text-zinc-200"
+    >
+      <h2 className="text-2xl font-semibold">
+        Analytics Dashboard
+      </h2>
 
+      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow-lg border border-zinc-200">
-          <h3 className="text-gray-500">Total Users</h3>
-          <p className="text-3xl font-bold mt-2">{totalUsers}</p>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-lg border border-zinc-200">
-          <h3 className="text-gray-500">Total Scholarships</h3>
-          <p className="text-3xl font-bold mt-2">{totalScholarships}</p>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-lg border border-zinc-200">
-          <h3 className="text-gray-500">Total Fees Collected</h3>
-          <p className="text-3xl font-bold mt-2">
-            ${totalFeesCollected}
-          </p>
-        </div>
+        <StatCard title="Total Users" value={totalUsers} />
+        <StatCard title="Total Scholarships" value={totalScholarships} />
+        <StatCard
+          title="Total Fees Collected"
+          value={`$${totalFeesCollected}`}
+        />
       </div>
 
-      <div className="bg-white p-6 rounded-xl shadow-lg border border-zinc-200">
+      {/* Bar Chart */}
+      <div className="bg-white dark:bg-[#121a2c]
+        p-6 rounded-2xl
+        border border-zinc-200 dark:border-zinc-700"
+      >
         <h3 className="font-semibold mb-4">
           Applications per University
         </h3>
 
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={applicationsByUniversity}>
-            <XAxis dataKey="_id" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="count" fill="#3b82f6" />
+            <XAxis
+              dataKey="_id"
+              stroke="#9ca3af"
+              tick={{ fill: "#9ca3af" }}
+            />
+            <YAxis
+              stroke="#9ca3af"
+              tick={{ fill: "#9ca3af" }}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#020617",
+                border: "1px solid #334155",
+                color: "#e5e7eb",
+              }}
+            />
+            <Bar dataKey="count" fill="#3b82f6" radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
 
-      <div className="bg-white p-6 rounded-xl shadow-lg border border-zinc-200">
+      {/* Pie Chart */}
+      <div className="bg-white dark:bg-[#121a2c]
+        p-6 rounded-2xl
+        border border-zinc-200 dark:border-zinc-700"
+      >
         <h3 className="font-semibold mb-4">
           Applications Distribution
         </h3>
@@ -101,12 +119,32 @@ const Analytics = () => {
                 />
               ))}
             </Pie>
-            <Tooltip />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#020617",
+                border: "1px solid #334155",
+                color: "#e5e7eb",
+              }}
+            />
           </PieChart>
         </ResponsiveContainer>
       </div>
     </div>
   );
 };
+
+const StatCard = ({ title, value }) => (
+  <div className="bg-white dark:bg-[#121a2c]
+    p-6 rounded-2xl
+    border border-zinc-200 dark:border-zinc-700"
+  >
+    <h3 className="text-sm text-gray-500 dark:text-gray-400">
+      {title}
+    </h3>
+    <p className="text-3xl font-bold mt-2">
+      {value}
+    </p>
+  </div>
+);
 
 export default Analytics;

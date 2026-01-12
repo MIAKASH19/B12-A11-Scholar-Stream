@@ -31,6 +31,7 @@ import ApproveModerator from "../Pages/Dashboard/Admin/ApproveModerator";
 import MangeScholarships from "../Pages/Dashboard/Admin/ManageScholarships";
 import StudentManagement from "../Pages/Dashboard/Admin/StudentManagement";
 import Analytics from "../Pages/Dashboard/Admin/Analytics";
+import ContactUs from "../Pages/ContactUs";
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +59,26 @@ export const router = createBrowserRouter([
       {
         path: "about-us",
         Component: AboutUs,
+      },
+      {
+        path: "contact-us",
+        Component: ContactUs,
+      },
+      {
+        path: "forbidden",
+        Component: Forbidden,
+      },
+      {
+        path: "payment-success",
+        Component: PaymentSuccess,
+      },
+      {
+        path: "payment-cancel",
+        Component: PaymentCancel,
+      },
+      {
+        path: "forbidden",
+        Component: Forbidden,
       },
       {
         path: "forbidden",

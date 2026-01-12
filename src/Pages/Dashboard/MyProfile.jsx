@@ -17,17 +17,19 @@ const MyProfile = () => {
   });
 
   if (isLoading)
-    return (
-      <div className="w-full flex items-center justify-center h-[20vh] mt-10">
-        <span className="loading loading-spinner text-info"></span>
-      </div>
-    );
+  return (
+    <div className="w-full flex items-center justify-center h-screen pt-10
+      bg-white dark:bg-[#0b0f19]">
+      <span className="loading loading-spinner text-info dark:text-blue-400"></span>
+    </div>
+  );
+
 
   return (
-  <div className="max-w-7xl mx-auto px-4 py-10">
-    <h1 className="text-3xl font-bold mb-8 text-gray-800">My Profile</h1>
+  <div className=" dark:bg-[#0b0f19] dark:text-zinc-100 min-h-screen w-full mx-auto px-4 py-10">
+    <h1 className="text-3xl font-bold mb-8 text-gray-800 dark:text-zinc-200">My Profile</h1>
 
-    <div className="relative bg-white/80 backdrop-blur-xl border border-gray-200 rounded-3xl shadow-xl p-8">
+    <div className="relative bg-white/80 dark:bg-[#121620] dark:text-zinc-100 backdrop-blur-xl border border-gray-400 rounded-3xl shadow-xl p-8">
       {/* Role Badge */}
       <span
         className={`absolute top-6 right-6 px-4 py-1 rounded-full text-sm font-medium capitalize
@@ -42,7 +44,7 @@ const MyProfile = () => {
         {scholarUser.role}
       </span>
 
-      <div className="flex flex-col md:flex-row gap-10 items-center">
+      <div className="flex flex-col md:flex-row  gap-10 items-center">
         <div className="relative">
           <img
             src={scholarUser.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
@@ -57,7 +59,7 @@ const MyProfile = () => {
               <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">
                 Full Name
               </p>
-              <p className="text-lg font-semibold text-gray-800">
+              <p className="text-lg font-semibold text-gray-800 dark:text-zinc-200">
                 {scholarUser.displayName || "Not set"}
               </p>
             </div>
@@ -66,7 +68,7 @@ const MyProfile = () => {
               <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">
                 Email Address
               </p>
-              <p className="text-lg font-medium text-gray-700 break-all">
+              <p className="text-lg font-medium text-gray-700 dark:text-zinc-200 break-all">
                 {scholarUser.email}
               </p>
             </div>

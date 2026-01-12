@@ -11,6 +11,7 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
   const { signInUser } = useAuth();
   const location = useLocation();
@@ -30,74 +31,90 @@ const Login = () => {
       });
   };
 
+  // Quick admin login
+  const handleAdminLogin = () => {
+    const adminData = { email: "admin@scholarstream.com", password: "Admin123!" };
+    setValue("email", adminData.email);
+    setValue("password", adminData.password);
+    handleLogin(adminData);
+  };
+
   return (
-    <div className="min-h-screen relative flex items-center justify-center px-4 py-20 overflow-hidden">
-      <div className="bg-blue-200 w-100 h-70 absolute top-40 left-0 blur-2xl scale-200 rounded-full"></div>
-      <div className="bg-pink-100 w-100 h-70 absolute bottom-40 right-0 blur-2xl scale-200 rounded-full"></div>
+    <div className="min-h-screen flex items-center justify-center px-4 py-20 bg-gray-50 dark:bg-gray-900 transition-colors relative overflow-hidden">
+      {/* Background blobs */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-400/20 dark:bg-blue-500/30 rounded-full blur-3xl -translate-x-20 -translate-y-20"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-pink-300/20 dark:bg-pink-500/30 rounded-full blur-3xl translate-x-20 translate-y-20"></div>
 
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative bg-white border border-zinc-200 rounded-sm shadow-2xl w-full max-w-md p-8"
+        className="relative bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl shadow-2xl w-full max-w-md p-10 space-y-6 transition-colors"
       >
-        <h1 className="text-3xl font-semibold text-center">Welcome Back</h1>
-        <p className="text-sm text-center opacity-70 mt-2">
-          Login to continue with Scholar-Stream
+        <h1 className="text-3xl font-bold text-center text-gray-900 dark:text-white">
+          Welcome Back
+        </h1>
+        <p className="text-center text-gray-600 dark:text-gray-300 text-sm">
+          Login to continue with ScholarStream
         </p>
 
-        <form onSubmit={handleSubmit(handleLogin)} className="mt-8 space-y-5">
-          <div>
-            <label className="text-sm">Email</label>
+        <form onSubmit={handleSubmit(handleLogin)} className="space-y-4">
+          {/* Email */}
+          <div className="space-y-1">
+            <label className="text-sm text-gray-700 dark:text-gray-300">Email</label>
             <input
               type="email"
-              className="w-full mt-1 px-4 py-2 border border-zinc-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-black"
               placeholder="Enter your email"
               {...register("email", { required: true })}
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
             />
-            {errors.email && (
-              <p className="text-red-500 text-xs mt-1">Email is required</p>
-            )}
+            {errors.email && <p className="text-red-500 text-xs">Email is required</p>}
           </div>
 
-          <div className="relative">
-            <label className="text-sm">Password</label>
+          {/* Password */}
+          <div className="relative space-y-1">
+            <label className="text-sm text-gray-700 dark:text-gray-300">Password</label>
             <input
               type={show ? "text" : "password"}
-              className="w-full mt-1 px-4 py-2 border border-zinc-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-black"
               placeholder="Enter your password"
               {...register("password", { required: true })}
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
             />
             <span
               onClick={() => setShow(!show)}
-              className="absolute right-4 top-9 cursor-pointer opacity-70"
+              className="absolute right-4 top-10 cursor-pointer text-gray-500 dark:text-gray-400"
             >
               {show ? <FaEyeSlash /> : <FaEye />}
             </span>
-
-            {errors.password && (
-              <p className="text-red-500 text-xs mt-1">Password is required</p>
-            )}
+            {errors.password && <p className="text-red-500 text-xs">Password is required</p>}
           </div>
 
           {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2.5 rounded-sm hover:scale-105 transition shadow-lg"
-          >
-            Login
-          </button>
+          {/* Buttons */}
+          <div className="space-y-3">
+            <button
+              type="submit"
+              className="w-full py-3 rounded-xl bg-linear-to-r from-blue-500 to-indigo-500 text-white font-medium hover:scale-105 transition shadow-lg"
+            >
+              Login
+            </button>
 
+            <button
+              type="button"
+              onClick={handleAdminLogin}
+              className="w-full py-3 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white font-medium hover:scale-105 transition shadow-md"
+            >
+              Quick Admin Login
+            </button>
+          </div>
+
+          {/* Social login */}
           <SocialLogin />
 
-          <p className="text-sm text-center opacity-80">
-            New to Scholar-Stream?{" "}
-            <Link
-              to="/register"
-              state={location?.state || null}
-              className="font-medium underline"
-            >
+          <p className="text-center text-sm text-gray-600 dark:text-gray-300 mt-2">
+            New to ScholarStream?{" "}
+            <Link to="/register" className="font-medium underline text-blue-500 dark:text-blue-400">
               Register
             </Link>
           </p>
