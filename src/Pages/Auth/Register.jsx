@@ -11,7 +11,6 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm();
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
@@ -37,21 +36,6 @@ const Register = () => {
           .catch((err) => setError(err.message));
       })
       .catch((err) => setError(err.message));
-  };
-
-  // Quick admin registration
-  const handleAdminRegister = () => {
-    const adminData = {
-      name: "Admin",
-      photoUrl: "https://i.pravatar.cc/150?img=1",
-      email: "admin@scholarstream.com",
-      password: "Admin123!",
-    };
-    setValue("name", adminData.name);
-    setValue("photoUrl", adminData.photoUrl);
-    setValue("email", adminData.email);
-    setValue("password", adminData.password);
-    handleRegistration(adminData);
   };
 
   return (
@@ -161,7 +145,7 @@ const Register = () => {
 
             <button
               type="button"
-              onClick={handleAdminRegister}
+              onClick={()=> navigate("/login")}
               className="w-full py-3 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white font-medium hover:scale-105 transition shadow-md"
             >
               Quick Admin Register
